@@ -11,7 +11,7 @@
 
 
 .login-box {
-    background-color: white;
+    background-color: var(--sidenav);
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -21,7 +21,7 @@
   .login-box h2 {
     margin: 0 0 20px;
     padding: 0;
-    color: #333;
+    color: #ffffff;
     text-align: center;
   }
   
@@ -34,10 +34,10 @@
     width: 100%;
     padding: 10px 0;
     font-size: 16px;
-    color: #333;
+    color: #ffffff;
     margin-bottom: 10px;
     border: none;
-    border-bottom: 1px solid #333;
+    border-bottom: 1px solid #ffffff;
     outline: none;
     background: transparent;
   }
@@ -48,7 +48,7 @@
     left: 0;
     padding: 10px 0;
     font-size: 16px;
-    color: #333;
+    color: #ffffff;
     pointer-events: none;
     transition: 0.5s;
   }
@@ -57,12 +57,12 @@
   .login-box .user-box input:valid ~ label {
     top: -20px;
     left: 0;
-    color:var(--primary);
+    color:var(--teal);
     font-size: 12px;
   }
   .login-box .user-box input:focus,
   .login-box .user-box input:valid {
-    border-bottom: 1px solid var(--primary);
+    border-bottom: 1px solid var(--teal);
   }
   
   .login-box a {

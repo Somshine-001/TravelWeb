@@ -11,7 +11,7 @@
   
   /* Body */
   body {
-    background-color: var(--primary); /* $body-bg */
+    background-color: var(--content); /* $body-bg */
   }
   
   /* Colors */
@@ -31,6 +31,8 @@
     /* Theme Colors */
     --primary: #006849;
     --primary-dark: rgb(0, 39, 35);
+    --sidenav: #1d2d36;
+    --content: #ADD8E6;
     --brand: #041811;
     --indigo: #6610f2;
     --purple: #6f42c1;
