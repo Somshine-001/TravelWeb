@@ -19,8 +19,9 @@ import { BaseLayoutComponent } from './Layout/base-layout/base-layout.component'
 import { LayoutComponent } from './Layout/layout/layout.component';
 import { PageLayoutComponent } from './Layout/page-layout/page-layout.component';
 import { LoginPageComponent } from './login-page/login-page.component';
-import { RegisterPageComponent } from './register-page/register-page.component';
 
+import { ToastrModule } from 'ngx-toastr';
+import { RegisterPageComponent } from './register-page/register-page.component';
 @NgModule({
   declarations: [
     //LAYOUT
@@ -48,6 +49,11 @@ import { RegisterPageComponent } from './register-page/register-page.component';
     FormsModule,
     HttpClientModule,
     BrowserAnimationsModule,
+    ToastrModule.forRoot({
+      timeOut: 2000,
+      preventDuplicates: true,
+      positionClass: 'toast-custom'
+    }),
     RouterModule .forRoot(routes),
   ],
   providers: [],

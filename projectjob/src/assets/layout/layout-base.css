@@ -17,7 +17,7 @@ h1 {
   mat-toolbar {
     display: flex;
     justify-content: space-between;
-    background: var(--primary-dark) !important;
+    background: var(--sidenav) !important;
     position: fixed;
     top: 0;
     z-index: 2;
@@ -27,7 +27,7 @@ h1 {
   
   /* sidenav */
   mat-sidenav-container {
-    background: var(--content) !important;
+    background: var(--primary-dark) !important;
     padding-top: 4rem;
     height: 100%;
   }
@@ -40,8 +40,8 @@ h1 {
 
   .expanded {
     width: 185px !important;
+  }
 
-}  
 mat-sidenav-content {
   padding-top: 0rem !important;
 }

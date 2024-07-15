@@ -3,7 +3,7 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.5); 
+    background-color: rgba(3, 95, 64, 0.5); 
     display: flex;
     justify-content: center;
     align-items: center;
@@ -14,15 +14,17 @@
     background-color: var(--sidenav);
     padding: 20px;
     border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 0 10px rgba(0, 95, 55, 0.85);
     z-index: 1;
   }
   
   .login-box h2 {
     margin: 0 0 20px;
     padding: 0;
-    color: #ffffff;
+    color: var(--teal);
     text-align: center;
+    text-transform: uppercase;
+
   }
   
   .login-box .user-box {
@@ -65,23 +67,53 @@
     border-bottom: 1px solid var(--teal);
   }
   
-  .login-box a {
+  .login-box button {
+    border-radius: 5px;
     position: relative;
     display: inline-block;
     padding: 5px 5px;
-    color: var(--primary);
+    background: none;
+    color: var(--teal);
     font-size: 16px;
     text-decoration: none;
     text-transform: uppercase;
-    overflow: hidden;
     transition: 0.5s;
     margin-top: 10px;
     letter-spacing: 2px;
   }
   
-  .login-box a:hover {
+  .login-box button:hover {
     background: var(--primary);
     color: #fff;
     border-radius: 5px;
+    
+  }
+
+  @media screen and (max-width: 400px) {
+    .login-box {
+      width: 80%;
+    }
+
+    .login-box h2{
+      font-size: 35px;
+      margin: 0 0 10px;
+      transition: 0.5s;
+    }
+
+    .login-box .user-box {
+      margin-top: 10px;
+    }
+
+    .login-box .user-box label {
+      font-size: 14px;
+    }
+
+    .login-box .user-box input {
+      font-size: 14px;
+    }
+
+    .login-box button {
+      font-size: 15px;
+    }
     
   }

@@ -11,13 +11,13 @@ export class AuthService {
 
   constructor(private http: HttpClient) { }
 
-  saveUser(user: { username: string, email: string, password: string }): Observable<any> {
+  register(user: { username: string, email: string, password: string }): Observable<any> {
     return this.http.post(`${this.baseUrl}/save`, user);
   }
 
-//   login(user: { username: string, password: string }): Observable<any> {
-//     return this.http.post(`${this.baseUrl}/login`, user);
-//   }
+  login(user: { username: string, password: string }): Observable<any> {
+    return this.http.post(`${this.baseUrl}/login`, user);
+  }
 
 //   register(user: { username: string, email: string, password: string }): Observable<any> {
 //     return this.http.post(`${this.baseUrl}/register`, user);
