@@ -7,4 +7,6 @@ export class ThemeOptions {
   isMobile = true;
   isCollapsed = true;
   isDrop = true;
+  isAdmin = false;
+  isLogin = false;
 }

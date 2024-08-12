@@ -3,6 +3,8 @@ import { BreakpointObserver } from '@angular/cdk/layout';
 import { Component, ViewChild } from '@angular/core';
 import { MatSidenav } from '@angular/material/sidenav';
 import { ThemeOptions } from '../../theme-options';
+import { PermissionService } from '../../Service/permission.service';
+import { AuthService } from '../../Service/auth.service';
 
 @Component({
   selector: 'app-layout',
@@ -12,7 +14,7 @@ export class LayoutComponent{
  
   @ViewChild(MatSidenav)
   sidenav!: MatSidenav;
-  constructor(private observer: BreakpointObserver,public global: ThemeOptions) {}
+  constructor(private observer: BreakpointObserver,public global: ThemeOptions,private permissionService: PermissionService, private authService: AuthService) {}
 
   // ขนาดที่ใช้ในการแบ่งโครงสร้าง
   ngOnInit() {
@@ -23,6 +25,14 @@ export class LayoutComponent{
         this.global.isMobile = false;
       }
     });
+
+    if(this.authService.isLoggedIn()) {
+      this.global.isLogin = true;
+    }
+
+    if(this.permissionService.isAdmin()) {
+      this.global.isAdmin = true;
+    } 
   }
 
   // ปุ่มเมนู
@@ -40,6 +50,11 @@ export class LayoutComponent{
     // ปุ่มผู้ใช้
     showBox() {
       this.isVisible = !this.isVisible;
+    }
+
+    Logout() {
+      this.authService.logout();
+      window.location.href = '/home';  
     }
 }
 

@@ -1,6 +1,21 @@
 <div class="overlay">
     <div class="login-box">
         <h2>Login</h2>
+        <form [formGroup]="loginForm">
+          <div class="user-box">
+            <input id ="username" type="text" formControlName="username" name="username" required>
+            <label for="username">Username</label>
+          </div>
+          <div class="user-box">
+            <input id ="password" type="password" formControlName="password" name="password" required>
+            <label for="password">Password</label>
+          </div>
+          <div class="space">
+            <button type="submit" (click)="login()">Login</button>
+            <a class="mid-text" routerLink="/register">Register >></a>
+          </div>
+          
+        </form>
         
     </div>    
 </div>

@@ -1,0 +1,471 @@
+
+<!-- community -->
+<div class="card">
+  <div class="card-header" (click)="toggleCard('community')">
+    <div>แก้ไขชุมชน</div>
+    <mat-icon>edit</mat-icon>
+  </div>
+  <div class="card-content" [ngClass]="{ 'expanded': expandedCard === 'community' }">
+    <div *ngIf="communities.length > 0">
+      <ul>
+        <li *ngFor="let community of communities" class="card-item">
+          <div class="space">
+            <div>{{ community.communityId }}
+              <div>ชื่อ _ {{ community.communityName }}</div>
+              <div>ปรับปรุงล่าสุด _ {{ community.date }}</div>
+              <div>ผู้เผยแพร่ _ {{ community.username }}</div>
+            </div>
+            <div>
+              <button (click)="toggleModalCommu(community)">แก้ไข</button>
+              <button (click)="deleteCommu(community)">ลบ</button>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </div>
+    <div *ngIf="communities.length === 0">
+      No communities found.
+    </div>
+  </div>
+</div>
+
+<!-- place -->
+<div class="card">
+  <div class="card-header" (click)="toggleCard('place')">
+    <div>แก้ไขสถานที่</div>
+    <mat-icon>edit</mat-icon>
+  </div>
+  <div class="card-content" [ngClass]="{ 'expanded': expandedCard === 'place' }">
+    <div *ngIf="places.length > 0">
+      <ul>
+        <li *ngFor="let place of places" class="card-item">
+          <div class="space">
+            <div>{{ place.placeId }}
+              <div>ชื่อ _ {{ place.placeName }}</div>
+              <div>ปรับปรุงล่าสุด _ {{ place.date }}</div>
+              <div>ผู้เผยแพร่ _ {{ place.username }}</div>
+            </div>
+            <div>
+              <button (click)="toggleModalPlace(place)">แก้ไข</button>
+              <button (click)="deletePlace(place)">ลบ</button>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </div>
+    <div *ngIf="places.length === 0">
+      No places found.
+    </div>
+  </div>
+</div>
+
+<!-- foodproduct -->
+<div class="card">
+  <div class="card-header" (click)="toggleCard('fp')">
+    <div>แก้ไขผลิตภัณฑ์/อาหาร</div>
+    <mat-icon>edit</mat-icon>
+  </div>
+  <div class="card-content" [ngClass]="{ 'expanded': expandedCard === 'fp' }">
+    <div *ngIf="foodsProducts.length > 0">
+      <ul>
+        <li *ngFor="let foodProduct of foodsProducts" class="card-item">
+          <div class="space">
+            <div>{{ foodProduct.fpId }}
+              <div>ชื่อ _ {{ foodProduct.fpName }}</div>
+              <div>ปรับปรุงล่าสุด _ {{ foodProduct.date }}</div>
+              <div>ผู้เผยแพร่ _ {{ foodProduct.username }}</div>
+            </div>
+            <div>
+              <button (click)="toggleModalFp(foodProduct)">แก้ไข</button>
+              <button (click)="deleteFp(foodProduct)">ลบ</button>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </div>
+    <div *ngIf="foodsProducts.length === 0">
+      No food products found.
+    </div>
+  </div>
+</div>
+
+<!-- plan -->
+<div class="card">
+  <div class="card-header" (click)="toggleCard('plan')">
+    <div>แก้ไขแผน</div>
+    <mat-icon>edit</mat-icon>
+  </div>
+  <div class="card-content" [ngClass]="{ 'expanded': expandedCard === 'plan' }">
+    <div *ngIf="plans.length > 0">
+      <ul>
+        <li *ngFor="let plan of plans" class="card-item">
+          <div class="space">
+            <div>{{ plan.planId }}
+              <div>ชื่อ _ {{ plan.planName }}</div>
+              <div>ปรับปรุงล่าสุด _ {{ plan.date }}</div>
+              <div>ผู้เผยแพร่ _ {{ plan.username }}</div>
+            </div>
+            <div>
+              <button (click)="toggleModalPlan(plan)">แก้ไข</button>
+              <button (click)="deletePlan(plan)">ลบ</button>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </div>
+    <div *ngIf="plans.length === 0">
+      No plans found.
+    </div>
+  </div>
+</div>
+
+<!-- event -->
+<div class="card">
+  <div class="card-header" (click)="toggleCard('event')">
+    <div>แก้ไขกิจกรรม</div>
+    <mat-icon>edit</mat-icon>
+  </div>
+  <div class="card-content" [ngClass]="{ 'expanded': expandedCard === 'event' }">
+    <div *ngIf="events.length > 0">
+      <ul>
+        <li *ngFor="let event of events" class="card-item">
+          <div class="space">
+            <div>{{ event.eventId }}
+              <div>ชื่อ _ {{ event.eventName }}</div>
+              <div>ปรับปรุงล่าสุด _ {{ event.date }}</div>
+              <div>ผู้เผยแพร่ _ {{ event.username }}</div>
+            </div>
+            <div>
+              <button (click)="toggleModalEvent(event)">แก้ไข</button>
+              <button (click)="deleteEvent(event)">ลบ</button>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </div>
+    <div *ngIf="events.length === 0">
+      No events found.
+    </div>
+  </div>
+</div>
+
+<!-- news -->
+<div class="card">
+  <div class="card-header" (click)="toggleCard('news')">
+    <div>แก้ไขข่าวประชาสัมพันธ์</div>
+    <mat-icon>edit</mat-icon>
+  </div>
+  <div class="card-content" [ngClass]="{ 'expanded': expandedCard === 'news' }">
+    <div *ngIf="news.length > 0">
+      <ul>
+        <li *ngFor="let news of news" class="card-item">
+          <div class="space">
+            <div>{{ news.newsId }}
+              <div>ชื่อ _ {{ news.newsName }}</div>
+              <div>ปรับปรุงล่าสุด _ {{ news.date }}</div>
+              <div>ผู้เผยแพร่ _ {{ news.username }}</div>
+            </div>
+            <div>
+              <button (click)="toggleModalNews(news)">แก้ไข</button>
+              <button (click)="deleteNews(news)">ลบ</button>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </div>
+    <div *ngIf="news.length === 0">
+      No news found.
+    </div>
+  </div>
+</div>
+
+<!-- Form -->
+<!-- Community -->
+<div class="modal" *ngIf="showForm === 'community'">
+  <div class="modal-content">
+    <span class="close-btn" (click)="toggleModal('community')">&times;</span>
+    <div>
+      <div class ="form">
+        <form [formGroup]="communityForm">
+          <div class ="form-group">
+            <label>ชื่อชุมชน</label>
+            <input matInput formControlName="communityName">
+          </div>
+          <div class ="form-group">
+            <quill-editor
+              matInput formControlName="communityTitle"
+              [placeholder]="'รายละเอียดชุมชน'"
+              class="content-editor"
+              [styles]="{'border': '1px solid black', 'min-height': '250px'}">
+            </quill-editor>
+            <div class="card-header" (click)="codeHidden()">html</div>
+            <pre *ngIf="isHidden">
+              <code>
+                {{communityForm.get('communityTitle')?.value}}
+              </code>
+            </pre>
+          </div>
+          <div class ="form-group">
+            <label>เบอร์</label>
+            <input matInput formControlName="tel">
+          </div>
+          <button (click)="updateCommu()">บันทึก</button>
+          <button (click)="toggleModal('community')">ยกเลิก</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Place -->
+<div class="modal" *ngIf="showForm === 'place'">
+  <div class="modal-content">
+    <span class="close-btn" (click)="toggleModal('place')">&times;</span>
+    <div>
+      <div class ="form">
+        <form [formGroup]="placeForm">
+          <div class ="form-group">
+            <label>ชื่อแหล่งท่องเที่ยว</label>
+            <input matInput formControlName="placeName">
+          </div>
+          <div class ="form-group">
+            <quill-editor
+              matInput formControlName="placeTitle"
+              [placeholder]="'รายละเอียดแหล่งท่องเที่ยว'"
+              class="content-editor"
+              [styles]="{'border': '1px solid black', 'min-height': '250px'}">
+            </quill-editor>
+            <div class="card-header" (click)="codeHidden()">html</div>
+            <pre *ngIf="isHidden">
+              <code>
+                {{placeForm.get('placeTitle')?.value}}
+              </code>
+            </pre>
+          </div> 
+          <div class ="form-group">
+            <label>GPS</label>
+            <input matInput formControlName="placeGps">
+          </div>
+          <div class="form-group" >
+            <label for="communityName">ชุมชน</label>
+            <label class="required" *ngIf="placeForm.get('communityName')?.hasError('required') && placeForm.get('communityName')?.touched"></label>
+            <select id="communityName" formControlName="communityName">
+              <option *ngFor="let community of communities" [value]="community.communityName">
+                <div>{{ community.communityName }}</div>
+              </option>
+            </select>
+          </div>
+          <div class="form-group" >
+            <label for="communityName">หมวดหมู่</label>
+            <label class="required" *ngIf="placeForm.get('tagName')?.hasError('required') && placeForm.get('tagName')?.touched"></label>
+            <select id="tagName" formControlName="tagName">
+              <option *ngFor="let tag of tags" [value]="tag.tagName">
+                <div>{{ tag.tagName }}</div>
+              </option>
+            </select>
+          </div>
+          <button (click)="updatePlace()">บันทึก</button>
+          <button (click)="toggleModal('place')">ยกเลิก</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FoodsProducts -->
+<div class="modal" *ngIf="showForm === 'fp'">
+  <div class="modal-content">
+    <span class="close-btn" (click)="toggleModal('fp')">&times;</span>
+    <div>
+      <div class ="form">
+        <form [formGroup]="fpForm">
+          <div class ="form-group">
+            <label>ชื่อแหล่งท่องเที่ยว</label>
+            <input matInput formControlName="fpName">
+          </div>
+          <div class ="form-group">
+            <quill-editor
+              matInput formControlName="fpDetail"
+              [placeholder]="'รายละเอียดแหล่งท่องเที่ยว'"
+              class="content-editor"
+              [styles]="{'border': '1px solid black', 'min-height': '250px'}">
+            </quill-editor>
+            <div class="card-header" (click)="codeHidden()">html</div>
+            <pre *ngIf="isHidden">
+              <code>
+                {{fpForm.get('fpDetail')?.value}}
+              </code>
+            </pre>
+          </div>
+          <div class="form-group" >
+            <label for="communityName">ชุมชน</label>
+            <label class="required" *ngIf="fpForm.get('communityName')?.hasError('required') && fpForm.get('communityName')?.touched"></label>
+            <select id="communityName" formControlName="communityName">
+              <option *ngFor="let community of communities" [value]="community.communityName">
+                <div>{{ community.communityName }}</div>
+              </option>
+            </select>
+          </div>
+          <div class="form-group" >
+            <label for="communityName">หมวดหมู่</label>
+            <label class="required" *ngIf="fpForm.get('tagName')?.hasError('required') && fpForm.get('tagName')?.touched"></label>
+            <select id="tagName" formControlName="tagName">
+              <option *ngFor="let tag of tags" [value]="tag.tagName">
+                <div>{{ tag.tagName }}</div>
+              </option>
+            </select>
+          </div>
+          <div class="space">
+            <button (click)="updateFp()">บันทึก</button>
+            <button (click)="toggleModal('fp')">ยกเลิก</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Plan -->
+<div class="modal" *ngIf="showForm === 'plan'">
+  <div class="modal-content">
+    <span class="close-btn" (click)="toggleModal('plan')">&times;</span>
+    <div>
+      <div class ="form">
+        <form [formGroup]="planForm">
+          <div class ="form-group">
+            <label>ชื่อแผนงาน</label>
+            <input matInput formControlName="planName">
+          </div>
+          <div class ="form-group">
+            <quill-editor
+              matInput formControlName="planDetail"
+              [placeholder]="'รายละเอียดแผนงาน'"
+              class="content-editor"
+              [styles]="{'border': '1px solid black', 'min-height': '250px'}">
+            </quill-editor>
+            <div class="card-header" (click)="codeHidden()">html</div>
+            <pre *ngIf="isHidden">
+              <code>
+                {{planForm.get('planDetail')?.value}}
+              </code>
+            </pre>
+          </div>
+          <div class="form-group" >
+            <label for="communityName">ชุมชน</label>
+            <label class="required" *ngIf="planForm.get('communityName')?.hasError('required') && planForm.get('communityName')?.touched"></label>
+            <select id="communityName" formControlName="communityName">
+              <option *ngFor="let community of communities" [value]="community.communityName">
+                <div>{{ community.communityName }}</div>
+              </option>
+            </select>
+          </div>
+          <div class="space">
+            <button (click)="updatePlan()">บันทึก</button>
+            <button (click)="toggleModal('plan')">ยกเลิก</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Event -->
+<div class="modal" *ngIf="showForm === 'event'">
+  <div class="modal-content">
+    <span class="close-btn" (click)="toggleModal('event')">&times;</span>
+    <div>
+      <div class ="form">
+        <form [formGroup]="eventForm">
+          <div class ="form-group">
+            <label>ชื่อกิจกรรม</label>
+            <input matInput formControlName="eventName">
+          </div>
+          <div class ="form-group">
+            <quill-editor
+              matInput formControlName="eventDetail"
+              [placeholder]="'รายละเอียดกิจกรรม'"
+              class="content-editor"
+              [styles]="{'border': '1px solid black', 'min-height': '250px'}">
+            </quill-editor>
+            <div class="card-header" (click)="codeHidden()">html</div>
+            <pre *ngIf="isHidden">
+              <code>
+                {{eventForm.get('eventDetail')?.value}}
+              </code>
+            </pre>
+          </div>
+          <div class="form-group" >
+            <label for="communityName">ชุมชน</label>
+            <label class="required" *ngIf="eventForm.get('communityName')?.hasError('required') && eventForm.get('communityName')?.touched"></label>
+            <select id="communityName" formControlName="communityName">
+              <option *ngFor="let community of communities" [value]="community.communityName">
+                <div>{{ community.communityName }}</div>
+              </option>
+            </select>
+          </div>
+          <div class="form-group" >
+            <label for="tagName">หมวดหมู่</label>
+            <label class="required" *ngIf="eventForm.get('tagName')?.hasError('required') && eventForm.get('tagName')?.touched"></label>
+            <select id="tagName" formControlName="tagName">
+              <option *ngFor="let tag of tags" [value]="tag.tagName">
+                <div>{{ tag.tagName }}</div>
+              </option>
+            </select>
+          </div>
+          <div class="space">
+            <button (click)="updateEvent()">บันทึก</button>
+            <button (click)="toggleModal('event')">ยกเลิก</button>
+          </div>
+        </form>
+      </div>
+    </div>  
+  </div>
+</div>
+
+<!-- News -->
+<div class="modal" *ngIf="showForm === 'news'">
+  <div class="modal-content">
+    <span class="close-btn" (click)="toggleModal('news')">&times;</span>
+    <div>
+      <div class ="form">
+        <form [formGroup]="newsForm">
+          <div class ="form-group">
+            <label>ชื่อข่าว</label>
+            <input matInput formControlName="newsName">
+          </div>
+          <div class ="form-group">
+            <quill-editor
+              matInput formControlName="newsDetail"
+              [placeholder]="'รายละเอียดข่าว'"
+              class="content-editor"
+              [styles]="{'border': '1px solid black', 'min-height': '250px'}">
+            </quill-editor>
+            <div class="card-header" (click)="codeHidden()">html</div>
+            <pre *ngIf="isHidden">
+              <code>
+                {{newsForm.get('newsDetail')?.value}}
+              </code>
+            </pre>
+          </div>
+          <div class="form-group" >
+            <label for="communityName">ชุมชน</label>
+            <label class="required" *ngIf="newsForm.get('communityName')?.hasError('required') && newsForm.get('communityName')?.touched"></label>
+            <select id="communityName" formControlName="communityName">
+              <option *ngFor="let community of communities" [value]="community.communityName">
+                <div>{{ community.communityName }}</div>
+              </option>
+            </select>
+          </div>
+          <div class="space">
+            <div>
+              <button (click)="updateNews()">บันทึก</button>
+            </div>
+            <div>
+              <button (click)="toggleModal('news')">ยกเลิก</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

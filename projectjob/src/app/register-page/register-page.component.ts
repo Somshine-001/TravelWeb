@@ -26,7 +26,7 @@ export class RegisterPageComponent implements OnInit{
       username: ['',
         [
         Validators.required,
-        Validators.minLength(3)
+        Validators.minLength(5)
         ]
       ],
       email: ['',
@@ -67,16 +67,16 @@ export class RegisterPageComponent implements OnInit{
     const user = {username: this.registerForm.value.username, email: this.registerForm.value.email, password: this.registerForm.value.password};
     this.authService.register(user).subscribe((Response:any) => {
       console.log(Response);
-      if (Response.message === 'User saved successfully') {
+      if (Response.message === 'User registered successfully') {
         this.router.navigate(['/login']); // นำไปยังหน้าล็อกอินหลังจากบันทึกสำเร็จ
         alert('สมัครสามชิกสำเร็จ');
       }
     }, (error: any) => {
       console.error(error);
-      if (error.status === 400) {
+      if (error.badRequest) {
         this.toastr.error('มีผู้ใช้นี้อยู่แล้ว');
       }
-      alert('ระบบกำลังปิกปรับปรุงข้อมูล');
+      alert('ระบบกำลังปิดปรับปรุงข้อมูล');
     });
   }
 

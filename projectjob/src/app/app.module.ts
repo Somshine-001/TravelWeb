@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
@@ -11,6 +11,8 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
+import { QuillModule } from 'ngx-quill';
+
 import { AddComponent } from './Admin/add/add.component';
 import { AppComponent } from './app.component';
 import { routes } from './app.routes';
@@ -19,9 +21,16 @@ import { BaseLayoutComponent } from './Layout/base-layout/base-layout.component'
 import { LayoutComponent } from './Layout/layout/layout.component';
 import { PageLayoutComponent } from './Layout/page-layout/page-layout.component';
 import { LoginPageComponent } from './login-page/login-page.component';
-
 import { ToastrModule } from 'ngx-toastr';
 import { RegisterPageComponent } from './register-page/register-page.component';
+import { AuthInterceptor } from './auth.interceptor';
+import { QuillEditorComponent } from 'ngx-quill'
+import { EditComponent } from './Admin/edit/edit.component';
+import { CardComponent } from './Element/card/card.component';
+
+
+
+
 @NgModule({
   declarations: [
     //LAYOUT
@@ -29,12 +38,17 @@ import { RegisterPageComponent } from './register-page/register-page.component';
     LayoutComponent,
     PageLayoutComponent,
     BaseLayoutComponent,
+    
+
 
     //PAGE
     HomeComponent,
     LoginPageComponent,
     RegisterPageComponent,
-    AddComponent
+    AddComponent,
+    EditComponent,
+    CardComponent,
+
   ],
   imports: [
     CommonModule,
@@ -47,8 +61,21 @@ import { RegisterPageComponent } from './register-page/register-page.component';
     MatListModule,
     ReactiveFormsModule,
     FormsModule,
+    ReactiveFormsModule,
     HttpClientModule,
     BrowserAnimationsModule,
+    QuillModule.forRoot({
+      modules: {
+        toolbar: [
+          [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+          ['bold', 'italic', 'underline', 'strike'],
+          [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+          ['blockquote', 'code-block'], 
+          ['link'], 
+          ['clean'] 
+        ],
+      }
+    }),
     ToastrModule.forRoot({
       timeOut: 2000,
       preventDuplicates: true,
@@ -56,7 +83,8 @@ import { RegisterPageComponent } from './register-page/register-page.component';
     }),
     RouterModule .forRoot(routes),
   ],
-  providers: [],
+  providers: [{ provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
+// { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }

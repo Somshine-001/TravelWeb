@@ -1,0 +1,62 @@
+.card {
+    border: 2px solid var(--primary-dark);
+    border-bottom-left-radius: 15px;
+    border-bottom-right-radius: 15px;
+    margin: 15px;
+    padding: 15px;
+    transition: max-height 0.5s ease-out;
+    color: var(--primary-dark);
+    font-size: 16px;
+    display: flex;
+    flex-direction: column;
+  }
+  .card-header {
+    display: flex;
+    justify-content: space-between;
+    cursor: pointer;
+    padding-left: 10px;
+  }
+  .card-header :hover {
+    color: var(--primary);
+  }
+  .card-header mat-icon {
+    font-size: 22px;
+    color: var(--primary-dark) !important;
+  }
+  .card-content {
+    padding-left: 10px;
+    align-items: center;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.5s ease-out;
+  }
+  .card-content.expanded {
+    max-height: 1000px;
+  }
+
+  .card-item {
+    margin-bottom: 10px;
+    border-bottom: 2px solid var(--primary);
+  }
+
+  @media screen and (max-width: 600px) {
+    .card {
+      margin: 10px;
+      padding: 5px;
+      border: 0;
+      border-bottom: 2px solid var(--primary);
+      border-left: 2px solid var(--primary);
+      border-bottom-left-radius: 15px;
+      font-size: 14px;
+      box-shadow: -2px 3px 6px rgba(0, 0, 0, 0.2);
+    }
+
+    .card-header mat-icon {
+      font-size: 18px;
+    }
+
+    button {
+      font-size: 12px;
+      padding: 3px 2px;
+    }
+  }

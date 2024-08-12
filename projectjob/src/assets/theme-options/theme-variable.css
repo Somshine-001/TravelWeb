@@ -31,7 +31,9 @@
     /* Theme Colors */
     --primary: #006849;
     --primary-dark: rgb(0, 39, 35);
+    --primary-light: #008b62;
     --sidenav: #1d2d36;
+    --sidenav-hover: #253944;
     --content: #ADD8E6;
     --brand: #041811;
     --indigo: #6610f2;
@@ -108,6 +110,91 @@
     --list-group-active-bg: var(--component-active-bg);
     --list-group-border-color: rgba(var(--green), 0.08);
   }
+
+  /*text*/
+  h1 {
+    padding: 0 1rem;
+  }
+  
+  h2 {
+    padding: 0.5rem;
+  }
+
+  .mid-text {
+    font-size: 12px;
+  }
+
+  .small-text {
+    font-size: 10px;
+  }
+
+  .text-menu {
+    display: flex;
+    gap: 1rem;
+    color: aliceblue;
+  
+  }
+
+  /*button*/
+  .space {
+    display: flex;
+    justify-content: space-between;
+  }
+  .text-button {
+    display: flex;
+    border-radius: 5px;
+    padding: 5px 5px;
+    background: none;
+    color: var(--white);
+    font-size: 10px;
+    text-decoration: none;
+  }
+
+  .text-button:hover {
+    background: var(--sidenav-hover);
+    border-radius: 20px;
+    cursor: pointer;
+  }
+
+  button {
+    min-width: 45px;
+    border-radius: 5px;
+    position: relative;
+    display: inline-block;
+    padding: 5px 5px;
+    margin-right: 2px;
+    background: none;
+    color: var(--primary-dark);
+    font-size: 14px;
+    text-decoration: none;
+    transition: 0.5s;
+    margin-top: 10px;
+  }
+  button:hover {
+    cursor: pointer;
+    background: var(--primary);
+    color: #fff;
+    border-radius: 5px;
+  }
+  
+
+  /*link*/
+  a {
+    display: flex;
+    align-items: center;
+    color: var(--primary-light);
+  }
+
+  a:hover{
+    cursor: pointer;
+  }
+
+  /*menu*/
+  .underline {
+    border-bottom: white solid 1px;
+  }
+
+  
   
 
   

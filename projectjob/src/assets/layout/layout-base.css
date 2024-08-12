@@ -1,17 +1,3 @@
-h1 {
-    padding: 0 1rem;
-  }
-  
-  h2 {
-    padding: 0.5rem;
-  }
-
-.dropdown {
-  display: flex;
-  gap: 2rem;
-  color: aliceblue;
-
-}
   
   /* header */
   mat-toolbar {
@@ -38,7 +24,7 @@ h1 {
     padding-top: 4rem;
   }
 
-  .expanded {
+  .side-expanded {
     width: 185px !important;
   }
 
@@ -48,7 +34,7 @@ mat-sidenav-content {
 
   /* icon */
   mat-icon {
-    color: white!important;
+    color: white !important;
   }
   
 /* inner sidebar */
@@ -69,10 +55,14 @@ mat-nav-list {
 
   /* box */
   .box {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    padding: 10px;
     right: 0;
     top: 4rem;
-    width: 190px;
-    height: 150px;
+    width: auto;
+    height: auto;
     background-color:var(--sidenav);
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
     position: fixed;
@@ -85,6 +75,36 @@ mat-nav-list {
   .box.active {
     top: -9rem;
   }
+  .box .item{
+    display: flex;
+    gap: 1rem;
+    color: aliceblue;
+  }
+
+  .box div {
+    display: flex;
+    flex-direction: row-reverse;
+    padding-left: 20px;
+    font-size: 12px;
+  }
+
+  .box div :hover {
+    border-radius: 10px;
+    color: var(--teal);
+    transition: 0.5s;
+  }
+
+  .box a {
+    padding-top: 5px;
+    padding-bottom: 3px;
+    padding-left: 5px;
+    padding-right: 5px;
+    text-decoration: none;
+  }
+  .box mat-icon {
+    font-size: 18px !important;
+  }
+
   
   /* screen < 600px */
   @media screen and (max-width: 600px) {
@@ -94,7 +114,7 @@ mat-nav-list {
     mat-sidenav {
       padding-top: 3.5rem !important;
     }
-    .expanded {
+    .side-expanded {
       width: 150px !important;
   }
   .box{

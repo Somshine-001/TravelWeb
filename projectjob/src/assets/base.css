@@ -2,3 +2,29 @@
 @import 'layout/layout-base.css';
 @import 'layout/layout-page.css';
 @import 'layout/alert.css';
+@import 'layout/Element/form.css';
+@import 'layout/Element/card.css';
+@import 'layout/Element/modal.css';
+
+quill-editor {
+  display: block;
+  width: 93%;
+  min-height: 250px;
+}
+
+  blockquote {
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    max-width: 100%;
+  }
+
+  pre,
+  form pre {
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    font-size: 11px;
+    width: 85%;
+    color: var(--primary-dark);
+    padding: 10px;
+    white-space: normal;
+  }

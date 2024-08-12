@@ -1,0 +1,28 @@
+<div class="card">
+    <div class="card-header" (click)="onToggleCard()">
+      <div>{{ header }}</div>
+      <mat-icon>edit</mat-icon>
+    </div>
+    <div class="card-content" [ngClass]="{ 'expanded': expandedCard === cardType }">
+      <div *ngIf="items.length > 0">
+        <ul>
+          <li *ngFor="let item of items" class="card-item">
+            <div class="space">
+              <div>{{ item.id }}
+                <div>ชื่อ _ {{ item.name }}</div>
+                <div>ปรับปรุงล่าสุด _ {{ item.date }}</div>
+                <div>ผู้เผยแพร่ _ {{ item.username }}</div>
+              </div>
+              <div>
+                <button (click)="onToggleModal(item)">แก้ไข</button>
+                <button (click)="onDeleteItem(item)">ลบ</button>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div>
+      <div *ngIf="items.length === 0">
+        No items found.
+      </div>
+    </div>
+  </div>

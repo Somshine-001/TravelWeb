@@ -5,6 +5,8 @@ import { BaseLayoutComponent } from './Layout/base-layout/base-layout.component'
 import { PageLayoutComponent } from './Layout/page-layout/page-layout.component';
 import { LoginPageComponent } from './login-page/login-page.component';
 import { RegisterPageComponent } from './register-page/register-page.component';
+import { EditComponent } from './Admin/edit/edit.component';
+import { CardComponent } from './Element/card/card.component';
 
 export const routes: Routes = [
     {
@@ -22,6 +24,7 @@ export const routes: Routes = [
             { path: 'login', component: LoginPageComponent },
             { path: 'register', component: RegisterPageComponent },
             { path: 'add', component: AddComponent },
+            { path: 'edit', component: EditComponent },
         ]
         
     },
