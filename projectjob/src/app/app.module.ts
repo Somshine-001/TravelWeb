@@ -13,20 +13,23 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
 import { QuillModule } from 'ngx-quill';
 
+import { ToastrModule } from 'ngx-toastr';
 import { AddComponent } from './Admin/add/add.component';
+import { EditComponent } from './Admin/edit/edit.component';
 import { AppComponent } from './app.component';
 import { routes } from './app.routes';
-import { HomeComponent } from './home/home.component';
+import { AuthInterceptor } from './auth.interceptor';
+
+import { AddcardComponent } from './Element/addElement/addcard/addcard.component';
+import { EditcardComponent } from './Element/editElement/editcard/editcard.component';
+import { EditformComponent } from './Element/editElement/editform/editform.component';
+import { PageLayoutformComponent } from './Element/pageLayoutElement/page-layoutform/page-layoutform.component';
 import { BaseLayoutComponent } from './Layout/base-layout/base-layout.component';
 import { LayoutComponent } from './Layout/layout/layout.component';
 import { PageLayoutComponent } from './Layout/page-layout/page-layout.component';
 import { LoginPageComponent } from './login-page/login-page.component';
-import { ToastrModule } from 'ngx-toastr';
+import { HomeComponent } from './Page/home/home.component';
 import { RegisterPageComponent } from './register-page/register-page.component';
-import { AuthInterceptor } from './auth.interceptor';
-import { QuillEditorComponent } from 'ngx-quill'
-import { EditComponent } from './Admin/edit/edit.component';
-import { CardComponent } from './Element/card/card.component';
 
 
 
@@ -47,7 +50,10 @@ import { CardComponent } from './Element/card/card.component';
     RegisterPageComponent,
     AddComponent,
     EditComponent,
-    CardComponent,
+    EditcardComponent,
+    EditformComponent,
+    AddcardComponent,
+    PageLayoutformComponent,
 
   ],
   imports: [
@@ -79,7 +85,8 @@ import { CardComponent } from './Element/card/card.component';
     ToastrModule.forRoot({
       timeOut: 2000,
       preventDuplicates: true,
-      positionClass: 'toast-custom'
+      toastClass: 'toast-custom',
+      positionClass: 'toast-top-center'
     }),
     RouterModule .forRoot(routes),
   ],

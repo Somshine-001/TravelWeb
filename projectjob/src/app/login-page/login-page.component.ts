@@ -45,7 +45,7 @@ export class LoginPageComponent  {
     this.authService.login(user).subscribe((Response:any) => {
       if (Response.message === "Login Successful") {
         
-      }this.router.navigate(['/']);
+      }window.location.href = '/';
       
     },
     (error: any) => {

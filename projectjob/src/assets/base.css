@@ -5,6 +5,7 @@
 @import 'layout/Element/form.css';
 @import 'layout/Element/card.css';
 @import 'layout/Element/modal.css';
+@import 'Page/home-page.css';
 
 quill-editor {
   display: block;

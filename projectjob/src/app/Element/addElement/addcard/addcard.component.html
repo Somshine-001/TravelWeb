@@ -1,0 +1,59 @@
+
+<div class="card">
+    <div class="card-header" (click)="onToggleCard()">
+      <div>{{ header }}</div>
+      <mat-icon>get_app</mat-icon>
+    </div>
+    <div class="card-content" [ngClass]="{ 'expanded': expandedCard === cardType }">
+      <div class="form" >
+        <form [formGroup]="getFormGroup(cardType)" (ngSubmit)="onSave()">
+          <div class="form-group">
+            <label for="{{getHeaderForm(cardType)}}Name">ชื่อ{{cardType}}</label>
+            <label class="required" *ngIf="getFormGroup(cardType).get(getHeaderForm(cardType)+'Name')?.hasError('required') && getFormGroup(cardType).get(getHeaderForm(cardType)+'Name')?.touched">กรุณากรอกชื่อ</label>
+            <input id ="{{getHeaderForm(cardType)}}Name" type="text" formControlName="{{getHeaderForm(cardType)}}Name" name="{{getHeaderForm(cardType)}}Name" required maxlength="50" >
+          </div>
+          <div class="form-group">
+            <quill-editor
+            formControlName="{{getHeaderForm(cardType)}}Detail"
+            [placeholder]="'รายละเอียด'+ cardType"
+            class="content-editor"
+            [styles]="{'border': '1px solid black', 'min-height': '250px'}">
+          </quill-editor>
+            <div class="card-header" (click)="codeHidden()">ดู-html</div>
+            <pre *ngIf="isHidden">
+              <code>
+                {{getFormGroup(cardType).get(getHeaderForm(cardType)+'Detail')?.value}}
+              </code>
+            </pre>
+          </div>
+          <div class="form-group" *ngIf="cardType === 'ชุมชน' || cardType === 'แหล่งท่องเที่ยว'">
+            <label for="tel">เบอร์โทรศัพท์</label>
+            <input type="text" id="tel" name="tel" formControlName="tel" [placeholder]="'0-9'" >
+          </div>
+          <div class="form-group" *ngIf ="cardType === 'แหล่งท่องเที่ยว'">
+            <label for="address">พิกัด</label>
+            <input type="text" id="latitude" name="latitude" formControlName="latitude" [placeholder]="'ละติจูด (90.0000000 จนถึง -90.0000000)'" required>
+            <input type="text" id="longitude" name="longitude" formControlName="longitude" [placeholder]="'ลองจิจูด (180.0000000 จนถึง -180.0000000)'" required>
+          </div>
+          <div class="form-group" *ngIf="cardType !== 'ชุมชน'">
+            <label for="communityName">ชุมชน</label>
+            <label class="required" *ngIf="getFormGroup(cardType).get('communityName')?.hasError('required') && getFormGroup(cardType).get('communityName')?.touched">กรุณาเลือกชุมชน</label>
+            <select id="communityName" formControlName="communityName">
+              <option *ngFor="let community of communities" [value]="community.communityName">
+                {{ community.communityName }}
+              </option>
+            </select>
+          </div>
+          <div class="form-group" *ngIf="cardType !== 'ข่าวประชาสัมพันธ์' && cardType !== 'แผนการท่องเที่ยว' && cardType !== 'ชุมชน'">
+            <label for="tagName">หมวดหมู่</label>
+            <select id="tagName" formControlName="tagName">
+              <option *ngFor="let tag of tags" [value]="tag.tagName">
+                {{ tag.tagName }}
+              </option>
+            </select>
+          </div>
+          <button type="submit" class="btn btn-primary">บันทึก</button>
+        </form>
+      </div>
+    </div>
+  </div>

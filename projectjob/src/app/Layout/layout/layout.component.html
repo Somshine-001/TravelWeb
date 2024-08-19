@@ -1,71 +1,66 @@
-<!-- แถบบน -->
+<div class="container">
+  <!-- แถบบน -->
 <mat-toolbar>
   <!-- ปุ่มซ้าย -->
-  <div >
-    <button  mat-icon-button aria-label ="Menu icon"  (click)="toggleMenu()">
-        <mat-icon>menu</mat-icon>
-    </button>
-  </div>
+
+    <div>
+      <button mat-icon-button aria-label ="Search icon">
+        <mat-icon>youtube_searched_for</mat-icon>
+      </button>
+    </div>
+
+    
+  
   <!-- ปุ่มขวา -->
-  <div *ngIf="global.isLogin">
-    <button  mat-icon-button aria-label ="User icon"  (click)="showBox()">
-        <mat-icon>perm_identity</mat-icon>
-    </button>
+    <div *ngIf="global.isLogin" (mouseleave)="showBox()" (mouseenter)="showBox()">
+      <button  mat-icon-button aria-label ="User icon">
+          <mat-icon>how_to_reg</mat-icon>
+      </button>
+      <!-- เมนูผู้ใช้ -->
+    <div class="box" [class.active]="!isVisible" >
+      <div *ngIf="global.isLogin && global.isAdmin">
+        <a routerLink="/edit" target="_blank">
+          <span class="item">
+            <span>แก้ไขข้อมูล</span> 
+            <mat-icon>edit</mat-icon> 
+          </span>
+        </a>
+      </div>
+      <div *ngIf="global.isLogin && global.isAdmin" class="underline">
+        <a routerLink="/add" target="_blank">
+          <span class="item">
+            <span>เพิ่มข้อมูล</span> 
+            <mat-icon>get_app</mat-icon> 
+          </span>
+        </a>
+      </div>
+        <div *ngIf="global.isLogin">
+          <a (click)="Logout()">
+            <span class="item">
+             <span>Logout</span> 
+              <mat-icon>settings_power</mat-icon> 
+            </span>
+          </a>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="!global.isLogin">
+      <a class="text-button" aria-label ="Sign in icon"  routerLink="/login" target="_blank">
+          <mat-icon>account_circle</mat-icon><span>Sign in</span>
+      </a>
+    </div>
+  </mat-toolbar>
+  <div class="menu">
+    <div class="item" *ngFor="let type of ['หน้าหลัก', 'ชุมชน', 'แหล่งท่องเที่ยว', 'อาหารและผลิตภัณฑ์', 'แผนการท่องเที่ยว', 'กิจกรรม', 'ข่าวประชาสัมพันธ์']">
+      <span class="underline">{{ type }}</span>
+    </div>
   </div>
-  <div *ngIf="!global.isLogin">
-    <a class="text-button" aria-label ="User icon"  routerLink="/login" target="_blank">
-        <mat-icon>account_circle</mat-icon><div>Sign in</div>
-    </a>
-  </div>
-</mat-toolbar>
 
-<!-- แถบข้าง -->
-<mat-sidenav-container autosize>
-  <mat-sidenav [ngClass]="!global.isCollapsed ? 'side-expanded' : ''" [mode]="global.isMobile ? 'over' : 'side'" [opened]="global.isMobile ? 'false' : 'true'">
-    <mat-nav-list>
-      <a mat-list-item routerLink="/home">
-        <span class="entry">
-          <mat-icon>house</mat-icon>
-          <span *ngIf="!global.isCollapsed">Home</span>
-        </span>
-      </a>
-    </mat-nav-list>
-  </mat-sidenav> 
-
-<!-- เมนูผู้ใช้ -->
-<div class="box" [class.active]="!isVisible" >
-  <div *ngIf="global.isLogin && global.isAdmin">
-      <a routerLink="/edit" target="_blank">
-        <span class="item">
-         <span>Edit data</span> 
-         <mat-icon>edit</mat-icon> 
-        </span>
-      </a>
-    </div>
-   
-    <div *ngIf="global.isLogin && global.isAdmin" class="underline">
-      <a routerLink="/add" target="_blank">
-        <span class="item">
-         <span>Add data</span> 
-         <mat-icon>get_app</mat-icon> 
-        </span>
-      </a>
-    </div>
-
-    <div *ngIf="global.isLogin">
-      <a (click)="Logout()">
-        <span class="item">
-         <span>Logout</span> 
-         <mat-icon>settings_power</mat-icon> 
-        </span>
-      </a>
-    </div>
+  <mat-sidenav-container autosize>
+    <!-- เนื้อหาหลัก -->
+    <router-outlet></router-outlet>
+  </mat-sidenav-container>
 </div>
-
-<!-- เนื้อหาหลัก -->
-<router-outlet></router-outlet>
-
-
 
 
 

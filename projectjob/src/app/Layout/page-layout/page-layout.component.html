@@ -1,7 +1,47 @@
-<div class="layout-page">
-    <mat-toolbar>
-        <!-- gettitle -->
-        <span>{{getTitle()}}</span>
+<div class="container">
+    <mat-toolbar *ngIf="global.isLogin">
+        <span style="font-size: small; padding-top: 13px;">{{getTitle()}}</span>
+        <div  (mouseenter)="toggleMenu()" (mouseleave)="toggleMenu()">
+            <button mat-icon-button aria-label ="Menu icon">
+                <mat-icon>menu</mat-icon>
+            </button>
+            <div class="box" [class.active]="!isVisible">
+                <div *ngIf="getTitle() === 'แก้ไขข้อมูล' && global.isAdmin" class="underline">
+                    <a routerLink="/add" target="_blank">
+                      <span class="item">
+                       <span>เพิ่มข้อมูล</span> 
+                       <mat-icon>get_app</mat-icon> 
+                      </span>
+                    </a>
+                </div>
+                <div *ngIf="getTitle() === 'เพิ่มข้อมูล' && global.isAdmin" class="underline">
+                    <a routerLink="/edit" target="_blank">
+                      <span class="item">
+                       <span>แก้ไขข้อมูล</span> 
+                       <mat-icon>edit</mat-icon> 
+                      </span>
+                    </a>
+                </div>
+            </div>
+        </div>
     </mat-toolbar>
+
+    <div class="menu" *ngIf="global.isAdmin">
+        <div *ngFor="let type of ['เพิ่มผู้ใช้', 'เพิ่มหมวดหมู่']" class="item" (click)="openForm(type)" >
+            <span class="underline">{{type}}</span>
+        </div>
+    </div>
+    <mat-sidenav-container>
+        <router-outlet></router-outlet>
+    </mat-sidenav-container>
 </div>
-<router-outlet></router-outlet>
+<app-page-layoutform 
+    *ngIf="formType !== null"
+    [header]="formType"
+    [formName]="formType"
+    (save)="saveForm(formType,$event)"
+    (cancel)="closeForm()">
+</app-page-layoutform>
+
+
+

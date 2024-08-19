@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable, tap } from 'rxjs';
+import { ThemeOptions } from '../theme-options';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +13,7 @@ export class AuthService {
   private authUrl = 'http://localhost:8081/auth';
 
 
-  constructor(private http: HttpClient, private router: Router) { }
+  constructor(private http: HttpClient, private router: Router, public global: ThemeOptions) { }
 
   register(user: { username: string, email: string, password: string }): Observable<any> {
     return this.http.post(`${this.authUrl}/init`, user);
@@ -49,5 +50,4 @@ export class AuthService {
 }
 interface LoginResponse {
   token:string;
-  test: string;
 }

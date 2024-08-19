@@ -11,7 +11,8 @@
   
   /* Body */
   body {
-    background-color: var(--content); /* $body-bg */
+    overflow-x: auto;
+    background-color: var(--primary-dark); /* $body-bg */
   }
   
   /* Colors */
@@ -132,7 +133,14 @@
     display: flex;
     gap: 1rem;
     color: aliceblue;
-  
+  }
+
+  .search {
+    padding: 8px;
+    font-size: 15px;
+    border-radius: 20px;
+    border: var(--primary);
+    color: var(--primary-dark);
   }
 
   /*button*/
@@ -142,13 +150,22 @@
   }
   .text-button {
     display: flex;
+    flex-direction: row;
     border-radius: 5px;
-    padding: 5px 5px;
+    margin-top: 4px;
+    padding: 3px 3px;
     background: none;
     color: var(--white);
     font-size: 10px;
     text-decoration: none;
   }
+  .text-button mat-icon {
+    margin-top: 4px; /* เพิ่มช่องว่างระหว่างไอคอนกับข้อความ */
+    margin-bottom: 0px;
+    font-size: 16px; /* ปรับขนาดไอคอนถ้าจำเป็น */
+    vertical-align: bottom; /* จัดให้อยู่ในแนวกลาง */
+  }
+
 
   .text-button:hover {
     background: var(--sidenav-hover);
@@ -157,7 +174,8 @@
   }
 
   button {
-    min-width: 45px;
+    min-width: 30px;
+    max-height: 35px;
     border-radius: 5px;
     position: relative;
     display: inline-block;
@@ -192,6 +210,15 @@
   /*menu*/
   .underline {
     border-bottom: white solid 1px;
+  }
+  .underline-themelight {
+    border-bottom: black solid 1px;
+  }
+
+  /* position */
+  .center {
+    display: flex;
+    justify-content: center;
   }
 
   
