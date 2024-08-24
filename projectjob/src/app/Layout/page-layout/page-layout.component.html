@@ -1,7 +1,7 @@
 <div class="container">
     <mat-toolbar *ngIf="global.isLogin">
         <span style="font-size: small; padding-top: 13px;">{{getTitle()}}</span>
-        <div  (mouseenter)="toggleMenu()" (mouseleave)="toggleMenu()">
+        <div  (mouseenter)="toggleMenu()" (mouseleave)="toggleMenu()" class="submit">
             <button mat-icon-button aria-label ="Menu icon">
                 <mat-icon>menu</mat-icon>
             </button>
@@ -22,13 +22,21 @@
                       </span>
                     </a>
                 </div>
+                <div *ngIf="global.isLogin">
+                    <a (click)="Logout()">
+                      <span class="item">
+                       <span>Logout</span> 
+                        <mat-icon>settings_power</mat-icon> 
+                      </span>
+                    </a>
+                </div>
             </div>
         </div>
     </mat-toolbar>
 
     <div class="menu" *ngIf="global.isAdmin">
         <div *ngFor="let type of ['เพิ่มผู้ใช้', 'เพิ่มหมวดหมู่']" class="item" (click)="openForm(type)" >
-            <span class="underline">{{type}}</span>
+            <span>{{type}}</span>
         </div>
     </div>
     <mat-sidenav-container>

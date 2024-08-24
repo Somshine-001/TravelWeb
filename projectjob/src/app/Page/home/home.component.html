@@ -3,22 +3,31 @@
     <div class="banner">
         <span class="banner-content" style="font-size: 35px;">จุดเริ่มต้น ของ การเดินทาง</span>
         <div class="banner-content">
-            <input style="color: var(--primary-dark);" class="search" [placeholder]="'ค้นหา'">
+          <div class="input-container">
+            <input type="text" placeholder="จุดหมายปลายทาง">
+            <button type="button">Search</button>
+          </div>
         </div>
         <span class="banner-content" style="font-size: 15px;">เพราะการเดินทาง คือการเรียนรู้ ที่ดีที่สุด</span>
     </div>
 </div>
-<div class="main-content" *ngFor="let header of ['ชุมชน','แหล่งท่องเที่ยว','อาหารและผลิตภัณฑ์','แผนการท่องเที่ยว','กิจกรรมสรรทนาการ','ข่าวประชาสัมพันธ์']">
+<div class="main-content" *ngFor="let header of headers">
     <div class="header">{{header}}</div>
-    <div class="content" *ngIf="filterItemsByType(header).length > 0">
-        <div *ngFor="let item of filterItemsByType(header); trackBy: trackById" class="item">
+    <div class="content" >
+        <div class="item" *ngFor="let item of publishedItems[header]" (click)="goToDetail(header, item)">
             <div class="item-pic"></div>
             <div class="item-title">
-              <li>{{ getHeaderName(header, item) }}</li>
+              <span style="padding-bottom: 10px;">{{ getHeaderName(header, item) }}</span>
+              <div class="item-title">
+                <span>{{ item.date}}</span>
+              </div>
             </div>
+            <span *ngIf="global.isAdmin" class="text-button" (click)="unPublish(header, item)">หยุดเผยแพร่</span>
           </div>
-    </div>
+    </div><h1 class="text-3xl font-bold underline">Hello world!</h1>
 </div>
+
+
 
 
 

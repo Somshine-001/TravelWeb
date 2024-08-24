@@ -37,6 +37,9 @@ export class EditComponent implements OnInit {
           alert('Session หมดอายุ');
           this.authService.logout();
           this.router.navigate(['/login']);
+        }else{
+          console.log(error);
+          this.toastr.error('กำลังปิดปรับปรุงข้อมูล');
         }
       }
     });

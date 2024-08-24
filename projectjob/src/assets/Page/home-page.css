@@ -1,7 +1,7 @@
 .main-banner {
     width: 100%;
     height: 300px;
-    background-color: #25312e60;
+    background-color: #1e48506b;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -20,6 +20,7 @@
 }
 
 .banner .banner-content {
+    background-color: #1e48506b;
     color: white;
     padding: 10px;
 }
@@ -38,11 +39,11 @@
     justify-content: left;
     align-items: center;
     width: 800px;
-    height: 35px;
+    height: 20px;
     margin: 10px;
     padding-left: 80px;
     color: white;
-    font-size: 20px;
+    font-size: 16px;
 }
 
 .main-content .content {
@@ -54,6 +55,7 @@
     background-color: none;
     flex-wrap: wrap;
     padding-left: 40px;
+    border-bottom: 1px solid white;
 }
 
 .main-content .item {
@@ -63,28 +65,29 @@
     align-items: center;
     width: 200px;
     height: auto;
+    border-radius: 15px;
     margin: 10px;
-    background-color: #25312e60;
+    background-color: #43585360;
+    box-shadow: 0 0 5px 1px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
 }
 .item .item-pic {
-
     width: 200px;
     height: 150px;
     border-radius: 15px 15px 0 0;
     margin-bottom: 10px;
-    background-color: #ffffff60;
+    background-color: #ffffff;
 }
 
 .item .item-title {
     display: flex;
     flex-direction: column;
-    align-items: left;
+    align-items: center;
     width: 185px;
-    min-height: 50px;
-    margin-bottom: 10px;
+    padding-bottom: 10px;
     color: white;
-    padding-left: 10px;
-    font-size: 10px;
+    padding: 5px;
+    font-size: 12px;
 }
 
 @media screen and (max-width: 800px) {

@@ -1,7 +1,11 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../../Service/auth.service';
+import { PublishService } from '../../Service/publish.service';
+
+import { PermissionService } from '../../Service/permission.service';
+import { ThemeOptions } from '../../theme-options';
 
 @Component({
   selector: 'app-home',
@@ -9,87 +13,68 @@ import { AuthService } from '../../Service/auth.service';
 })
 export class HomeComponent implements OnInit {
 
-  publishedItems: any[] = [];
-  filteredItems: any[] = [];
+  headers = ['ชุมชน', 'แหล่งท่องเที่ยว', 'อาหารและผลิตภัณฑ์', 'แผนการท่องเที่ยว', 'กิจกรรมสรรทนาการ', 'ข่าวประชาสัมพันธ์'];
 
-  message: string = '';
+  publishedItems: { [key: string]: any[] } = {};
 
-  constructor(private authService: AuthService, private router: Router,private http: HttpClient) { }
+  @Input() cardTypes!: string;
 
-  ngOnInit(): void {
-    if (this.authService.isLoggedIn()) {
-      this.message = 'Already logged in';
+  constructor( public global: ThemeOptions, private router: Router, private authService: AuthService, private publishService: PublishService, private permissionService: PermissionService) { }
+
+  ngOnInit() {
+    if(this.permissionService.isAdmin()) {
+      this.global.isAdmin = true;
     }
-    this.message = 'Login to see token';
     this.loadPublishedItems();
-
   }
 
-  filterItemsByType(header: string): any[] {
-    return this.publishedItems.filter(item => {
-      switch (header) {
-        case 'ชุมชน':
-          return item.communityName !== undefined;
-        case 'แหล่งท่องเที่ยว':
-          return item.placeName !== undefined;
-        case 'อาหารและผลิตภัณฑ์':
-          return item.fpName !== undefined;
-        case 'แผนการท่องเที่ยว':
-          return item.planName !== undefined;
-        case 'กิจกรรม':
-          return item.eventName !== undefined;
-        case 'ข่าวประชาสัมพันธ์':
-          return item.newsName !== undefined;
-        default:
-          return false;
-      }
+  goToDetail(type: string, item: any): void {
+    this.router.navigate(['/detail', type, item.id]);
+  }
+
+  loadPublishedItems(): void {
+    this.headers.forEach(type => {
+      this.publishedItems[type] = this.publishService.getPublishedItems(type);
     });
   }
 
-
   getHeaderName(header: string, item: any): any {
+    const maxLength = 30;
     switch (header) {
       case 'ชุมชน':
+        if (item.communityName.length > maxLength) {
+          return item.communityName.substring(0, maxLength) + '...';
+        }
         return item.communityName;
       case 'แหล่งท่องเที่ยว':
-
+        if (item.placeName.length > maxLength) {
+          return item.placeName.substring(0, maxLength) + '...';
+        }
         return item.placeName;
       case 'อาหารและผลิตภัณฑ์':
-
+        if (item.fpName.length > maxLength) {
+          return item.fpName.substring(0, maxLength) + '...';
+        }
         return item.fpName;
       case 'แผนการท่องเที่ยว':
-
+        if (item.planName.length > maxLength) {
+          return item.planName.substring(0, maxLength) + '...';
+        }
         return item.planName;
       case 'กิจกรรมสรรทนาการ':
-
+        if (item.eventName.length > maxLength) {
+          return item.eventName.substring(0, maxLength) + '...';
+        }
         return item.eventName;
       case 'ข่าวประชาสัมพันธ์':
-
+        if (item.newsName.length > maxLength) {
+          return item.newsName.substring(0, maxLength) + '...';
+        }
         return item.newsName;
       default:
         return '';
     }
     
-  }
-
-  trackById(index: number, item: any): number {
-    return item.communityId;
-  }
-
-  loadPublishedItems() {
-    this.publishedItems = this.getPublishedItems();
-  }
-
-  getPublishedItems(): any[] {
-    const publishedItems = [];
-    for (let i = 0; i < localStorage.length; i++) {
-      const key = localStorage.key(i);
-      if (key && key.startsWith('published_')) {
-        const item = JSON.parse(localStorage.getItem(key) || '{}');
-        publishedItems.push(item);
-      }
-    }
-    return publishedItems;
   }
 
   clearPublishedItems() {
@@ -99,6 +84,10 @@ export class HomeComponent implements OnInit {
         localStorage.removeItem(key);
       }
     }
+  }
+
+  unPublish(header: string, item: any): void {
+    this.publishService.togglePublish(header, item);
   }
   
 }

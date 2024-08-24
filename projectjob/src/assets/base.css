@@ -11,6 +11,7 @@ quill-editor {
   display: block;
   width: 93%;
   min-height: 250px;
+  background-color: white;
 }
 
   blockquote {

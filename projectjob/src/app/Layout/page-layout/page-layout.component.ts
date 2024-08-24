@@ -62,6 +62,11 @@ export class PageLayoutComponent {
   toggleMenu() {
       this.isVisible = !this.isVisible;
   }
+  
+  Logout() {
+    this.authService.logout();
+    window.location.href = '/home';  
+  }
 
   openForm(type: string) {
     switch (type) {

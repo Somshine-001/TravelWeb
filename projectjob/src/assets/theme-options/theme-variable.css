@@ -1,13 +1,4 @@
-/* GENERIC */
-:root {
-    --enable-caret: true;
-    --enable-rounded: true;
-    --enable-shadows: false;
-    --enable-gradients: true;
-    --enable-transitions: true;
-    --enable-grid-classes: true;
-    --enable-print-styles: false;
-  }
+
   
   /* Body */
   body {
@@ -34,7 +25,7 @@
     --primary-dark: rgb(0, 39, 35);
     --primary-light: #008b62;
     --sidenav: #1d2d36;
-    --sidenav-hover: #253944;
+    --sidenav-hover: #152e3b8a;
     --content: #ADD8E6;
     --brand: #041811;
     --indigo: #6610f2;
@@ -48,68 +39,6 @@
     --cyan: #2fa4e7;
     --blue-light: #8affdc;
     --dark-green: rgb(0, 39, 35);
-  }
-  
-  /* Bootstrap Overwrites */
-  :root {
-    --headings-font-weight: 400;
-    --font-size-base: 0.88rem;
-    --font-size-lg: calc(var(--font-size-base) * 1.35);
-    --font-size-sm: calc(var(--font-size-base) * 1.1);
-    --font-size-xs: calc(var(--font-size-base) / 1.1);
-    --btn-transition: color 0.15s, background-color 0.15s, border-color 0.15s, box-shadow 0.15s;
-    --btn-focus-width: 0;
-    --btn-focus-box-shadow: none;
-    --pagination-focus-box-shadow: none;
-    --body-color: var(--gray-700);
-    --card-cap-bg: var(--white);
-    --card-border-color: rgba(darken(var(--green), 25%), 0.125);
-    --dropdown-min-width: 15rem;
-    --dropdown-link-hover-bg: #d1f3ff;
-    --dropdown-item-padding-y: 0.4rem;
-    --dropdown-padding-y: 0.65rem;
-  }
-  
-  /* Tables */
-  :root {
-    --table-accent-bg: rgba(var(--black), 0.03);
-    --table-hover-bg: var(--dropdown-link-hover-bg);
-    --table-active-bg: var(--table-hover-bg);
-    --table-border-color: var(--gray-200);
-    --table-head-bg: var(--gray-100);
-    --table-head-color: var(--gray-600);
-    --table-cell-padding: 0.55rem;
-    --table-cell-padding-sm: 0.3rem;
-  }
-  
-  /* Popovers */
-  :root {
-    --popover-max-width: 320px;
-    --popover-box-shadow: var(--box-shadow-default);
-    --popover-border-color: var(--card-border-color);
-    --popover-header-bg: var(--white);
-  }
-  
-  /* Color Modifiers */
-  :root {
-    --link-color: var(--green);
-    --component-active-bg: var(--green);
-    --custom-control-indicator-checked-disabled-bg: rgba(var(--green), 0.5);
-    --form-feedback-valid-color: var(--green);
-    --form-feedback-invalid-color: var(--red);
-    --progress-bar-bg: var(--green);
-    --input-btn-focus-color: rgba(var(--component-active-bg), 0.25);
-    --input-focus-border-color: lighten(var(--component-active-bg), 25%);
-    --custom-control-indicator-checked-bg: var(--component-active-bg);
-    --custom-control-indicator-active-bg: lighten(var(--component-active-bg), 35%);
-    --custom-checkbox-indicator-indeterminate-bg: var(--component-active-bg);
-    --custom-range-thumb-bg: var(--component-active-bg);
-    --custom-range-thumb-active-bg: lighten(var(--component-active-bg), 35%);
-    --dropdown-link-active-bg: var(--component-active-bg);
-    --nav-pills-link-active-bg: var(--component-active-bg);
-    --pagination-active-bg: var(--component-active-bg);
-    --list-group-active-bg: var(--component-active-bg);
-    --list-group-border-color: rgba(var(--green), 0.08);
   }
 
   /*text*/
@@ -135,6 +64,40 @@
     color: aliceblue;
   }
 
+  /* input */
+  .input-container {
+    position: relative;
+    width: 80%;
+  }
+  
+  .input-container input {
+    width: 100%;
+    padding-right: 60px;
+    padding-left: 10px;
+    height: 35px;
+    box-sizing: border-box;
+    border-radius: 25px;
+  }
+  
+  .input-container button {
+    position: absolute;
+    right: 0;
+    top: 0;
+    height: 70%;
+    padding: 0 10px;
+    margin-right: 5px;
+    margin-top: 4px;
+    border: none;
+    border-radius: 15px;
+    color: var(--primary);
+    background-color: white;
+    cursor: pointer;
+  }
+  
+  .input-container button:hover {
+    background-color: var(--primary);
+    color: white;
+  }
   .search {
     padding: 8px;
     font-size: 15px;
@@ -152,7 +115,7 @@
     display: flex;
     flex-direction: row;
     border-radius: 5px;
-    margin-top: 4px;
+    margin-bottom: 4px;
     padding: 3px 3px;
     background: none;
     color: var(--white);
@@ -160,10 +123,10 @@
     text-decoration: none;
   }
   .text-button mat-icon {
-    margin-top: 4px; /* เพิ่มช่องว่างระหว่างไอคอนกับข้อความ */
+    margin-top: 4px;
     margin-bottom: 0px;
-    font-size: 16px; /* ปรับขนาดไอคอนถ้าจำเป็น */
-    vertical-align: bottom; /* จัดให้อยู่ในแนวกลาง */
+    font-size: 16px;
+    vertical-align: bottom;
   }
 
 
@@ -173,28 +136,28 @@
     cursor: pointer;
   }
 
-  button {
-    min-width: 30px;
-    max-height: 35px;
-    border-radius: 5px;
-    position: relative;
-    display: inline-block;
-    padding: 5px 5px;
-    margin-right: 2px;
-    background: none;
-    color: var(--primary-dark);
-    font-size: 14px;
-    text-decoration: none;
-    transition: 0.5s;
-    margin-top: 10px;
+  .submit button{
+      min-width: 30px;
+      max-height: 35px;
+      border-radius: 5px;
+      position: relative;
+      display: inline-block;
+      padding: 5px 5px;
+      margin-right: 2px;
+      background: none;
+      color: var(--primary-dark);
+      font-size: 14px;
+      text-decoration: none;
+      transition: 0.5s;
+      margin-top: 10px;
   }
-  button:hover {
+
+  .submit button:hover {
     cursor: pointer;
     background: var(--primary);
     color: #fff;
     border-radius: 5px;
   }
-  
 
   /*link*/
   a {
@@ -207,19 +170,6 @@
     cursor: pointer;
   }
 
-  /*menu*/
-  .underline {
-    border-bottom: white solid 1px;
-  }
-  .underline-themelight {
-    border-bottom: black solid 1px;
-  }
-
-  /* position */
-  .center {
-    display: flex;
-    justify-content: center;
-  }
 
   
   

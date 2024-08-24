@@ -1,4 +1,4 @@
-<div class="main-card">
+
   <app-editcard 
   *ngFor="let type of ['ชุมชน', 'แหล่งท่องเที่ยว', 'อาหารและผลิตภัณฑ์', 'แผนการท่องเที่ยว', 'กิจกรรม', 'ข่าวประชาสัมพันธ์', 'หมวดหมู่']" 
   [header]="'แก้ไข ' + type"
@@ -7,9 +7,10 @@
   [cardType]="type"
   (toggleCard)="toggleCard($event)"
   (openEditForm)="openEditForm(type, $event)"
-  (deleteItem)="deleteItem(type, $event)">
+  (deleteItem)="deleteItem(type, $event)"
+  class="main-card">
   </app-editcard>
-</div>
+
 
 <app-editform
   *ngIf="formName !== null"

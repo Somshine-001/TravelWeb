@@ -31,8 +31,10 @@ export class AddComponent implements OnInit{
   ) {  }
 
   ngOnInit() {
-    this.editDataService.getAll<Tag>('tag').subscribe({next: () => {
-    },
+    this.editDataService.getAll<Tag>('tag').subscribe({
+      next: (tags) => {
+        this.tags = tags;
+      },
     error: (error) => {
       if (error.status === 403 || error.status === 401) {
         alert('Session หมดอายุ');

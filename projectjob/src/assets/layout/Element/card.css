@@ -1,17 +1,15 @@
 
 .main-card {
+  margin-top: 5px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 15px;
   width: 100%;
+  overflow-x: auto !important;
 }
 .card {
-    border: 2px solid var(--primary-dark);
-    border-bottom-left-radius: 15px;
-    border-bottom-right-radius: 15px;
-    margin-top: 10px;
+    border: 1px solid var(--primary);
     padding: 10px 10px 10px;
     transition: max-height 0.5s ease-out;
     color: var(--primary-dark);
@@ -19,7 +17,7 @@
     font-size: 16px;
     flex-direction: column;
     display: flex;
-    width: 700px;
+    min-width: 700px;
   }
   .card-header {
     display: flex;
@@ -51,16 +49,16 @@
   }
 
   @media screen and (max-width: 800px) {
+    .main-card {
+      width: 700px;
+      justify-content: left;
+    }
     .card {
-      margin: 10px;
       border: 0;
       border-bottom: 2px solid var(--primary);
-      border-left: 2px solid var(--primary);
-      border-bottom-right-radius: 0px;
       font-size: 14px;
       box-shadow: -2px 3px 6px rgba(0, 0, 0, 0.2);
-      min-width: 350px;
-      width: 100%;
+      min-width: 600px;
     }
 
     .card-header mat-icon {

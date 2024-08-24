@@ -1,5 +1,5 @@
-<div class="main-card">
-  <app-addcard
+
+<app-addcard
   *ngFor="let type of ['ชุมชน', 'แหล่งท่องเที่ยว', 'อาหารและผลิตภัณฑ์', 'แผนการท่องเที่ยว', 'กิจกรรม', 'ข่าวประชาสัมพันธ์']"
   [header]="'+ เพิ่ม' + type"
   [expandedCard]="expandedCard"
@@ -7,9 +7,10 @@
   [communities]="communities"
   [tags]="tags"
   (toggleCard)="toggleCard($event)"
-  (save)="saveForm(type, $event)">
+  (save)="saveForm(type, $event)"
+  class="main-card">
 </app-addcard>
-</div>
+
 
 
 

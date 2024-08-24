@@ -15,12 +15,13 @@
                 <div *ngIf="cardType !== 'หมวดหมู่'">ผู้เขียน _ {{ item.username }}</div>
                 <div *ngIf="cardType === 'หมวดหมู่'">หมวดหมู่ _ {{ item.tagName }}</div>
               </div>
-              <div></div>
-              <div><button (click)="toggleModalForm(item)">แก้ไข</button>
-                <button (click)="togglePublish(item)" *ngIf="cardType !== 'หมวดหมู่'">
-                  {{ isPublished(item) ? 'ยกเลิกเผยแพร่' : 'เผยแพร่' }}
-                </button></div>
-              <div>
+              <div class="submit">
+                <button (click)="toggleModalForm(item)">แก้ไข</button>
+                <button (click)="onTogglePublish(item)" *ngIf="cardType !== 'หมวดหมู่'">
+                  {{ checkIfPublished(item) ? 'หยุดเผยแพร่' : 'เผยแพร่' }}
+                </button>
+              </div>
+              <div class="submit">
                 <button (click)="onDeleteItem(item)">ลบ</button>
               </div>
             </div>
@@ -31,4 +32,5 @@
         กรุณาเข้าสู่ระบบ....
       </div>
     </div>
-  </div>
+</div>
+

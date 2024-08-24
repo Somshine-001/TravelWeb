@@ -6,6 +6,7 @@ import { PageLayoutComponent } from './Layout/page-layout/page-layout.component'
 import { LoginPageComponent } from './login-page/login-page.component';
 import { HomeComponent } from './Page/home/home.component';
 import { RegisterPageComponent } from './register-page/register-page.component';
+import { CommunityComponent } from './Page/community/community.component';
 
 export const routes: Routes = [
     {
@@ -14,6 +15,7 @@ export const routes: Routes = [
         children:[
             {path: '', redirectTo: 'home', pathMatch: 'full'},
             { path: 'home', component: HomeComponent },
+            { path: 'community', component: CommunityComponent},
         ]
     },
     {

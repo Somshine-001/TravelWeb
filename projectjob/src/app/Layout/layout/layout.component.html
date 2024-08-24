@@ -3,7 +3,7 @@
 <mat-toolbar>
   <!-- ปุ่มซ้าย -->
 
-    <div>
+    <div class="submit">
       <button mat-icon-button aria-label ="Search icon">
         <mat-icon>youtube_searched_for</mat-icon>
       </button>
@@ -12,7 +12,7 @@
     
   
   <!-- ปุ่มขวา -->
-    <div *ngIf="global.isLogin" (mouseleave)="showBox()" (mouseenter)="showBox()">
+    <div *ngIf="global.isLogin" (mouseleave)="showBox()" (mouseenter)="showBox()" class="submit">
       <button  mat-icon-button aria-label ="User icon">
           <mat-icon>how_to_reg</mat-icon>
       </button>
@@ -51,8 +51,11 @@
     </div>
   </mat-toolbar>
   <div class="menu">
-    <div class="item" *ngFor="let type of ['หน้าหลัก', 'ชุมชน', 'แหล่งท่องเที่ยว', 'อาหารและผลิตภัณฑ์', 'แผนการท่องเที่ยว', 'กิจกรรม', 'ข่าวประชาสัมพันธ์']">
-      <span class="underline">{{ type }}</span>
+    <div class="item" 
+    *ngFor="let type of ['หน้าหลัก', 'ชุมชน', 'แหล่งท่องเที่ยว', 'อาหารและผลิตภัณฑ์', 'แผนการท่องเที่ยว', 'กิจกรรม', 'ข่าวประชาสัมพันธ์']; let i = index" 
+    [ngClass]="{'active' : triggerMenu === this.onTriggerMenu(type)}"
+    (click)="isActiveMenu(type)">
+      <span>{{ type }}</span>
     </div>
   </div>
 
