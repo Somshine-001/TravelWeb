@@ -1,0 +1,109 @@
+.guide {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 80%;
+    height: 50px;
+    white-space: nowrap; 
+}
+
+.guide .guide-item{
+    display: flex;
+    flex-direction: row;
+    justify-content: left;
+}
+
+.guide-item .text-button {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    border-radius: 5px;
+    margin-right: 5px;
+    background: none;
+    color: var(--white);
+    font-size: 10px;
+    text-decoration: none;
+    font-size: 14px;
+    padding: 10px 0 0 0;
+    height: 35%;
+}
+
+.text-button mat-icon {
+    margin-top: 1px;
+    margin-bottom: 0px;
+    font-size: 16px;
+    vertical-align: bottom;
+}
+
+.guide-item .text-button:hover {
+    color: var(--teal);
+    cursor: pointer;
+}
+  
+.guide-item .text-button.active {
+    text-decoration: underline;
+    border: solid 1px var(--primary);
+}
+
+.detail-content{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    color: white;
+}
+
+.detail-content .detail-header {
+    display: flex;
+    justify-content: left;
+    width: 80%;
+    max-height: 75px;
+}
+
+.detail-content .detail-pic {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: 80%;
+    height: 400px;
+    padding: 10px;
+    margin: 10px;
+    background-color: var(--primary);
+}
+
+.detail-pic .pic-large {
+    height: 370px;
+    width: 600px;
+    margin: 4px;
+    background-color: black;
+}
+
+.detail-pic .row-pic {
+    display: flex;
+    flex-direction: column;
+    height: 375px;
+    width: 230px;
+}
+
+.row-pic .pic-tiny {
+    height: 185px;
+    margin: 2px;
+    background-color: black; 
+}
+
+@media screen and (max-width: 800px) {
+
+    .guide {
+        width: 800px;
+    }
+
+    .guide-item .text-button {
+        font-size: 12px;
+    }
+
+    .guide-item .text-button mat-icon {
+        font-size: 15px !important;
+    }
+    
+}

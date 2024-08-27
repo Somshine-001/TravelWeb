@@ -1,11 +1,17 @@
 @import 'theme-options/theme-variable.css';
+/* layout */
 @import 'layout/layout-base.css';
 @import 'layout/layout-page.css';
 @import 'layout/alert.css';
 @import 'layout/Element/form.css';
 @import 'layout/Element/card.css';
 @import 'layout/Element/modal.css';
+@import 'layout/detail-layout.css';
+@import 'layout/footer.css';
+/* page */
 @import 'Page/home-page.css';
+/* LocalData */
+@import 'LocalData/detail.css';
 
 quill-editor {
   display: block;

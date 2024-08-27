@@ -42,6 +42,7 @@ export class PublishService {
 
     getPublishedItems(cardType: string): any[] {
         const key = this.getKey(cardType);
+        console.log(key);
         return JSON.parse(localStorage.getItem(key) || '[]');
     }
 
@@ -64,7 +65,7 @@ export class PublishService {
                 return item.fpName;
             case 'แผนการท่องเที่ยว':
                 return item.planName;
-            case 'กิจกรรม':
+            case 'กิจกรรมสรรทนาการ':
                 return item.eventName;
             case 'ข่าวประชาสัมพันธ์':
                 return item.newsName;

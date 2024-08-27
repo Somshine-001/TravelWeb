@@ -32,6 +32,7 @@
     align-items: center;
     width: 100%;
     background-color: none;
+    margin-bottom: 10px;
 }
 
 .main-content .header {
@@ -55,7 +56,6 @@
     background-color: none;
     flex-wrap: wrap;
     padding-left: 40px;
-    border-bottom: 1px solid white;
 }
 
 .main-content .item {
@@ -69,6 +69,11 @@
     margin: 10px;
     background-color: #43585360;
     box-shadow: 0 0 5px 1px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease;
+}
+
+.main-content .item:hover {
+    transform: scale(1.05);
     cursor: pointer;
 }
 .item .item-pic {
@@ -87,17 +92,17 @@
     padding-bottom: 10px;
     color: white;
     padding: 5px;
-    font-size: 12px;
+    font-size: 10px;
 }
 
 @media screen and (max-width: 800px) {
 
     .main-banner {
-        width: 800px;
+        width: 818px;
     }
 
     .main-content {
-        width: 800px;
+        width: 818px;
     }
 
     .main-content .header {

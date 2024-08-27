@@ -36,7 +36,7 @@ export class EditComponent implements OnInit {
         if (error.status === 403) {
           alert('Session หมดอายุ');
           this.authService.logout();
-          this.router.navigate(['/login']);
+          window.location.href = '/login';
         }else{
           console.log(error);
           this.toastr.error('กำลังปิดปรับปรุงข้อมูล');
@@ -76,7 +76,7 @@ export class EditComponent implements OnInit {
       case 'แหล่งท่องเที่ยว': return this.places;
       case 'อาหารและผลิตภัณฑ์': return this.foodsProducts;
       case 'แผนการท่องเที่ยว': return this.plans;
-      case 'กิจกรรม': return this.events;
+      case 'กิจกรรมสรรทนาการ': return this.events;
       case 'ข่าวประชาสัมพันธ์': return this.news;
       case 'หมวดหมู่': return this.tags;
       default: return [];

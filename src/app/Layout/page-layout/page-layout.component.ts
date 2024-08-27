@@ -16,6 +16,7 @@ import { ToastrService } from 'ngx-toastr';
 export class PageLayoutComponent {
   isVisible = true;
   currentPath: string;
+  username: string | null = null;
   tag: string = '';
   formType: string | null = null;
 
@@ -30,11 +31,7 @@ export class PageLayoutComponent {
   constructor( public global: ThemeOptions,
     private permissionService: PermissionService,
     private authService: AuthService,
-    private editDataService: EditDataService,
-    private addDataService: AddDataService,
-    private router: Router,
-    private formBuilder: FormBuilder,
-    private toastr: ToastrService) 
+    private addDataService: AddDataService,) 
     {
     this.currentPath = window.location.pathname;
   }
@@ -47,6 +44,7 @@ export class PageLayoutComponent {
     if(this.permissionService.isAdmin()) {
       this.global.isAdmin = true;
     }
+    this.username = this.permissionService.getName();
   }
 
   getTitle() {

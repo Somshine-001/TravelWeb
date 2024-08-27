@@ -82,7 +82,7 @@ export class AddcardComponent {
         return this.formGroup = this.fpForm;
       case 'แผนการท่องเที่ยว':
         return this.formGroup = this.planForm;
-      case 'กิจกรรม':
+      case 'กิจกรรมสรรทนาการ':
         return this.formGroup = this.eventForm;
       case 'ข่าวประชาสัมพันธ์':
         return this.formGroup = this.newsForm;
@@ -100,7 +100,7 @@ export class AddcardComponent {
         return 'fp';
       case 'แผนการท่องเที่ยว':
         return 'plan';
-      case 'กิจกรรม':
+      case 'กิจกรรมสรรทนาการ':
         return 'event';
       case 'ข่าวประชาสัมพันธ์':
         return 'news';

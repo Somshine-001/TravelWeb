@@ -1,0 +1,45 @@
+.main-footer {
+    min-width: 100%;
+    background-color: rgba(34, 58, 46, 0.432);
+    color: white;
+    padding: 20px 0;
+  }
+  
+  .footer-content {
+    display: flex;
+    justify-content: space-around;
+  }
+  
+  .footer-section {
+    flex: 1;
+    margin: 15px;
+    max-width: 250px;
+  }
+  
+  .social-icons {
+    display: flex;
+    gap: 10px;
+  }
+  
+  .social-icons a {
+    color: white;
+    font-size: 20px;
+  }
+  
+  .footer-bottom {
+    text-align: center;
+    padding: 10px 10px;
+    background-color: var(--primary-dark);
+    margin-top: 20px;
+  }
+
+  @media screen and (max-width: 800px) {
+    .main-footer {
+        width: 818px;
+    }
+
+    .footer-bottom {
+        width: 818px;
+        text-align: left;
+    }
+  }

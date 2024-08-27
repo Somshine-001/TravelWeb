@@ -2,7 +2,6 @@
   
   /* Body */
   body {
-    overflow-x: auto;
     background-color: var(--primary-dark); /* $body-bg */
   }
   
@@ -112,14 +111,15 @@
     justify-content: space-between;
   }
   .text-button {
+    position: relative;
     display: flex;
     flex-direction: row;
     border-radius: 5px;
-    margin-bottom: 4px;
-    padding: 3px 3px;
+    margin-right: 5px;
+    padding: 0.5px 10px;
     background: none;
     color: var(--white);
-    font-size: 10px;
+    font-size: 12px;
     text-decoration: none;
   }
   .text-button mat-icon {
@@ -132,8 +132,13 @@
 
   .text-button:hover {
     background: var(--sidenav-hover);
-    border-radius: 20px;
+    border-radius: 5px;
     cursor: pointer;
+  }
+  
+  .text-button.active {
+    text-decoration: underline;
+    border: solid 1px var(--primary);
   }
 
   .submit button{
@@ -163,7 +168,7 @@
   a {
     display: flex;
     align-items: center;
-    color: var(--primary-light);
+    color: var(--teal);
   }
 
   a:hover{

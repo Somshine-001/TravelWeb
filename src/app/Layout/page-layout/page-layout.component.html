@@ -1,34 +1,34 @@
 <div class="container">
     <mat-toolbar *ngIf="global.isLogin">
-        <span style="font-size: small; padding-top: 13px;">{{getTitle()}}</span>
-        <div  (mouseenter)="toggleMenu()" (mouseleave)="toggleMenu()" class="submit">
-            <button mat-icon-button aria-label ="Menu icon">
-                <mat-icon>menu</mat-icon>
-            </button>
-            <div class="box" [class.active]="!isVisible">
-                <div *ngIf="getTitle() === 'แก้ไขข้อมูล' && global.isAdmin" class="underline">
-                    <a routerLink="/add" target="_blank">
-                      <span class="item">
-                       <span>เพิ่มข้อมูล</span> 
-                       <mat-icon>get_app</mat-icon> 
-                      </span>
-                    </a>
-                </div>
-                <div *ngIf="getTitle() === 'เพิ่มข้อมูล' && global.isAdmin" class="underline">
-                    <a routerLink="/edit" target="_blank">
-                      <span class="item">
-                       <span>แก้ไขข้อมูล</span> 
-                       <mat-icon>edit</mat-icon> 
-                      </span>
-                    </a>
-                </div>
-                <div *ngIf="global.isLogin">
-                    <a (click)="Logout()">
-                      <span class="item">
-                       <span>Logout</span> 
-                        <mat-icon>settings_power</mat-icon> 
-                      </span>
-                    </a>
+        <div class="content">
+            <span style="font-size: small; padding: 0 13px;">{{getTitle()}}</span>
+            <div  (mouseenter)="toggleMenu()" (mouseleave)="toggleMenu()" class="text-button" style="border-radius: 15px; background-color: var(--primary);">
+                <mat-icon style="margin-top: 4px;">person</mat-icon><span style="font-size: 12px;">{{this.username}}</span>               
+                <div class="box" [class.active]="!isVisible">
+                    <div *ngIf="getTitle() === 'แก้ไขข้อมูล' && global.isAdmin" style="border-bottom: solid 1px;">
+                        <a routerLink="/add" target="_blank">
+                          <span class="item">
+                           <span>เพิ่มข้อมูล</span> 
+                           <mat-icon>get_app</mat-icon> 
+                          </span>
+                        </a>
+                    </div>
+                    <div *ngIf="getTitle() === 'เพิ่มข้อมูล' && global.isAdmin" style="border-bottom: solid 1px;">
+                        <a routerLink="/edit" target="_blank">
+                          <span class="item">
+                           <span>แก้ไขข้อมูล</span> 
+                           <mat-icon>edit</mat-icon> 
+                          </span>
+                        </a>
+                    </div>
+                    <div *ngIf="global.isLogin">
+                        <a (click)="Logout()">
+                          <span class="item">
+                           <span>Logout</span> 
+                            <mat-icon>settings_power</mat-icon> 
+                          </span>
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>

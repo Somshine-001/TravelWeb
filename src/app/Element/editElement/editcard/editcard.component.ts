@@ -71,7 +71,7 @@ export class EditcardComponent {
         return item.fpName;
       case 'แผนการท่องเที่ยว':
         return item.planName;
-      case 'กิจกรรม':
+      case 'กิจกรรมสรรทนาการ':
         return item.eventName;
       case 'ข่าวประชาสัมพันธ์':
         return item.newsName;

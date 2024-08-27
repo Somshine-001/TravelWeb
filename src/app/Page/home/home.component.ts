@@ -28,9 +28,14 @@ export class HomeComponent implements OnInit {
     this.loadPublishedItems();
   }
 
-  goToDetail(type: string, item: any): void {
-    this.router.navigate(['/detail', type, item.id]);
-  }
+  goToDetail(headers: string, item: any): void {
+    const queryParams = {
+        header: headers,
+        item: JSON.stringify(item)
+    };
+    const url = this.router.createUrlTree(['/detail'], { queryParams }).toString();
+    window.open(url, '_blank');
+}
 
   loadPublishedItems(): void {
     this.headers.forEach(type => {
@@ -39,7 +44,7 @@ export class HomeComponent implements OnInit {
   }
 
   getHeaderName(header: string, item: any): any {
-    const maxLength = 30;
+    const maxLength = 20;
     switch (header) {
       case 'ชุมชน':
         if (item.communityName.length > maxLength) {

@@ -14,17 +14,19 @@
 <div class="main-content" *ngFor="let header of headers">
     <div class="header">{{header}}</div>
     <div class="content" >
-        <div class="item" *ngFor="let item of publishedItems[header]" (click)="goToDetail(header, item)">
-            <div class="item-pic"></div>
+      <div  *ngFor="let item of publishedItems[header]" style="display: flex; align-items: center; flex-direction: column;">
+        <div class="item"  (click)="goToDetail(header, item)" target="_blank">
+          <div class="item-pic"></div>
+          <div class="item-title">
+            <span style="padding-bottom: 10px; font-size: 15px;">{{ getHeaderName(header, item) }}</span>
             <div class="item-title">
-              <span style="padding-bottom: 10px;">{{ getHeaderName(header, item) }}</span>
-              <div class="item-title">
-                <span>{{ item.date}}</span>
-              </div>
+              <span>{{ item.date}}</span>
             </div>
-            <span *ngIf="global.isAdmin" class="text-button" (click)="unPublish(header, item)">หยุดเผยแพร่</span>
           </div>
-    </div><h1 class="text-3xl font-bold underline">Hello world!</h1>
+        </div>
+        <span *ngIf="global.isAdmin" class="text-button" style="margin-right: 0; background-color: rgb(172, 0, 0); z-index: 2; " (click)="unPublish(header, item)">หยุดเผยแพร่</span>
+      </div>
+    </div>
 </div>
 
 

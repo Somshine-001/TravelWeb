@@ -13,18 +13,16 @@ import { Router } from '@angular/router';
 })
 export class LayoutComponent{
 
-  currentPath: string;
   triggerMenu: string | null = null;
+  triggerMain: string | null = null;
+  username: string | null = null;
 
   constructor(
-    private observer: BreakpointObserver,
     public global: ThemeOptions,
     private permissionService: PermissionService,
     private authService: AuthService,
     private router: Router
-    ) {
-      this.currentPath = window.location.pathname;
-    }
+    ) { }
 
   ngOnInit() {
 
@@ -35,16 +33,27 @@ export class LayoutComponent{
     if(this.permissionService.isAdmin()) {
       this.global.isAdmin = true;
     }
+    this.isActiveMain('Great Trip');
 
-    this.isActiveMenu('หน้าหลัก');
+    this.username = this.permissionService.getName();
   }
 
     isVisible = true;
+    onTriggerMain(mainType: string) {
+      switch (mainType) {
+        case 'Great Trip':
+          return '/home';
+        case 'เกี่ยวกับเรา':
+          return '/about';
+        case 'ติดต่อเรา':
+          return '/contact';
+        default:
+          return '/home';
+      }
+    }
 
     onTriggerMenu(type: string): string {
       switch (type) {
-        case 'หน้าหลัก':
-          return '/home';
         case 'ชุมชน':
           return '/community';
         case 'แหล่งท่องเที่ยว':
@@ -58,15 +67,29 @@ export class LayoutComponent{
         case 'ข่าวประชาสัมพันธ์':
           return '/news';
         default:
-          return '/home';
+          return '';
       }
     }
     
     isActiveMenu(type: string) {
+      if (this.triggerMenu === type) {
+        return;
+      }
       const triggeredMenu = this.onTriggerMenu(type);
-      this.triggerMenu = (this.triggerMenu === triggeredMenu) ? null : triggeredMenu;
-      
+      this.triggerMenu = type;
+      this.triggerMain = null;
       this.router.navigate([triggeredMenu]);
+    }
+    
+    isActiveMain(mainType: string) {
+      if (this.triggerMain === mainType) {
+        return;
+      }
+    
+      const triggeredMain = this.onTriggerMain(mainType);
+      this.triggerMain = mainType;
+      this.triggerMenu = null;
+      this.router.navigate([triggeredMain]);
     }
 
     // ปุ่มผู้ใช้

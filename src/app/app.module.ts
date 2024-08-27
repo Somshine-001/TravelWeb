@@ -24,16 +24,16 @@ import { AddcardComponent } from './Element/addElement/addcard/addcard.component
 import { EditcardComponent } from './Element/editElement/editcard/editcard.component';
 import { EditformComponent } from './Element/editElement/editform/editform.component';
 import { PageLayoutformComponent } from './Element/pageLayoutElement/page-layoutform/page-layoutform.component';
-import { BaseLayoutComponent } from './Layout/base-layout/base-layout.component';
 import { LayoutComponent } from './Layout/layout/layout.component';
 import { PageLayoutComponent } from './Layout/page-layout/page-layout.component';
 import { LoginPageComponent } from './login-page/login-page.component';
 import { HomeComponent } from './Page/home/home.component';
-import { RegisterPageComponent } from './register-page/register-page.component';
 import { CommunityComponent } from './Page/community/community.component';
-
-
-
+import { RegisterPageComponent } from './register-page/register-page.component';
+import { DetailLayoutComponent } from './Layout/detail-layout/detail-layout.component';
+import { FooterComponent } from './Layout/footer/footer.component';
+import { DetailComponent } from './LocalData/detail/detail.component';
+import { DatalistComponent } from './LocalData/datalist/datalist.component';
 
 @NgModule({
   declarations: [
@@ -41,7 +41,8 @@ import { CommunityComponent } from './Page/community/community.component';
     AppComponent,
     LayoutComponent,
     PageLayoutComponent,
-    BaseLayoutComponent,
+    DetailLayoutComponent,
+    FooterComponent,
     
     //PAGE
     HomeComponent,
@@ -54,6 +55,8 @@ import { CommunityComponent } from './Page/community/community.component';
     EditformComponent,
     AddcardComponent,
     PageLayoutformComponent,
+    DetailComponent,
+    DatalistComponent,
 
   ],
   imports: [

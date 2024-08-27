@@ -59,7 +59,7 @@ export class AddComponent implements OnInit{
         return 'fp';
       case 'แผนการท่องเที่ยว':
         return 'plan';
-      case 'กิจกรรม':
+      case 'กิจกรรมสรรทนาการ':
         return 'event';
       case 'ข่าวประชาสัมพันธ์':
         return 'news';

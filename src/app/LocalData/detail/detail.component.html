@@ -1,0 +1,61 @@
+<div style="width: 100%; display: flex; flex-direction: row; justify-content: center;">
+    <div class="guide">
+      <div class="guide-item">
+        <div class="text-button">
+          <span>Great Trip</span><mat-icon>keyboard_arrow_right</mat-icon>
+        </div>
+        <div class="text-button" *ngIf="header === 'ชุมชน'">
+          <span>ชุมชน</span><mat-icon>keyboard_arrow_right</mat-icon>
+        </div>
+      </div>
+      <div *ngIf="header !== 'ชุมชน'" class="guide-item">
+        <div class="text-button">
+          <span>{{item.communityName}}</span><mat-icon>keyboard_arrow_right</mat-icon>
+        </div>
+        <div class="text-button">
+          <span>{{header}}</span><mat-icon>keyboard_arrow_right</mat-icon>
+        </div>
+        <div class="text-button" *ngIf="header !== 'ข่าวประชาสัมพันธ์' && header !== 'แผนการท่องเที่ยว'">
+          <span>{{item.tagName}}</span><mat-icon>keyboard_arrow_right</mat-icon>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="detail-content">
+    <div class="detail-header">
+      <p style="font-size: 24px;">{{item.placeName}}</p>
+    </div>
+    <div class="detail-pic">
+      <div class="pic-large" style="border-radius: 20px 0 0 20px;"></div>
+      <div class="row-pic">
+        <div class="pic-tiny" style="border-radius: 0 20px 0 0;"></div>
+        <div class="pic-tiny" style="border-radius: 0 0 20px 0;"></div>
+      </div>
+    </div>
+    <div style="display: flex; flex-direction: column; width: 80%; height: 400px; padding: 10px; background-color: var(--primary);">
+        <p>{{item.placeDetail}}</p>
+    </div>
+  </div>
+  <div style="width: 100%; display: flex; flex-direction: row; justify-content: center;">
+    <div class="guide">
+      <div class="guide-item">
+        <div class="text-button">
+          <span>Great Trip</span><mat-icon>keyboard_arrow_right</mat-icon>
+        </div>
+        <div class="text-button" *ngIf="header === 'ชุมชน'">
+          <span>ชุมชน</span><mat-icon>keyboard_arrow_right</mat-icon>
+        </div>
+      </div>
+      <div *ngIf="header !== 'ชุมชน'" class="guide-item">
+        <div class="text-button">
+          <span>{{item.communityName}}</span><mat-icon>keyboard_arrow_right</mat-icon>
+        </div>
+        <div class="text-button">
+          <span>{{header}}</span><mat-icon >keyboard_arrow_right</mat-icon>
+        </div>
+        <div class="text-button" *ngIf="header !== 'ข่าวประชาสัมพันธ์' && header !== 'แผนการท่องเที่ยว'">
+          <span>{{item.tagName}}</span><mat-icon>keyboard_arrow_right</mat-icon>
+        </div>
+      </div>
+    </div>
+  </div>

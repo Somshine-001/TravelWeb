@@ -1,59 +1,64 @@
 <div class="container">
   <!-- แถบบน -->
 <mat-toolbar>
-  <!-- ปุ่มซ้าย -->
-
-    <div class="submit">
-      <button mat-icon-button aria-label ="Search icon">
+  <div class="content">
+    <!-- ปุ่มซ้าย -->
+    <div>
+      <a class="text-button">
         <mat-icon>youtube_searched_for</mat-icon>
-      </button>
+      </a>
     </div>
-
-    
-  
   <!-- ปุ่มขวา -->
-    <div *ngIf="global.isLogin" (mouseleave)="showBox()" (mouseenter)="showBox()" class="submit">
-      <button  mat-icon-button aria-label ="User icon">
-          <mat-icon>how_to_reg</mat-icon>
-      </button>
-      <!-- เมนูผู้ใช้ -->
-    <div class="box" [class.active]="!isVisible" >
-      <div *ngIf="global.isLogin && global.isAdmin">
-        <a routerLink="/edit" target="_blank">
-          <span class="item">
-            <span>แก้ไขข้อมูล</span> 
-            <mat-icon>edit</mat-icon> 
-          </span>
+    <div style="flex-direction: row; display: flex;">
+      <div *ngFor="let mainType of ['Great Trip', 'เกี่ยวกับเรา', 'ติดต่อเรา']">
+        <a class="text-button"
+        [ngClass]="{'active' : triggerMain === mainType}"
+        (click)="isActiveMain(mainType)">
+          {{ mainType }}
         </a>
       </div>
-      <div *ngIf="global.isLogin && global.isAdmin" class="underline">
-        <a routerLink="/add" target="_blank">
-          <span class="item">
-            <span>เพิ่มข้อมูล</span> 
-            <mat-icon>get_app</mat-icon> 
-          </span>
+      <div *ngIf="!global.isLogin">
+        <a class="text-button" aria-label ="Sign in icon"  routerLink="/login" target="_blank" style="border: solid 1px;">
+            <mat-icon>account_circle</mat-icon><span>Sign in</span>
         </a>
       </div>
-        <div *ngIf="global.isLogin">
-          <a (click)="Logout()">
+      <div *ngIf="global.isLogin" (mouseleave)="showBox()" (mouseenter)="showBox()" class="text-button" style="border-radius: 15px; background-color: var(--primary);">
+        <mat-icon style="margin-top: 4px;">person</mat-icon><span style="font-size: 12px;">{{this.username}}</span>
+        <!-- เมนูผู้ใช้ -->
+      <div class="box" [class.active]="!isVisible" >
+        <div *ngIf="global.isLogin && global.isAdmin">
+          <a routerLink="/edit" target="_blank">
             <span class="item">
-             <span>Logout</span> 
-              <mat-icon>settings_power</mat-icon> 
+              <span>แก้ไขข้อมูล</span> 
+              <mat-icon>edit</mat-icon> 
             </span>
           </a>
         </div>
+        <div *ngIf="global.isLogin && global.isAdmin" style="border-bottom: solid 1px;">
+          <a routerLink="/add" target="_blank">
+            <span class="item">
+              <span>เพิ่มข้อมูล</span> 
+              <mat-icon>get_app</mat-icon> 
+            </span>
+          </a>
+        </div>
+          <div *ngIf="global.isLogin">
+            <a (click)="Logout()">
+              <span class="item">
+               <span>Logout</span> 
+                <mat-icon>settings_power</mat-icon> 
+              </span>
+            </a>
+          </div>
+        </div>
       </div>
     </div>
-    <div *ngIf="!global.isLogin">
-      <a class="text-button" aria-label ="Sign in icon"  routerLink="/login" target="_blank">
-          <mat-icon>account_circle</mat-icon><span>Sign in</span>
-      </a>
-    </div>
+  </div>
   </mat-toolbar>
   <div class="menu">
     <div class="item" 
-    *ngFor="let type of ['หน้าหลัก', 'ชุมชน', 'แหล่งท่องเที่ยว', 'อาหารและผลิตภัณฑ์', 'แผนการท่องเที่ยว', 'กิจกรรม', 'ข่าวประชาสัมพันธ์']; let i = index" 
-    [ngClass]="{'active' : triggerMenu === this.onTriggerMenu(type)}"
+    *ngFor="let type of ['ชุมชน', 'แหล่งท่องเที่ยว', 'อาหารและผลิตภัณฑ์', 'แผนการท่องเที่ยว', 'กิจกรรม', 'ข่าวประชาสัมพันธ์']; let i = index" 
+    [ngClass]="{'active' : triggerMenu === type}"
     (click)="isActiveMenu(type)">
       <span>{{ type }}</span>
     </div>
@@ -61,8 +66,9 @@
 
   <mat-sidenav-container autosize>
     <!-- เนื้อหาหลัก -->
-    <router-outlet></router-outlet>
+    <router-outlet></router-outlet><app-footer></app-footer>
   </mat-sidenav-container>
+  
 </div>
 
 
