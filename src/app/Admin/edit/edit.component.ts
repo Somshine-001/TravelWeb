@@ -109,6 +109,7 @@ export class EditComponent implements OnInit {
     return this.editDataService.update(this.getType(type), formGroup.value).subscribe(() => {
       this.closeForm();
       this.toastr.success('บันทึกข้อมูลสําเร็จ');
+      window.location.reload();
     })
   }
 

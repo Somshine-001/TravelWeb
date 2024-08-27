@@ -54,14 +54,32 @@ export class RegisterPageComponent implements OnInit{
   get f() { return this.registerForm.controls; }
 
   register() {
-    if (this.registerForm.invalid) {
-      this.toastr.error('กรุณากรอกข้อมูลให้ครบ','', {
-      });
-      return;
-    }
     if (this.registerForm.value.password !== this.registerForm.value.confirmpassword) {
       this.toastr.error('รหัสผ่านไม่ตรงกัน','', {
       });
+      return;
+    }if (this.registerForm.invalid) {
+      this.registerForm.markAllAsTouched();
+      let errorMessages = '';
+  
+      // ตรวจสอบข้อผิดพลาดสำหรับแต่ละฟิลด์
+      for (const controlName in this.registerForm.controls) {
+        if (this.registerForm.controls.hasOwnProperty(controlName)) {
+          const control = this.registerForm.get(controlName);
+          if (control?.invalid && (control.dirty || control.touched)) {
+            errorMessages += `กรุณาตรวจสอบฟิลด์: ${controlName}\n`;
+          }
+        }
+      }
+  
+      // แสดงข้อความข้อผิดพลาด
+      if (errorMessages) {
+        alert('กรอกข้อมูลไม่ครบ หรือข้อมูลผิดประเภท\n' + errorMessages);
+      } else {
+        alert('กรอกข้อมูลไม่ครบ หรือข้อมูลผิดประเภท');
+      }
+  
+      console.log(this.registerForm.value);
       return;
     }
     const user = {username: this.registerForm.value.username, email: this.registerForm.value.email, password: this.registerForm.value.password};

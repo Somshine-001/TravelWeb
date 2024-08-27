@@ -26,6 +26,7 @@ export class HomeComponent implements OnInit {
       this.global.isAdmin = true;
     }
     this.loadPublishedItems();
+
   }
 
   goToDetail(headers: string, item: any): void {

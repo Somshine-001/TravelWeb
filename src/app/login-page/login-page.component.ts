@@ -56,7 +56,7 @@ export class LoginPageComponent  {
         });
         return;
       }
-      alert('ระบบกำลังปิกปรับปรุงข้อมูล');
+      alert('ระบบกำลังปิดปรับปรุงข้อมูล');
       }
     );
   } 
