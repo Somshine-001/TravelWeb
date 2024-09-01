@@ -2,7 +2,9 @@
   
   /* Body */
   body {
-    background-color: var(--primary-dark); /* $body-bg */
+    background-color: var(--primary-bg); /* $body-bg */
+    color: var(--primary-text);
+    transition: background-color 0.3s ease, color 0.3s ease;
   }
   
   /* Colors */
@@ -23,6 +25,8 @@
     --primary: #006849;
     --primary-dark: rgb(0, 39, 35);
     --primary-light: #008b62;
+    --primary-bg: #ffffff;
+    --primary-text: rgb(0, 39, 35);
     --sidenav: #1d2d36;
     --sidenav-hover: #152e3b8a;
     --content: #ADD8E6;
@@ -39,6 +43,11 @@
     --blue-light: #8affdc;
     --dark-green: rgb(0, 39, 35);
   }
+
+  /* body.dark-theam {
+    --primary-bg: rgb(0, 39, 35) !important;
+    --primary-text: #ffffff !important;
+  } */
 
   /*text*/
   h1 {
@@ -60,7 +69,7 @@
   .text-menu {
     display: flex;
     gap: 1rem;
-    color: aliceblue;
+    color: white;
   }
 
   /* input */
@@ -73,9 +82,10 @@
     width: 100%;
     padding-right: 60px;
     padding-left: 10px;
-    height: 35px;
+    height: 45px;
     box-sizing: border-box;
     border-radius: 25px;
+    font-size: 16px;
   }
   
   .input-container button {
@@ -84,10 +94,11 @@
     top: 0;
     height: 70%;
     padding: 0 10px;
-    margin-right: 5px;
-    margin-top: 4px;
+    margin-right: 7px;
+    margin-top: 5px;
     border: none;
-    border-radius: 15px;
+    border-radius: 25px;
+    font-size: 16px;
     color: var(--primary);
     background-color: white;
     cursor: pointer;
@@ -118,7 +129,7 @@
     margin-right: 5px;
     padding: 0.5px 10px;
     background: none;
-    color: var(--white);
+    color: var(--primary-text);
     font-size: 12px;
     text-decoration: none;
   }
@@ -131,7 +142,7 @@
 
 
   .text-button:hover {
-    background: var(--sidenav-hover);
+    background: rgba(0, 122, 91, 0.336);
     border-radius: 5px;
     cursor: pointer;
   }
@@ -150,7 +161,7 @@
       padding: 5px 5px;
       margin-right: 2px;
       background: none;
-      color: var(--primary-dark);
+      color: var(--primary-text);
       font-size: 14px;
       text-decoration: none;
       transition: 0.5s;
@@ -159,8 +170,8 @@
 
   .submit button:hover {
     cursor: pointer;
-    background: var(--primary);
-    color: #fff;
+    background: var(--primary-bg);
+    color: var(--primary-text);
     border-radius: 5px;
   }
 
@@ -168,7 +179,8 @@
   a {
     display: flex;
     align-items: center;
-    color: var(--teal);
+    color: var(--primary-text);
+    text-decoration: none;
   }
 
   a:hover{
@@ -177,6 +189,10 @@
 
   strong {
     letter-spacing: 0.5px;
+  }
+  button {
+    background-color: var(--primary-bg);
+    color: var(--primary-text);
   }
 
 

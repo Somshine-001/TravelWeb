@@ -5,12 +5,12 @@
     align-items: center;
     width: 100%;
     height: 100%;
-    color: white;
+    color: var(--primary-text);
     overflow-x: auto;
 }
 
 .detail-container mat-sidenav-container {
-    background: var(--primary-dark) !important;
+    background: var(--primary-bg) !important;
     padding-top: 2.5rem;
     display: block;
     height: 100%;

@@ -1,6 +1,4 @@
 import { Routes } from '@angular/router';
-import { AddComponent } from './Admin/add/add.component';
-import { EditComponent } from './Admin/edit/edit.component';
 import { PageLayoutComponent } from './Layout/page-layout/page-layout.component';
 import { LoginPageComponent } from './login-page/login-page.component';
 import { HomeComponent } from './Page/home/home.component';
@@ -9,6 +7,7 @@ import { RegisterPageComponent } from './register-page/register-page.component';
 import { DetailLayoutComponent } from './Layout/detail-layout/detail-layout.component';
 import { LayoutComponent } from './Layout/layout/layout.component';
 import { DetailComponent } from './LocalData/detail/detail.component';
+import { AdminComponent } from './Admin/admin.component';
 
 export const routes: Routes = [
     {
@@ -26,8 +25,7 @@ export const routes: Routes = [
         children:[
             { path: 'login', component: LoginPageComponent },
             { path: 'register', component: RegisterPageComponent },
-            { path: 'add', component: AddComponent },
-            { path: 'edit', component: EditComponent },
+            { path: 'admin', component: AdminComponent },
         ]
         
     },

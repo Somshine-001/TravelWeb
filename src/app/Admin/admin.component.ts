@@ -1,17 +1,24 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
-import { Community, EditDataService, FoodsProducts, News, Place, Plan, Event, Tag } from '../../Service/editData.service';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+
 import { ToastrService } from 'ngx-toastr';
-import { AuthService } from '../../Service/auth.service';
+
 import { Router } from '@angular/router';
+import { AddDataService } from '../Service/addData.service';
+import { AuthService } from '../Service/auth.service';
+import { ThemeOptions } from '../theme-options';
+import { PermissionService } from '../Service/permission.service';
+import { Community, EditDataService, FoodsProducts, News, Place, Plan, Role, Tag } from '../Service/editData.service';
+
 
 @Component({
-  selector: 'app-edit',
+  selector: 'app-admin',
   template: '<quill-editor [beforeRender]="beforeRender"></quill-editor>',
-  templateUrl: './edit.component.html',
+  templateUrl: './admin.component.html',
 })
-export class EditComponent implements OnInit {
+export class AdminComponent implements OnInit {
 
+  roles: Role[] = [];
   tags: Tag[] = [];
   communities: Community[] = [];
   places: Place[] = [];
@@ -20,13 +27,39 @@ export class EditComponent implements OnInit {
   events: Event[] = [];
   news: News[] = [];
 
+  type = ['ชุมชน', 'แหล่งท่องเที่ยว', 'อาหารและผลิตภัณฑ์', 'แผนการท่องเที่ยว', 'กิจกรรมสรรทนาการ', 'ข่าวประชาสัมพันธ์', 'หมวดหมู่', 'สมาชิก']
+
   expandedCard: string | null = null;
   formName: string | null = null;
+  addFormName: string | null = null;
   currentForm: FormGroup | null = null;
 
-  constructor(private editDataService: EditDataService, private toastr: ToastrService,private authService: AuthService, private formBuilder: FormBuilder, private router: Router) { }
+  addUserForm!: FormGroup;
+  addTagForm!: FormGroup;
+
+  triggerMenu!: string;
+
+  constructor
+  (
+    private addDataService: AddDataService,
+    private editDataService: EditDataService,
+    private toastr: ToastrService,
+    private authService: AuthService,
+    private router: Router,
+    public global: ThemeOptions,
+    private permissionService: PermissionService,
+    private formBuilder: FormBuilder
+  ) { }
 
   ngOnInit(): void {
+
+    if(this.authService.isLoggedIn()) {
+      this.global.isLogin = true;
+    }
+
+    if(this.permissionService.isAdmin()) {
+      this.global.isAdmin = true;
+    }
     //ดึงข้อมูล
     this.editDataService.getAll<Tag>('tag').subscribe({
       next: (tags) => {
@@ -44,8 +77,15 @@ export class EditComponent implements OnInit {
       }
     });
 
+    this.editDataService.getAll<Role>('role').subscribe((roles) => {
+      this.roles = roles;
+    })
+
+    this
+
     this.editDataService.getAll<Community>('community').subscribe((communities) => {
       this.communities = communities;
+      
     })
 
     this.editDataService.getAll<Place>('place').subscribe((places) => {
@@ -68,6 +108,15 @@ export class EditComponent implements OnInit {
       this.news = news;
     })
 
+    this.isActiveMenu('ชุมชน');
+    
+  }
+  
+  isActiveMenu(type: string) {
+    if (this.triggerMenu === type) {
+      return;
+    }
+    this.triggerMenu = type;
   }
 
   getItems(type: string): any[] {
@@ -78,7 +127,6 @@ export class EditComponent implements OnInit {
       case 'แผนการท่องเที่ยว': return this.plans;
       case 'กิจกรรมสรรทนาการ': return this.events;
       case 'ข่าวประชาสัมพันธ์': return this.news;
-      case 'หมวดหมู่': return this.tags;
       default: return [];
     }
   }
@@ -89,15 +137,10 @@ export class EditComponent implements OnInit {
       case 'แหล่งท่องเที่ยว': return 'place';
       case 'อาหารและผลิตภัณฑ์': return 'fp';
       case 'แผนการท่องเที่ยว': return 'plan';
-      case 'กิจกรรม': return 'event';
+      case 'กิจกรรมสรรทนาการ': return 'event';
       case 'ข่าวประชาสัมพันธ์': return 'news';
-      case 'หมวดหมู่': return 'tag';
       default: return '';
     }
-  }
-
-  toggleCard(cardType: string) {
-    this.expandedCard = (this.expandedCard === cardType) ? null : cardType;
   }
 
   openEditForm(type: string, item: any) {
@@ -125,6 +168,27 @@ export class EditComponent implements OnInit {
     this.editDataService.delete(this.getType(type), id).subscribe(() => {
       this.toastr.success('ลบข้อมูลสําเร็จ');
     })
+  }
+
+  toggleAddForm(type: string,) {
+    this.addFormName = this.addFormName === type ? null : type;
+  }
+
+  addData(type: string, formGroup: any) {
+    console.log(formGroup);
+    this.addDataService.save(this.getType(type), formGroup).subscribe({
+      next: () => {
+        this.toastr.success('บันทึกข้อมูลสําเร็จ');
+      },
+      error: (error) => {
+        if (error.status === 403 || error.status === 401) {
+          alert('Session หมดอายุ');
+          this.authService.logout();
+          this.router.navigate(['/login']);
+        }
+      }
+    })
+
   }
 
 }

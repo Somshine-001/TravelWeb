@@ -4,7 +4,6 @@
   display: flex;
   overflow-x: auto;
   flex-direction: column;
-  justify-content: center;
   align-items: center;  
 }
   /* header */
@@ -12,19 +11,20 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    background: var(--primary-dark) !important;
+    background: var(--primary-bg);
     position: fixed;
-    color: var(--content) !important;
+    color: var(--primary-text);
     max-height: 40px;
     width: 100% !important;
     top: 0;
     z-index: 1000;
     margin-top: 5px !important;
+    font-family: 'Prompt' !important; 
   }
 
   mat-toolbar .content {
     display: flex;
-    min-width: 800px;
+    min-width: 980px;
     height: 100%;
     justify-content: space-between;
     align-items: center;
@@ -48,22 +48,22 @@
     width: 100%;
     top: 2.5rem;
     padding:  0 0 10px 2rem;
-    background-color: var(--primary-dark);
+    background-color: var(--primary-bg);
     z-index: 5;
     overflow-x: auto; 
     box-shadow: 0 3px 10px -2px rgba(0, 0, 0, 0.7);
     white-space: nowrap; 
+    font-size: 16px;
     max-width: 100vw; 
-    /* box-sizing: border-box; */
+    box-sizing: border-box;
   }
 
   .menu .item {
     margin-top: 15px;
     padding: 5px 7px;
-    font-size: 12px;
     border-radius: 3px;
     white-space: nowrap;
-    color: white;
+    color: var(--primary-text);
     cursor: pointer;
   }
 
@@ -72,15 +72,15 @@
   }
 
   .menu .item.active {
-    border: solid 1px var(--primary);
+    border: solid 2px var(--primary);
     text-decoration: underline;
   }
 
   
   /* sidenav */
   mat-sidenav-container {
-    background: var(--primary-dark) !important;
-    padding-top: 5.5rem;
+    background: none !important;
+    padding-top: 6rem;
     display: block;
     height: 100%;
     width: 100%;
@@ -93,9 +93,10 @@
   /* icon */
   mat-icon {
     margin-bottom: 5px;
-    color: white !important;
+    color: var(--primary-text) !important;
     font-size: 19px !important;
   }
+
 
   /* box */
   .box {
@@ -107,12 +108,8 @@
     top: 1.8rem;
     width: auto;
     height: auto;
-    background-color:var(--primary-dark);
-    box-shadow: 0 3px 2px 0 rgba(0, 0, 0, 0.7);
     position: absolute;
-    transition: 0.5s; ;
-    border-bottom-right-radius: 10px;
-    border-bottom-left-radius: 10px;
+    background-color: rgba(54, 54, 54, 0.445);
   }
   
   .box.active {
@@ -120,9 +117,12 @@
   }
   .box .item{
     display: flex;
-    padding: 3px;
+    justify-content: right;
+    padding: 0px 10px;
+    width: 100%;
     gap: 1rem;
-    color: aliceblue;
+    border-radius: 10px;
+    background-color: white;
     cursor: pointer;
   }
 
@@ -130,27 +130,19 @@
     display: flex;
     flex-direction: row-reverse;
     padding-left: 20px;
-    font-size: 12px;
+    font-size: 15px;
   }
 
   .box div :hover {
-    border-radius: 10px;
-    color: var(--teal);
-    transition: 0.5s;
+    background-color: var(--primary);
+    color: white !important;
   }
 
-  .box a {
-    padding-top: 5px;
-    padding-bottom: 3px;
-    padding-left: 5px;
-    padding-right: 5px;
-    text-decoration: none;
-  }
   .box mat-icon {
     font-size: 18px !important;
   }
 
-  @media screen and (max-width: 800px) {
+  @media screen and (max-width: 1000px) {
 
     mat-toolbar {
       width: 100% !important;
@@ -161,6 +153,7 @@
     .menu {
       display: flex;
       justify-content: left;
+      font-size: 14px;
     }
   
     .menu-themelight {

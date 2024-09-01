@@ -14,7 +14,6 @@ import { ThemeOptions } from '../../theme-options';
 export class HomeComponent implements OnInit {
 
   headers = ['ชุมชน', 'แหล่งท่องเที่ยว', 'อาหารและผลิตภัณฑ์', 'แผนการท่องเที่ยว', 'กิจกรรมสรรทนาการ', 'ข่าวประชาสัมพันธ์'];
-
   publishedItems: { [key: string]: any[] } = {};
 
   @Input() cardTypes!: string;
@@ -46,50 +45,42 @@ export class HomeComponent implements OnInit {
 
   getHeaderName(header: string, item: any): any {
     const maxLength = 20;
-    switch (header) {
-      case 'ชุมชน':
-        if (item.communityName.length > maxLength) {
-          return item.communityName.substring(0, maxLength) + '...';
-        }
-        return item.communityName;
-      case 'แหล่งท่องเที่ยว':
-        if (item.placeName.length > maxLength) {
-          return item.placeName.substring(0, maxLength) + '...';
-        }
-        return item.placeName;
-      case 'อาหารและผลิตภัณฑ์':
-        if (item.fpName.length > maxLength) {
-          return item.fpName.substring(0, maxLength) + '...';
-        }
-        return item.fpName;
-      case 'แผนการท่องเที่ยว':
-        if (item.planName.length > maxLength) {
-          return item.planName.substring(0, maxLength) + '...';
-        }
-        return item.planName;
-      case 'กิจกรรมสรรทนาการ':
-        if (item.eventName.length > maxLength) {
-          return item.eventName.substring(0, maxLength) + '...';
-        }
-        return item.eventName;
-      case 'ข่าวประชาสัมพันธ์':
-        if (item.newsName.length > maxLength) {
-          return item.newsName.substring(0, maxLength) + '...';
-        }
-        return item.newsName;
-      default:
-        return '';
+    if (item && item.name && item.name.length > maxLength) {
+      return item.name.substring(0, maxLength) + '...';
+    } else {
+      return item.name;
     }
-    
   }
 
-  clearPublishedItems() {
-    for (let i = 0; i < localStorage.length; i++) {
-      const key = localStorage.key(i);
-      if (key && key.startsWith('published_')) {
-        localStorage.removeItem(key);
-      }
+  getFilteredItems(header: string): any[] {
+    const items = this.publishedItems[header] || [];
+  
+    // ถ้าจำนวนรายการน้อยกว่าหรือเท่ากับ 4 รายการ ให้แสดงทั้งหมด
+    if (items.length <= 4) {
+      return items;
     }
+  
+    // สร้าง Map เพื่อจัดกลุ่มรายการตามวันที่
+    const groupedItems = items.reduce((groups: any, item: any) => {
+      const dateKey = item.date;
+      if (!groups[dateKey]) {
+        groups[dateKey] = [];
+      }
+      groups[dateKey].push(item);
+      return groups;
+    }, {});
+  
+    // สร้างรายการที่แสดงเฉพาะรายการล่าสุดในแต่ละกลุ่มวันที่
+    const latestItems = Object.keys(groupedItems).flatMap(dateKey => {
+      const group = groupedItems[dateKey];
+      group.sort((a: any, b: any) => new Date(b.date).getTime() - new Date(a.date).getTime());
+      return group.slice(0, 1); // เลือกรายการล่าสุดในแต่ละกลุ่ม
+    });
+  
+    // จัดเรียงรายการล่าสุดตามวันที่
+    latestItems.sort((a: any, b: any) => new Date(b.date).getTime() - new Date(a.date).getTime());
+  
+    return latestItems.slice(0, 4); // แสดงเฉพาะ 3 รายการล่าสุด
   }
 
   unPublish(header: string, item: any): void {

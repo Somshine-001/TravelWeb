@@ -14,30 +14,31 @@ export class AddcardComponent {
   planForm!: FormGroup;
   eventForm!: FormGroup;
   newsForm!: FormGroup;
+  addTagForm!: FormGroup;
+  addUserForm!: FormGroup;
 
   isHidden = false;
 
   @Input () header!: string;
-  @Input() expandedCard!: string | null;
-  @Input() cardType!: string;
+  @Input() addFormType!: string;
   @Input() communities!: any[];
   @Input() tags!: any[];
+  @Input() roles!: any[];
 
-  @Output() toggleCard = new EventEmitter<string>();
+  @Output() cancel = new EventEmitter<string>();
   @Output() save = new EventEmitter<any>();
-  @Output() cancel = new EventEmitter<void>();
 
   constructor(private formBuilder: FormBuilder) {
 
       this.communityForm = this.formBuilder.group({
-      communityName: ['',[Validators.required, Validators.maxLength(50)]],
-      communityDetail: [''],
-      tel: [''],   
+      name: ['',[Validators.required, Validators.maxLength(50)]],
+      detail: [''],
+      tel: ['',[Validators.maxLength(10), Validators.minLength(10), Validators.pattern('^[0-9]*$')]],   
     });
 
     this.placeForm = this.formBuilder.group({
-      placeName: ['', [Validators.required, Validators.maxLength(50)]],
-      placeDetail: [''],
+      name: ['', [Validators.required, Validators.maxLength(50)]],
+      detail: [''],
       tel: [''],
       latitude: [''],
       longitude: [''],
@@ -46,34 +47,45 @@ export class AddcardComponent {
     });
 
     this.fpForm = this.formBuilder.group({
-      fpName: ['', [Validators.required, Validators.maxLength(50)]],
-      fpDetail: [''],
+      name: ['', [Validators.required, Validators.maxLength(50)]],
+      detail: [''],
       communityName: ['', [Validators.required]],
       tagName: [''],
     });
 
     this.planForm = this.formBuilder.group({
-      planName: ['', [Validators.required, Validators.maxLength(50)]],
-      planDetail: [''],
+      name: ['', [Validators.required, Validators.maxLength(50)]],
+      detail: [''],
       communityName: ['', [Validators.required]],
     });
 
     this.eventForm = this.formBuilder.group({
-      eventName: ['', [Validators.required, Validators.maxLength(50)]],
-      eventDetail: [''],
+      name: ['', [Validators.required, Validators.maxLength(50)]],
+      detail: [''],
       communityName: ['', [Validators.required]],
       tagName: [''],
     });
 
     this.newsForm = this.formBuilder.group({
-      newsName: ['', [Validators.required, Validators.maxLength(50)]],
-      newsDetail: [''],
+      name: ['', [Validators.required, Validators.maxLength(50)]],
+      detail: [''],
       communityName: ['', [Validators.required]],
+    });
+
+    this.addUserForm = this.formBuilder.group({
+      username: ['', Validators.required],
+      password: ['', Validators.required],
+      confirmPassword: ['', Validators.required],
+      role: ['', Validators.required],
+    });
+
+    this.addTagForm = this.formBuilder.group({
+      tagName: ['', Validators.required],
     });
   }
 
-  getFormGroup(cardType: string): FormGroup {
-    switch (cardType) {
+  getFormGroup(): FormGroup {
+    switch (this.addFormType) {
       case 'ชุมชน':
         return this.formGroup = this.communityForm;
       case 'แหล่งท่องเที่ยว':
@@ -86,12 +98,16 @@ export class AddcardComponent {
         return this.formGroup = this.eventForm;
       case 'ข่าวประชาสัมพันธ์':
         return this.formGroup = this.newsForm;
+      case 'สมาชิก':
+        return this.formGroup = this.addUserForm;
+      case 'หมวดหมู่':
+        return this.formGroup = this.addTagForm;
       default:
         return this.formGroup = this.communityForm;
     }
   }
-  getHeaderForm(cardType: string): any {
-    switch (cardType) {
+  getHeaderForm(): any {
+    switch (this.addFormType) {
       case 'ชุมชน':
         return 'community';
       case 'แหล่งท่องเที่ยว':
@@ -104,13 +120,17 @@ export class AddcardComponent {
         return 'event';
       case 'ข่าวประชาสัมพันธ์':
         return 'news';
+      case 'สมาชิก':
+        return 'user';
+      case 'หมวดหมู่':
+        return 'tag';
       default:
         return null;
     }
   }
 
-  onToggleCard() {
-    this.toggleCard.emit(this.cardType);
+  onCancel() {
+    this.cancel.emit(this.addFormType);
   }
 
   onSave() {
@@ -134,11 +154,11 @@ export class AddcardComponent {
       } else {
         alert('กรอกข้อมูลไม่ครบ หรือข้อมูลผิดประเภท');
       }
-  
-      console.log(this.formGroup.value);
       return;
     }
     this.save.emit(this.formGroup.value);
+    this.formGroup.reset();
+    this.onCancel();
   }
 
   codeHidden(){

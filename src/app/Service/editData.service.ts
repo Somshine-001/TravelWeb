@@ -32,24 +32,24 @@ export interface Role {
     name: string;
 }
 export interface Tag {
-    tagId: number;
-    tagName: string;
+    id: number;
+    name: string;
 }
 
 export interface Community {
-    communityId: number;
-    communityName: string;
-    communityTitle: string;
+    id: number;
+    name: string;
+    detail: string;
     tel: string;
     date: string;
     username: string;
 }
 
 export interface Place {
-    placeId: number;
-    placeName: string;
-    placeTitle: string;
-    placeGps: string;
+    id: number;
+    name: string;
+    detail: string;
+    gps: string;
     date: string;
     communityName: string;
     tagName: string;
@@ -57,9 +57,9 @@ export interface Place {
 }
 
 export interface FoodsProducts {
-    fpId: number;
-    fpName: string;
-    fpDetail: string;
+    id: number;
+    name: string;
+    detail: string;
     date: string;
     communityName: string;
     tagName: string;
@@ -67,18 +67,18 @@ export interface FoodsProducts {
 }
 
 export interface Plan {
-    planId: number;
-    planName: string;
-    planDetail: string;
+    id: number;
+    name: string;
+    detail: string;
     date: string;
     communityName: string;
     username: string;
 }
 
 export interface Event {
-    eventId: number;
-    eventName: string;
-    eventDetail: string;
+    id: number;
+    name: string;
+    detail: string;
     date: string;
     communityName: string;
     tagName: string;
@@ -86,9 +86,9 @@ export interface Event {
 }
 
 export interface News {
-    newsId: number;
-    newsName: string;
-    newsDetail: string;
+    id: number;
+    name: string;
+    detail: string;
     date: string;
     communityName: string;
     username: string;

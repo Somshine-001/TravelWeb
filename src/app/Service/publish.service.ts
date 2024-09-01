@@ -17,8 +17,8 @@ export class PublishService {
         const key = this.getKey(cardType);
         const publishedItems = this.getPublishedItems(cardType);
 
-        const headerName = this.getHeaderName(cardType, item);
-        const itemIndex = publishedItems.findIndex(i => this.getHeaderName(cardType, i) === headerName);
+        const headerName = item.name;
+        const itemIndex = publishedItems.findIndex(i => i.name === headerName);
 
         if (itemIndex !== -1) {
             // Item is already published; remove it from the array
@@ -36,13 +36,12 @@ export class PublishService {
     isPublished(cardType: string, item: any): boolean {
         const key = this.getKey(cardType);
         const publishedItems = this.getPublishedItems(cardType);
-        const headerName = this.getHeaderName(cardType, item);
-        return publishedItems.some(i => this.getHeaderName(cardType, i) === headerName);
+        const headerName = item.name;
+        return publishedItems.some(i => i.name === headerName);
     }
 
     getPublishedItems(cardType: string): any[] {
         const key = this.getKey(cardType);
-        console.log(key);
         return JSON.parse(localStorage.getItem(key) || '[]');
     }
 
@@ -52,27 +51,6 @@ export class PublishService {
             localStorage.removeItem(key);
         } else {
             localStorage.setItem(key, JSON.stringify(items));
-        }
-    }
-
-    private getHeaderName(cardType: string, item: any): string {
-        switch (cardType) {
-            case 'ชุมชน':
-                return item.communityName;
-            case 'แหล่งท่องเที่ยว':
-                return item.placeName;
-            case 'อาหารและผลิตภัณฑ์':
-                return item.fpName;
-            case 'แผนการท่องเที่ยว':
-                return item.planName;
-            case 'กิจกรรมสรรทนาการ':
-                return item.eventName;
-            case 'ข่าวประชาสัมพันธ์':
-                return item.newsName;
-            case 'หมวดหมู่':
-                return item.tagName;
-            default:
-                return 'ไม่ทราบ';
         }
     }
 }

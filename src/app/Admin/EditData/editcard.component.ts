@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
-import { PublishService } from '../../../Service/publish.service';
+import { PublishService } from '../../Service/publish.service';
 
 @Component({
   selector: 'app-editcard',
@@ -15,7 +15,6 @@ export class EditcardComponent {
   
   @Input() header!: string;
   @Input() items!: any[];
-  @Input() expandedCard!: string | null;
   @Input() cardType!: string;
 
   @Output() toggleCard = new EventEmitter<string>();
@@ -49,7 +48,7 @@ export class EditcardComponent {
         acc[key] = [items[key]];
         return acc;
       }, {})
-    )
+    );
     this.openEditForm.emit(this.editForm);
   }
 
@@ -75,10 +74,8 @@ export class EditcardComponent {
         return item.eventName;
       case 'ข่าวประชาสัมพันธ์':
         return item.newsName;
-      case 'หมวดหมู่':
-        return item.tagName;
       default:
-        return 'ไม่ทราบ';
+        return 'ไม่พบข้อมูล';
     }
   }
 
@@ -92,14 +89,12 @@ export class EditcardComponent {
         return item.fpId;
       case 'แผนการท่องเที่ยว':
         return item.planId;
-      case 'กิจกรรม':
+      case 'กิจกรรมสรรทนาการ':
         return item.eventId;
       case 'ข่าวประชาสัมพันธ์':
         return item.newsId;
-      case 'หมวดหมู่':
-        return item.tagId;
       default:
-        return 'ไม่ทราบ';
+        return '-';
     }
   }
 }

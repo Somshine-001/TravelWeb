@@ -1,0 +1,52 @@
+<div class="menu">
+    <div class="item" 
+    *ngFor="let type of type; let i = index" 
+    [ngClass]="{'active' : triggerMenu === type}"
+    (click)="isActiveMenu(type)">
+      <span>{{ type }}</span>
+    </div>
+    <div *ngIf="global.isLogin && global.isAdmin"
+    (click)="toggleAddForm(triggerMenu)"
+    class="admin-button">
+      <div class="icon">+</div>
+  </div>
+  <div class="admin-menu">
+    <div class="menu-item" (click)="toggleAddForm('หมวดหมู่')">
+        <div style="color: white;">#</div>
+    </div>
+    <div class="menu-item" (click)="toggleAddForm('สมาชิก')">
+        <mat-icon style="font-size: 18px !important; color: white !important; padding: 10px 0 0 5px  !important;">person_add</mat-icon>
+    </div>
+  </div>
+</div>
+    
+  <app-editcard
+    [items]="getItems(triggerMenu)"
+    [header]="triggerMenu"
+    [cardType]="triggerMenu"
+    (openEditForm)="openEditForm(triggerMenu, $event)">
+  </app-editcard>
+  
+  <app-editform
+    *ngIf="formName !== null"
+    [formGroup]="currentForm!"
+    [formType]="formName"
+    [communities]="communities"
+    [tags]="tags"
+    (cancel)="closeForm()"
+    (save)="saveForm(formName, $event)">
+  </app-editform>
+  
+  <app-addcard
+    *ngIf="addFormName !== null"
+    [header]="addFormName"
+    [addFormType]="addFormName"
+    [communities]="communities"
+    [tags]="tags"
+    [roles]="roles"
+    (save)="addData(addFormName, $event)"
+    (cancel)="toggleAddForm($event)">
+  </app-addcard>
+  
+  
+  

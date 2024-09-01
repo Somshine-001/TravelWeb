@@ -35,14 +35,17 @@
   
   .login-box .user-box input {
     width: 100%;
-    padding: 10px 0;
+    padding: 5px 0;
+    margin: 5px 0;
     font-size: 16px;
-    color: #ffffff;
     margin-bottom: 10px;
     border: none;
+    border-radius: 0;
     border-bottom: 1px solid #ffffff;
+    color: #ffffff;
+    background: none;
     outline: none;
-    background: transparent;
+
   }
   
   .login-box .user-box label {
@@ -88,6 +91,17 @@
     color: #fff;
     border-radius: 5px;
     
+  }
+
+  .login-box a {
+    color: var(--teal);
+    display: flex;
+    justify-content: center;
+    font-size: 14px;
+  }
+
+  .login-box a:hover {
+    text-decoration: underline;
   }
 
   @media screen and (max-width: 600px) {

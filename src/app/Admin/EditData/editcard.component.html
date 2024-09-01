@@ -1,0 +1,57 @@
+<div class="edit-container">
+  <div class="tables" style="margin-top: 45px;">
+    <div class="header" style="min-width: 45px; background-color: var(--content);">
+      <span>ID</span>
+    </div>
+    <div class="header" style="min-width: 265px;">
+      <span>ชื่อ</span>
+    </div>
+    <div class="header" style="min-width: 175px; background-color: var(--content);">
+      <span>จังหวัด</span>
+    </div>
+    <div class="header" style="min-width: 100px;padding: 2px;">
+      <span>อัปเดตล่าสุด</span>
+    </div>
+    <div class="header" style="min-width: 120px; background-color: var(--content);">
+      <span>เผยแพร่</span>
+    </div>
+    <div class="header" style="min-width: 150px;padding: 2px;">
+      <span>หมวดหมู่</span>
+    </div>
+    <div class="header" style="width: 250px; background-color: var(--content);">
+      <span>แก้ไข</span>
+    </div>
+  </div>
+  <div class="tables" *ngFor="let item of items">
+    <div class="element" style="min-width: 45px; background-color: var(--content);">
+      <span>{{item.id}}</span>
+    </div>
+    <div class="element" style="min-width: 265px;">
+      <span>{{item.name}}</span>
+    </div>
+    <div class="element" style="min-width: 175px; background-color: var(--content);">
+      <span>-</span>
+    </div>
+    <div class="element" style="min-width: 100px; border: solid 1px var(--content); padding: 2px;">
+      <span>{{item.date}}</span>
+    </div>
+    <div class="element" style="min-width: 120px; background-color: var(--content);">
+      <div class="text-button" style="margin: 0;" (click)="onTogglePublish(item)">
+        <div *ngIf="cardType !== 'หมวดหมู่'" style="padding: 1px;" [ngClass]="{ 'published': checkIfPublished(item)}">
+          {{ checkIfPublished(item) ? 'เผยแพร่แล้ว' : 'ยังไม่เผยแพร่' }} 
+        </div>
+      </div>
+    </div>
+    <div class="element" style="min-width: 150px; max-height: 20px;">
+      <span>{{item.tagName}}</span>
+      <span *ngIf="cardType === 'ชุมชน' || cardType === 'ข่าวประชาสัมพันธ์' || cardType === 'แผนการท่องเที่ยว'">-</span>
+    </div>
+    <div class="element" style="width: 250px; background-color: var(--content);">
+        <button (click)="toggleModalForm(item)" style="border: solid 1px var(--primary);"><mat-icon style="color: var(--primary) !important;">edit</mat-icon></button>
+        <button (click)="onDeleteItem(item)" style="border: solid 1px rgb(187, 0, 0);"><mat-icon style="color: rgb(187, 0, 0) !important;">delete</mat-icon></button>
+    </div>
+  </div>
+  <div *ngIf="items.length === 0">
+      ปิดปรับปรุงข้อมูล....
+    </div>
+</div>

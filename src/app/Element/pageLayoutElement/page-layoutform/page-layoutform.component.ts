@@ -40,16 +40,7 @@ export class PageLayoutformComponent {
       }
     })
 
-    this.addUserForm = this.formBuilder.group({
-      username: ['', Validators.required],
-      password: ['', Validators.required],
-      confirmPassword: ['', Validators.required],
-      role: ['', Validators.required],
-    });
-
-    this.addTagForm = this.formBuilder.group({
-      tagName: ['', Validators.required],
-    });
+    
 
   }
 

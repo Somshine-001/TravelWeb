@@ -1,55 +1,26 @@
 <div class="container">
     <mat-toolbar *ngIf="global.isLogin">
         <div class="content">
-            <span style="font-size: small; padding: 0 13px;">{{getTitle()}}</span>
+            <span style="font-size: small; padding: 0 13px;">แก้ไขข้อมูล</span>
+            <span style="font-size: 30px; color: var(--primary);">EDIT MODE</span>
             <div  (mouseenter)="toggleMenu()" (mouseleave)="toggleMenu()" class="text-button" style="border-radius: 15px; background-color: var(--primary);">
-                <mat-icon style="margin-top: 4px;">person</mat-icon><span style="font-size: 12px;">{{this.username}}</span>               
+                <mat-icon style="margin-top: 4px; color: white !important;">person</mat-icon><span style="font-size: 12px; color: white;">{{this.username}}</span>               
                 <div class="box" [class.active]="!isVisible">
-                    <div *ngIf="getTitle() === 'แก้ไขข้อมูล' && global.isAdmin" style="border-bottom: solid 1px;">
-                        <a routerLink="/add" target="_blank">
-                          <span class="item">
-                           <span>เพิ่มข้อมูล</span> 
-                           <mat-icon>get_app</mat-icon> 
-                          </span>
-                        </a>
-                    </div>
-                    <div *ngIf="getTitle() === 'เพิ่มข้อมูล' && global.isAdmin" style="border-bottom: solid 1px;">
-                        <a routerLink="/edit" target="_blank">
-                          <span class="item">
-                           <span>แก้ไขข้อมูล</span> 
-                           <mat-icon>edit</mat-icon> 
-                          </span>
-                        </a>
-                    </div>
                     <div *ngIf="global.isLogin">
-                        <a (click)="Logout()">
-                          <span class="item">
-                           <span>Logout</span> 
-                            <mat-icon>settings_power</mat-icon> 
-                          </span>
-                        </a>
+                        <span class="item" (click)="Logout()">
+                         <span>Logout</span> 
+                          <mat-icon>settings_power</mat-icon> 
+                        </span>
                     </div>
                 </div>
             </div>
         </div>
     </mat-toolbar>
-
-    <div class="menu" *ngIf="global.isAdmin">
-        <div *ngFor="let type of ['เพิ่มผู้ใช้', 'เพิ่มหมวดหมู่']" class="item" (click)="openForm(type)" >
-            <span>{{type}}</span>
-        </div>
-    </div>
     <mat-sidenav-container>
         <router-outlet></router-outlet>
     </mat-sidenav-container>
 </div>
-<app-page-layoutform 
-    *ngIf="formType !== null"
-    [header]="formType"
-    [formName]="formType"
-    (save)="saveForm(formType,$event)"
-    (cancel)="closeForm()">
-</app-page-layoutform>
+
 
 
 

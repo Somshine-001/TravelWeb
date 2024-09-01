@@ -1,0 +1,119 @@
+/* ปุ่มแก้ไข */
+.admin-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  bottom: 3rem;
+  right: 2.5rem;
+  width: 55px;
+  height: 55px;
+  border-radius: 10px;
+  background-color: var(--primary-dark);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.8);
+}
+
+.admin-button:hover {
+  cursor: pointer;
+  background-color: var(--primary);
+}
+
+.admin-button .icon {
+  margin-bottom: 5px;
+  font-size: 60px;
+  color: white;
+}
+
+.admin-menu {
+  position: fixed;
+  bottom: 6.5rem;
+  right: 2.5rem;
+  padding: 2px;
+  background-color: none;
+  border-radius: 8px;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(10%);
+  transition: all 0.3s ease-in-out;
+}
+
+.admin-button:hover + .admin-menu,
+.admin-menu:hover {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.admin-menu .menu-item {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 10px;
+  background-color: var(--primary-dark);
+  margin-bottom: 2px;
+  margin-top: 0.5rem;
+}
+
+.admin-menu .menu-item:hover {
+  cursor: pointer;
+  background-color: var(--primary);
+}
+
+/* เนื้อหา */
+.edit-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  align-items: center;
+}
+
+.edit-container .tables {
+  display: flex;
+  flex-direction: row;
+  width: 1000px;
+  font-size: 12px;
+}
+
+.tables .header {
+  display: flex;
+  justify-content: center;
+  border: solid 1px var(--primary-dark);
+  padding: 2px;
+}
+
+.tables .element {
+  display: flex;
+  justify-content: center;
+  border: solid 1px var(--content);
+  padding: 2px;
+}
+
+.element .text-button {
+  color: brown;
+}
+
+.element button {
+  max-height: 25px;
+  padding: 2px 0;
+  margin: 0 2px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: transform 0.3s ease-in-out;
+}
+
+.element button:hover {
+  transform: scale(1.1);
+}
+
+@media screen and (max-width: 1000px) {
+  .edit-container {
+    width: 1000px;
+    align-items: left;
+  }
+}
+
+.published {
+  color: var(--primary);
+}

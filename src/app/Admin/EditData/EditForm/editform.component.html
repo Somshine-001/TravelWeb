@@ -1,22 +1,22 @@
-<div class="modal" *ngIf="formGroup">
+<div *ngIf="formGroup" class="modal">
     <div class="modal-content">
       <span class="close-btn" (click)="onCancel()">x</span>
       <div class="form">
         <form [formGroup]="formGroup">
           <div class="form-group">
             <label>ชื่อ {{ formType }}</label>
-            <input matInput formControlName="{{ getFormType(formType) }}Name">
+            <input matInput formControlName="name">
           </div>
           <div class="form-group" *ngIf="formType !== 'หมวดหมู่'">
             <label>รายละเอียด {{ formType }}</label>
-            <quill-editor matInput formControlName="{{ getFormType(formType) }}Detail"
-                          [placeholder]="'รายละเอียด ' + getFormType(formType)"
+            <quill-editor matInput formControlName="detail"
+                          [placeholder]="'รายละเอียด ' + formType"
                           class="content-editor"
                           [styles]="{'border': '1px solid black', 'min-height': '250px'}">
             </quill-editor>
             <div class="card-header" (click)="codeHidden()">html</div>
             <pre *ngIf="isHidden">
-              <code>{{ formGroup.get(getFormType(formType) + 'Detail')?.value }}</code>
+              <code>{{ formGroup.get('detail')?.value }}</code>
             </pre>
           </div>
           <div class="form-group" *ngIf="formType === 'ชุมชน' || formType === 'แหล่งท่องเที่ยว'">
@@ -25,21 +25,21 @@
           </div>
           <div class="form-group" *ngIf="formType === 'แหล่งท่องเที่ยว'">
             <label for="gps">ตำแหน่ง</label>
-            <input type="text" id="gps" name="gps" formControlName="{{ getFormType(formType) }}Gps" [placeholder]="'000.00000,999.99999'">
+            <input type="text" id="gps" name="gps" formControlName="gps" [placeholder]="'000.00000,999.99999'">
           </div>
           <div class="form-group" *ngIf="formType !== 'ชุมชน' && formType !== 'หมวดหมู่'">
             <label for="communityName">ชุมชน</label>
             <select id="communityName" formControlName="communityName">
-              <option *ngFor="let community of communities" [value]="community.communityName">
-                {{ community.communityName }}
+              <option *ngFor="let community of communities" [value]="community.name" style="color: black;">
+                {{ community.name }}
               </option>
             </select>
           </div>
           <div class="form-group" *ngIf="formType === 'แหล่งท่องเที่ยว' || formType === 'อาหารและผลิตภัณฑ์' || formType === 'กิจกรรม' ">
             <label for="tagName">หมวดหมู่</label>
             <select id="tagName" formControlName="tagName">
-              <option *ngFor="let tag of tags" [value]="tag.tagName">
-                {{ tag.tagName }}
+              <option *ngFor="let tag of tags" [value]="tag.name">
+                {{ tag.name }}
               </option>
             </select>
           </div>

@@ -23,37 +23,22 @@
         </a>
       </div>
       <div *ngIf="global.isLogin" (mouseleave)="showBox()" (mouseenter)="showBox()" class="text-button" style="border-radius: 15px; background-color: var(--primary);">
-        <mat-icon style="margin-top: 4px;">person</mat-icon><span style="font-size: 12px;">{{this.username}}</span>
+        <mat-icon style="margin-top: 4px; color: white !important;">person</mat-icon><span style="font-size: 12px; color: white;">{{this.username}}</span>
         <!-- เมนูผู้ใช้ -->
       <div class="box" [class.active]="!isVisible" >
-        <div *ngIf="global.isLogin && global.isAdmin">
-          <a routerLink="/edit" target="_blank">
-            <span class="item">
-              <span>แก้ไขข้อมูล</span> 
-              <mat-icon>edit</mat-icon> 
-            </span>
-          </a>
-        </div>
-        <div *ngIf="global.isLogin && global.isAdmin" style="border-bottom: solid 1px;">
-          <a routerLink="/add" target="_blank">
-            <span class="item">
-              <span>เพิ่มข้อมูล</span> 
-              <mat-icon>get_app</mat-icon> 
-            </span>
-          </a>
-        </div>
           <div *ngIf="global.isLogin">
-            <a (click)="Logout()">
-              <span class="item">
+              <span class="item" (click)="Logout()">
                <span>Logout</span> 
                 <mat-icon>settings_power</mat-icon> 
               </span>
-            </a>
           </div>
         </div>
       </div>
     </div>
   </div>
+  <a *ngIf="global.isLogin && global.isAdmin" routerLink="/admin" target="_blank" class="admin-button">
+    <mat-icon style="font-size: 25px !important; margin-right: 3px; color: rgb(255, 255, 255) !important;">edit</mat-icon>
+  </a>
   </mat-toolbar>
   <div class="menu">
     <div class="item" 
@@ -63,6 +48,8 @@
       <span>{{ type }}</span>
     </div>
   </div>
+
+  
 
   <mat-sidenav-container autosize>
     <!-- เนื้อหาหลัก -->

@@ -14,26 +14,25 @@ import { RouterModule } from '@angular/router';
 import { QuillModule } from 'ngx-quill';
 
 import { ToastrModule } from 'ngx-toastr';
-import { AddComponent } from './Admin/add/add.component';
-import { EditComponent } from './Admin/edit/edit.component';
 import { AppComponent } from './app.component';
 import { routes } from './app.routes';
 import { AuthInterceptor } from './auth.interceptor';
 
-import { AddcardComponent } from './Element/addElement/addcard/addcard.component';
-import { EditcardComponent } from './Element/editElement/editcard/editcard.component';
-import { EditformComponent } from './Element/editElement/editform/editform.component';
+import { AddcardComponent } from './Admin/AddData/addcard.component';
+import { AdminComponent } from './Admin/admin.component';
+import { EditcardComponent } from './Admin/EditData/editcard.component';
+import { EditformComponent } from './Admin/EditData/EditForm/editform.component';
 import { PageLayoutformComponent } from './Element/pageLayoutElement/page-layoutform/page-layoutform.component';
-import { LayoutComponent } from './Layout/layout/layout.component';
-import { PageLayoutComponent } from './Layout/page-layout/page-layout.component';
-import { LoginPageComponent } from './login-page/login-page.component';
-import { HomeComponent } from './Page/home/home.component';
-import { CommunityComponent } from './Page/community/community.component';
-import { RegisterPageComponent } from './register-page/register-page.component';
 import { DetailLayoutComponent } from './Layout/detail-layout/detail-layout.component';
 import { FooterComponent } from './Layout/footer/footer.component';
-import { DetailComponent } from './LocalData/detail/detail.component';
+import { LayoutComponent } from './Layout/layout/layout.component';
+import { PageLayoutComponent } from './Layout/page-layout/page-layout.component';
 import { DatalistComponent } from './LocalData/datalist/datalist.component';
+import { DetailComponent } from './LocalData/detail/detail.component';
+import { LoginPageComponent } from './login-page/login-page.component';
+import { CommunityComponent } from './Page/community/community.component';
+import { HomeComponent } from './Page/home/home.component';
+import { RegisterPageComponent } from './register-page/register-page.component';
 
 @NgModule({
   declarations: [
@@ -49,8 +48,7 @@ import { DatalistComponent } from './LocalData/datalist/datalist.component';
     CommunityComponent,
     LoginPageComponent,
     RegisterPageComponent,
-    AddComponent,
-    EditComponent,
+    AdminComponent,
     EditcardComponent,
     EditformComponent,
     AddcardComponent,

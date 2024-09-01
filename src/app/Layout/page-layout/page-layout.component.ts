@@ -15,26 +15,15 @@ import { ToastrService } from 'ngx-toastr';
 
 export class PageLayoutComponent {
   isVisible = true;
-  currentPath: string;
   username: string | null = null;
-  tag: string = '';
-  formType: string | null = null;
 
-  tags: Tag[] = [];
-  roles: Role[] = [];
 
-  addUserForm!: FormGroup;
-  addTagForm!: FormGroup;
-  editTagForm!: FormGroup;
-  formGroup!: FormGroup;
-
-  constructor( public global: ThemeOptions,
+  constructor(
+    public global: ThemeOptions,
     private permissionService: PermissionService,
     private authService: AuthService,
-    private addDataService: AddDataService,) 
-    {
-    this.currentPath = window.location.pathname;
-  }
+  ) 
+  {}
 
   ngOnInit() {
     if(this.authService.isLoggedIn()) {
@@ -47,16 +36,6 @@ export class PageLayoutComponent {
     this.username = this.permissionService.getName();
   }
 
-  getTitle() {
-    if (this.currentPath === '/add') {
-      return 'เพิ่มข้อมูล';
-    } else if (this.currentPath === '/edit') {
-      return 'แก้ไขข้อมูล';
-    } else {
-      return;
-    }
-  }
-
   toggleMenu() {
       this.isVisible = !this.isVisible;
   }
@@ -64,22 +43,5 @@ export class PageLayoutComponent {
   Logout() {
     this.authService.logout();
     window.location.href = '/home';  
-  }
-
-  openForm(type: string) {
-    switch (type) {
-      case 'เพิ่มผู้ใช้': return this.formType = 'role';
-      case 'เพิ่มหมวดหมู่': return this.formType = 'tag';
-      default: return this.formType = null;
-    }
-  }
-
-  saveForm(formType: string, formGroup: FormGroup) {
-    this.addDataService.save(formType, formGroup.value).subscribe({
-    });
-  }
-
-  closeForm() {
-    this.formType = null;
   }
 }

@@ -13,7 +13,11 @@ export class AuthService {
   private authUrl = 'http://localhost:8081/auth';
 
 
-  constructor(private http: HttpClient, private router: Router, public global: ThemeOptions) { }
+  constructor
+  (
+    private http: HttpClient,
+    public global: ThemeOptions
+  ) { }
 
   register(user: { username: string, email: string, password: string }): Observable<any> {
     return this.http.post(`${this.authUrl}/init`, user);
@@ -40,7 +44,6 @@ export class AuthService {
 
   logout() {
     localStorage.removeItem('authToken');
-    this.router.navigate(['/login']);
   }
 
   isLoggedIn(): boolean {

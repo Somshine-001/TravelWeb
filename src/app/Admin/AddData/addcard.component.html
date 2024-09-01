@@ -1,0 +1,131 @@
+<div class="modal">
+  <div class="modal-content">
+    <button class="close-btn" (click)="onCancel()">×</button>
+    <div>
+      <div>{{ header }}</div>
+    </div>
+
+    <!-- ฟอร์ม -->
+    <div>
+      <form *ngIf="addFormType !== 'หมวดหมู่' && addFormType !== 'สมาชิก'" [formGroup]="getFormGroup()" (ngSubmit)="onSave()">
+        <div>
+          <label for="name">ชื่อ {{addFormType}}</label>
+          <input
+            id="name"
+            type="text"
+            formControlName="name"
+            name="name"
+            required
+            maxlength="50"
+            [ngClass]="{'error-border': getFormGroup().get('name')?.invalid && getFormGroup().get('name')?.touched}"
+          >
+        </div>
+        
+        <div>
+          <quill-editor
+            formControlName="detail"
+            [placeholder]="'รายละเอียด' + addFormType"
+            class="content-editor"
+            [styles]="{'border': '1px solid black', 'min-height': '150px'}">
+          </quill-editor>
+          <div style="cursor: pointer; color: var(--primary);" (click)="codeHidden()">ดู-html</div>
+          <pre *ngIf="isHidden">
+            <code>{{getFormGroup().get('detail')?.value}}</code>
+          </pre>
+        </div>
+
+        <div *ngIf="addFormType === 'ชุมชน' || addFormType === 'แหล่งท่องเที่ยว'">
+          <label for="tel">เบอร์โทรศัพท์</label>
+          <input
+            type="text"
+            id="tel"
+            name="tel"
+            formControlName="tel"
+            [placeholder]="'0-9'"
+            maxlength="10"
+            [ngClass]="{'error-border': getFormGroup().get('tel')?.invalid && getFormGroup().get('tel')?.touched}">
+        </div>
+
+        <div *ngIf="addFormType === 'แหล่งท่องเที่ยว'">
+          <label for="address">พิกัด</label>
+          <input
+            type="text"
+            id="latitude"
+            name="latitude"
+            formControlName="latitude"
+            [placeholder]="'ละติจูด (90.0000000 จนถึง -90.0000000)'"
+            required
+            [ngClass]="{'error-border': getFormGroup().get('latitude')?.invalid && getFormGroup().get('latitude')?.touched}"
+          >
+          <input
+            type="text"
+            id="longitude"
+            name="longitude"
+            formControlName="longitude"
+            [placeholder]="'ลองจิจูด (180.0000000 จนถึง -180.0000000)'"
+            required
+            [ngClass]="{'error-border': getFormGroup().get('longitude')?.invalid && getFormGroup().get('longitude')?.touched}"
+          >
+        </div>
+
+        <div *ngIf="addFormType !== 'ชุมชน'">
+          <label for="communityName">ชุมชน</label>
+          <select
+            id="communityName"
+            formControlName="communityName"
+            [ngClass]="{'error-border': getFormGroup().get('communityName')?.invalid && getFormGroup().get('communityName')?.touched}"
+          >
+            <option *ngFor="let community of communities" [value]="community.name">
+              {{ community.name }}
+            </option>
+          </select>
+        </div>
+
+        <div *ngIf="addFormType !== 'ข่าวประชาสัมพันธ์' && addFormType !== 'แผนการท่องเที่ยว' && addFormType !== 'ชุมชน'">
+          <label for="tagName">หมวดหมู่</label>
+          <select
+            id="tagName"
+            formControlName="tagName"
+            [ngClass]="{'error-border': getFormGroup().get('tagName')?.invalid && getFormGroup().get('tagName')?.touched}"
+          >
+            <option *ngFor="let tag of tags" [value]="tag.name">
+              {{ tag.name }}
+            </option>
+          </select>
+        </div>
+        <div>
+          <button type="submit" class="btn btn-primary">บันทึก</button>
+        </div>
+      </form>
+      <form *ngIf="addFormType === 'สมาชิก' || addFormType === 'หมวดหมู่'" [formGroup]="getFormGroup()" (ngSubmit)="onSave()">
+        <div *ngIf="addFormType === 'สมาชิก'">
+            <label>ชื่อผู้ใช้</label>
+            <input formControlName="username" [ngClass]="{'error-border': getFormGroup().get('username')?.invalid && getFormGroup().get('username')?.touched}">
+        </div>
+        <div *ngIf="addFormType === 'สมาชิก'">
+            <label>รหัสผ่าน</label>
+            <input formControlName="password" [ngClass]="{'error-border': getFormGroup().get('password')?.invalid && getFormGroup().get('password')?.touched}">
+        </div>
+        <div *ngIf="addFormType === 'สมาชิก'">
+            <label>ยืนยันรหัสผ่าน</label>
+            <input formControlName="confirmPassword" [ngClass]="{'error-border': getFormGroup().get('confirmPassword')?.invalid && getFormGroup().get('confirmPassword')?.touched}">
+        </div>
+        <div *ngIf="addFormType === 'สมาชิก'" style="display: flex; flex-direction: column;">
+            <label>สิทธิ์</label>
+            <select formControlName="role" [ngClass]="{'error-border': getFormGroup().get('role')?.invalid && getFormGroup().get('role')?.touched}">
+                <option *ngFor="let role of roles" [value]="role.name">
+                    {{ role.name }}
+                </option>
+            </select>
+        </div>
+        <div *ngIf="addFormType === 'หมวดหมู่'">
+          <label>เพิ่มหมวดหมู่</label>
+          <input formControlName="tagName">
+      </div>
+        <div>
+            <button type="submit" class="btn btn-primary">บันทึก</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

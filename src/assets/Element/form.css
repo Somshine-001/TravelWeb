@@ -1,0 +1,69 @@
+.modal {
+    display: flex;
+    justify-content: center;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(0, 78, 65, 0.322);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    padding: 20px;
+    border-radius: 10px;
+    width: 100%;
+    height: 80%;
+    z-index: 1000;
+  }
+  
+  .modal-content {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    background-color: white;
+    width: 80%;
+    max-width: 700px;
+    max-height: 80vh;
+    padding: 15px;
+    overflow-y: auto;
+  }
+  
+  /* ปุ่มปิด Modal */
+  .close-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: none;
+    border: none;
+    font-size: 30px;
+    cursor: pointer;
+  }
+
+input, select, .content-editor {
+    width: 95%;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid var(--primary-dark);
+    margin-bottom: 15px;
+  }
+  .error-border {
+    border-color: red;
+  }
+
+  input:focus, select:focus, .content-editor:focus {
+    border-color: var(--primary);
+    outline: none;
+  }
+  
+  /* ปุ่มบันทึก */
+  .btn-primary {
+    background-color: var(--primary);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .btn-primary:hover {
+    background-color: var(--primary-dark);
+  }
