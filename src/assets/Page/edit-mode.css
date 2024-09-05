@@ -73,6 +73,7 @@
   display: flex;
   flex-direction: row;
   width: 1000px;
+  min-height: 30px;
   font-size: 12px;
 }
 
@@ -87,6 +88,7 @@
   display: flex;
   justify-content: center;
   border: solid 1px var(--content);
+  min-height: 25px;
   padding: 2px;
 }
 

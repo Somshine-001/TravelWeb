@@ -42,6 +42,8 @@ export class AddcardComponent {
       tel: [''],
       latitude: [''],
       longitude: [''],
+      days: [''],
+      time: [''],
       communityName: ['', [Validators.required]],
       tagName: [''],
     });

@@ -8,7 +8,7 @@ import { AddDataService } from '../Service/addData.service';
 import { AuthService } from '../Service/auth.service';
 import { ThemeOptions } from '../theme-options';
 import { PermissionService } from '../Service/permission.service';
-import { Community, EditDataService, FoodsProducts, News, Place, Plan, Role, Tag } from '../Service/editData.service';
+import { Community, EditDataService, FoodsProducts, News, Place, Plan, Province, Role, Tag, User } from '../Service/editData.service';
 
 
 @Component({
@@ -18,8 +18,10 @@ import { Community, EditDataService, FoodsProducts, News, Place, Plan, Role, Tag
 })
 export class AdminComponent implements OnInit {
 
+  users: User[] = [];
   roles: Role[] = [];
   tags: Tag[] = [];
+  provinces: Province[] = [];
   communities: Community[] = [];
   places: Place[] = [];
   foodsProducts: FoodsProducts[] = [];
@@ -77,15 +79,20 @@ export class AdminComponent implements OnInit {
       }
     });
 
+    this.editDataService.getAll<User>('user').subscribe((users) => {
+      this.users = users;
+    })
+
+    this.editDataService.getAll<Province>('province').subscribe((provinces) => {
+      this.provinces = provinces;
+    })
+
     this.editDataService.getAll<Role>('role').subscribe((roles) => {
       this.roles = roles;
     })
 
-    this
-
     this.editDataService.getAll<Community>('community').subscribe((communities) => {
       this.communities = communities;
-      
     })
 
     this.editDataService.getAll<Place>('place').subscribe((places) => {
@@ -97,7 +104,8 @@ export class AdminComponent implements OnInit {
     })
 
     this.editDataService.getAll<Plan>('plan').subscribe((plans) => {
-      this.plans = plans;
+      this.plans = this.groupPlans(plans);
+      console.log(this.plans);
     })
 
     this.editDataService.getAll<Event>('event').subscribe((events) => {
@@ -111,6 +119,26 @@ export class AdminComponent implements OnInit {
     this.isActiveMenu('ชุมชน');
     
   }
+
+  private groupPlans(plans: Plan[]): Plan[] {
+    const groupedPlans = new Map<number, Plan>();
+
+    plans.forEach(plan => {
+        if (!groupedPlans.has(plan.id)) {
+            groupedPlans.set(plan.id, {
+                ...plan,
+                detail: []
+            });
+        }
+
+        const existingPlan = groupedPlans.get(plan.id);
+        if (existingPlan) {
+            existingPlan.detail.push(...plan.detail);
+        }
+    });
+
+    return Array.from(groupedPlans.values());
+}
   
   isActiveMenu(type: string) {
     if (this.triggerMenu === type) {

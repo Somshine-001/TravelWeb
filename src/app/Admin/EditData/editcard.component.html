@@ -7,7 +7,8 @@
       <span>ชื่อ</span>
     </div>
     <div class="header" style="min-width: 175px; background-color: var(--content);">
-      <span>จังหวัด</span>
+      <span *ngIf="cardType === 'ชุมชน'">จังหวัด</span>
+      <span *ngIf="cardType !== 'ชุมชน'">ชุมชน</span>
     </div>
     <div class="header" style="min-width: 100px;padding: 2px;">
       <span>อัปเดตล่าสุด</span>
@@ -30,7 +31,8 @@
       <span>{{item.name}}</span>
     </div>
     <div class="element" style="min-width: 175px; background-color: var(--content);">
-      <span>-</span>
+      <span>{{item.provinceName}}</span>
+      <span *ngIf="cardType !== 'ชุมชน'">{{item.communityName}}</span>
     </div>
     <div class="element" style="min-width: 100px; border: solid 1px var(--content); padding: 2px;">
       <span>{{item.date}}</span>

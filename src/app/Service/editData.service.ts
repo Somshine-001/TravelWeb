@@ -27,6 +27,11 @@ export class EditDataService {
 }
 
 //interface
+export interface User {
+    username: string;
+    email: string;
+    roleName: string;
+}
 export interface Role {
     id: number;
     name: string;
@@ -36,13 +41,22 @@ export interface Tag {
     name: string;
 }
 
+export interface Province {
+    id: number;
+    name: string;
+}
+
 export interface Community {
     id: number;
     name: string;
+    address: string;
+    history: string;
     detail: string;
+    culture: string;
     tel: string;
     date: string;
     username: string;
+    provinceName: string;
 }
 
 export interface Place {
@@ -51,6 +65,8 @@ export interface Place {
     detail: string;
     gps: string;
     date: string;
+    days: string;
+    time: string;
     communityName: string;
     tagName: string;
     username: string;
@@ -59,6 +75,9 @@ export interface Place {
 export interface FoodsProducts {
     id: number;
     name: string;
+    ingredient: string;
+    step: string;
+    price: number;
     detail: string;
     date: string;
     communityName: string;
@@ -69,10 +88,15 @@ export interface FoodsProducts {
 export interface Plan {
     id: number;
     name: string;
-    detail: string;
+    detail: PlanDetail[];
     date: string;
     communityName: string;
     username: string;
+}
+
+export interface PlanDetail {
+    time: string;
+    detail: string;
 }
 
 export interface Event {

@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { PublishService } from '../../Service/publish.service';
 
@@ -27,12 +27,6 @@ export class EditcardComponent {
     this.toggleCard.emit(this.cardType);
   }
 
-  onToggleModal(item: any) {
-    this.openEditForm.emit(item);
-  }
-
-  
-
   onDeleteItem(item: any) {
     const confirmation = confirm('คุณต้องการลบ' + this.cardType + 'ใช่หรือไม่');
     if (!confirmation) {
@@ -48,9 +42,22 @@ export class EditcardComponent {
         acc[key] = [items[key]];
         return acc;
       }, {})
+      
     );
+  
+    if (items.detail && Array.isArray(items.detail)) {
+      const detailArray = this.editForm.get('details') as FormArray;
+      items.detail.forEach((d: any) => detailArray.push(this.formBuilder.group({
+        time: [d.time],
+        detail: [d.detail]
+      })));
+    } else {
+      this.editForm.setControl('details', this.formBuilder.array([]));
+    }
+  
     this.openEditForm.emit(this.editForm);
   }
+  
 
   onTogglePublish(item: any): void {
     this.publishService.togglePublish(this.cardType, item);
