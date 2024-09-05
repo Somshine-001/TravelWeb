@@ -16,6 +16,7 @@ export class EditcardComponent {
   @Input() header!: string;
   @Input() items!: any[];
   @Input() cardType!: string;
+  @Input() plans!: any[];
 
   @Output() toggleCard = new EventEmitter<string>();
   @Output() openEditForm = new EventEmitter<any>();
@@ -32,7 +33,7 @@ export class EditcardComponent {
     if (!confirmation) {
       return;
     }
-    this.deleteItem.emit(this.getHeaderId(this.cardType, item));
+    this.deleteItem.emit(item.id);
     
   }
 
@@ -44,18 +45,11 @@ export class EditcardComponent {
       }, {})
       
     );
-  
-    if (items.detail && Array.isArray(items.detail)) {
-      const detailArray = this.editForm.get('details') as FormArray;
-      items.detail.forEach((d: any) => detailArray.push(this.formBuilder.group({
-        time: [d.time],
-        detail: [d.detail]
-      })));
-    } else {
-      this.editForm.setControl('details', this.formBuilder.array([]));
-    }
-  
     this.openEditForm.emit(this.editForm);
+  }
+
+  get detailFormArray() {
+    return this.editForm.get('detail') as FormArray;
   }
   
 
@@ -65,44 +59,6 @@ export class EditcardComponent {
 
   checkIfPublished(item: any): boolean {
     return this.publishService.isPublished(this.cardType, item);
-  }
-
-  getHeaderName(cardType: string, item: any): string {
-    switch (cardType) {
-      case 'ชุมชน':
-        return item.communityName; 
-      case 'แหล่งท่องเที่ยว':
-        return item.placeName;
-      case 'อาหารและผลิตภัณฑ์':
-        return item.fpName;
-      case 'แผนการท่องเที่ยว':
-        return item.planName;
-      case 'กิจกรรมสรรทนาการ':
-        return item.eventName;
-      case 'ข่าวประชาสัมพันธ์':
-        return item.newsName;
-      default:
-        return 'ไม่พบข้อมูล';
-    }
-  }
-
-  getHeaderId(cardType: string, item: any): string {
-    switch (cardType) {
-      case 'ชุมชน':
-        return item.communityId;
-      case 'แหล่งท่องเที่ยว':
-        return item.placeId;
-      case 'อาหารและผลิตภัณฑ์':
-        return item.fpId;
-      case 'แผนการท่องเที่ยว':
-        return item.planId;
-      case 'กิจกรรมสรรทนาการ':
-        return item.eventId;
-      case 'ข่าวประชาสัมพันธ์':
-        return item.newsId;
-      default:
-        return '-';
-    }
   }
 }
 

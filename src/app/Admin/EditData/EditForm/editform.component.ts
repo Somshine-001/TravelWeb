@@ -14,6 +14,7 @@ export class EditformComponent {
   @Input() communities!: any[];
   @Input() tags!: any[];
   @Input() provinces!: any[];
+  @Input() plans!: any[];
   @Input() users!: any[];
   @Output() save = new EventEmitter<any>();
   @Output() cancel = new EventEmitter<void>();
@@ -39,7 +40,7 @@ export class EditformComponent {
   addDetail() {
     this.detailArray.push(this.formBuild.group({
       time: [''],
-      detail: ['']
+      describe: ['']
     }));
   }
 

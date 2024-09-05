@@ -27,21 +27,6 @@
               <code>{{ formGroup.get('detail')?.value }}</code>
             </pre>
           </div>
-          <div class="form-group" *ngIf="formType === 'แผนการท่องเที่ยว'">
-            <label for="detail">รายละเอียดแผนการท่องเที่ยว</label>
-            <div formArrayName="details" style="display: flex; flex-direction: column;">
-              <div *ngFor="let detail of detailArray.controls; let i = index" [formGroupName]="i" style="display: flex; flex-direction: row;">
-                <label for="time-{{i}}">เวลา {{i + 1}}</label>
-                <input id="time-{{i}}" formControlName="time" />
-          
-                <label for="detail-{{i}}">รายละเอียด {{i + 1}}</label>
-                <input id="detail-{{i}}" formControlName="detail" />
-          
-                <button type="button" (click)="removeDetail(i)">Remove</button>
-              </div>
-              <button type="button" (click)="addDetail()">Add Detail</button>
-            </div>
-          </div>
           <div class="form-group" *ngIf="formType === 'ชุมชน' || formType === 'แหล่งท่องเที่ยว'">
             <label for="tel">เบอร์โทรศัพท์</label>
             <input type="text" id="tel" name="tel" formControlName="tel" [placeholder]="'0-9'" maxlength="10" >

@@ -24,6 +24,7 @@
     [items]="getItems(triggerMenu)"
     [header]="triggerMenu"
     [cardType]="triggerMenu"
+    [plans]="plans"
     (openEditForm)="openEditForm(triggerMenu, $event)">
   </app-editcard>
   
@@ -34,6 +35,7 @@
     [communities]="communities"
     [tags]="tags"
     [provinces]="provinces"
+    [plans]="plans"
     (cancel)="closeForm()"
     (save)="saveForm(formName, $event)">
   </app-editform>

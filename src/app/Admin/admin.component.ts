@@ -8,7 +8,7 @@ import { AddDataService } from '../Service/addData.service';
 import { AuthService } from '../Service/auth.service';
 import { ThemeOptions } from '../theme-options';
 import { PermissionService } from '../Service/permission.service';
-import { Community, EditDataService, FoodsProducts, News, Place, Plan, Province, Role, Tag, User } from '../Service/editData.service';
+import { Community, EditDataService, FoodsProducts, News, Place, Plan, Province, Role, Tag, Trip, User } from '../Service/editData.service';
 
 
 @Component({
@@ -25,6 +25,7 @@ export class AdminComponent implements OnInit {
   communities: Community[] = [];
   places: Place[] = [];
   foodsProducts: FoodsProducts[] = [];
+  trips: Trip[] = [];
   plans: Plan[] = [];
   events: Event[] = [];
   news: News[] = [];
@@ -103,6 +104,11 @@ export class AdminComponent implements OnInit {
       this.foodsProducts = foodsProducts;
     })
 
+    this.editDataService.getAll<Trip>('trip').subscribe((trips) => {
+      this.trips = trips;
+      console.log(this.trips);
+    })
+
     this.editDataService.getAll<Plan>('plan').subscribe((plans) => {
       this.plans = this.groupPlans(plans);
       console.log(this.plans);
@@ -152,7 +158,7 @@ export class AdminComponent implements OnInit {
       case 'ชุมชน': return this.communities;
       case 'แหล่งท่องเที่ยว': return this.places;
       case 'อาหารและผลิตภัณฑ์': return this.foodsProducts;
-      case 'แผนการท่องเที่ยว': return this.plans;
+      case 'แผนการท่องเที่ยว': return this.trips;
       case 'กิจกรรมสรรทนาการ': return this.events;
       case 'ข่าวประชาสัมพันธ์': return this.news;
       default: return [];
@@ -164,7 +170,7 @@ export class AdminComponent implements OnInit {
       case 'ชุมชน': return 'community';
       case 'แหล่งท่องเที่ยว': return 'place';
       case 'อาหารและผลิตภัณฑ์': return 'fp';
-      case 'แผนการท่องเที่ยว': return 'plan';
+      case 'แผนการท่องเที่ยว': return 'trip';
       case 'กิจกรรมสรรทนาการ': return 'event';
       case 'ข่าวประชาสัมพันธ์': return 'news';
       default: return '';
@@ -177,10 +183,11 @@ export class AdminComponent implements OnInit {
   }
 
   saveForm(type: string, formGroup: any) {
+    console.log(formGroup.value);
     return this.editDataService.update(this.getType(type), formGroup.value).subscribe(() => {
       this.closeForm();
       this.toastr.success('บันทึกข้อมูลสําเร็จ');
-      window.location.reload();
+      // window.location.reload();
     })
   }
 

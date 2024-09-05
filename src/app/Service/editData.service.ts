@@ -85,18 +85,26 @@ export interface FoodsProducts {
     username: string;
 }
 
-export interface Plan {
+export interface Trip {
     id: number;
     name: string;
-    detail: PlanDetail[];
+    detail: string;
     date: string;
+    upToDate: string;
     communityName: string;
     username: string;
 }
 
+export interface Plan {
+    id: number;
+    name: string;
+    detail: PlanDetail[];
+    tripName: string;
+}
+
 export interface PlanDetail {
     time: string;
-    detail: string;
+    describe: string;
 }
 
 export interface Event {
