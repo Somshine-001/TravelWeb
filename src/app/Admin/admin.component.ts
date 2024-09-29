@@ -1,14 +1,15 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
 
 import { ToastrService } from 'ngx-toastr';
 
 import { Router } from '@angular/router';
 import { AddDataService } from '../Service/addData.service';
 import { AuthService } from '../Service/auth.service';
-import { ThemeOptions } from '../theme-options';
+import { Community, EditDataService, FoodsProducts, Image, News, Place, Plan, Province, Role, Tag, Trip, User } from '../Service/editData.service';
+import { ImageService } from '../Service/image.service';
 import { PermissionService } from '../Service/permission.service';
-import { Community, EditDataService, FoodsProducts, News, Place, Plan, Province, Role, Tag, Trip, User } from '../Service/editData.service';
+import { ThemeOptions } from '../theme-options';
 
 
 @Component({
@@ -22,6 +23,7 @@ export class AdminComponent implements OnInit {
   roles: Role[] = [];
   tags: Tag[] = [];
   provinces: Province[] = [];
+  images: Image[] = [];
   communities: Community[] = [];
   places: Place[] = [];
   foodsProducts: FoodsProducts[] = [];
@@ -30,12 +32,13 @@ export class AdminComponent implements OnInit {
   events: Event[] = [];
   news: News[] = [];
 
-  type = ['ชุมชน', 'แหล่งท่องเที่ยว', 'อาหารและผลิตภัณฑ์', 'แผนการท่องเที่ยว', 'กิจกรรมสรรทนาการ', 'ข่าวประชาสัมพันธ์', 'หมวดหมู่', 'สมาชิก']
+  type = ['ชุมชน', 'แหล่งท่องเที่ยว', 'อาหารและผลิตภัณฑ์', 'แผนการท่องเที่ยว', 'กิจกรรมสรรทนาการ', 'ข่าวประชาสัมพันธ์', 'หมวดหมู่', 'สมาชิก', 'รูปภาพ']
 
   expandedCard: string | null = null;
   formName: string | null = null;
   addFormName: string | null = null;
   currentForm: FormGroup | null = null;
+  planForm!: FormGroup;
 
   addUserForm!: FormGroup;
   addTagForm!: FormGroup;
@@ -51,7 +54,6 @@ export class AdminComponent implements OnInit {
     private router: Router,
     public global: ThemeOptions,
     private permissionService: PermissionService,
-    private formBuilder: FormBuilder
   ) { }
 
   ngOnInit(): void {
@@ -92,6 +94,10 @@ export class AdminComponent implements OnInit {
       this.roles = roles;
     })
 
+    this.editDataService.getAll<Image>('image').subscribe((images) => {
+      this.images = images;
+    })
+
     this.editDataService.getAll<Community>('community').subscribe((communities) => {
       this.communities = communities;
     })
@@ -106,12 +112,10 @@ export class AdminComponent implements OnInit {
 
     this.editDataService.getAll<Trip>('trip').subscribe((trips) => {
       this.trips = trips;
-      console.log(this.trips);
     })
 
     this.editDataService.getAll<Plan>('plan').subscribe((plans) => {
       this.plans = this.groupPlans(plans);
-      console.log(this.plans);
     })
 
     this.editDataService.getAll<Event>('event').subscribe((events) => {
@@ -123,9 +127,9 @@ export class AdminComponent implements OnInit {
     })
 
     this.isActiveMenu('ชุมชน');
-    
   }
 
+  //Value
   private groupPlans(plans: Plan[]): Plan[] {
     const groupedPlans = new Map<number, Plan>();
 
@@ -133,13 +137,15 @@ export class AdminComponent implements OnInit {
         if (!groupedPlans.has(plan.id)) {
             groupedPlans.set(plan.id, {
                 ...plan,
-                detail: []
+                planDetail: []
             });
         }
 
         const existingPlan = groupedPlans.get(plan.id);
         if (existingPlan) {
-            existingPlan.detail.push(...plan.detail);
+            if (Array.isArray(plan.planDetail) && Array.isArray(plan.planDetail)) {
+                existingPlan.planDetail.push(...plan.planDetail);
+            }
         }
     });
 
@@ -161,6 +167,7 @@ export class AdminComponent implements OnInit {
       case 'แผนการท่องเที่ยว': return this.trips;
       case 'กิจกรรมสรรทนาการ': return this.events;
       case 'ข่าวประชาสัมพันธ์': return this.news;
+      case 'สมาชิก': return this.users;
       default: return [];
     }
   }
@@ -173,8 +180,16 @@ export class AdminComponent implements OnInit {
       case 'แผนการท่องเที่ยว': return 'trip';
       case 'กิจกรรมสรรทนาการ': return 'event';
       case 'ข่าวประชาสัมพันธ์': return 'news';
+      case 'สมาชิก': return 'user';
+      case 'หมวดหมู่': return 'tag';
+      case 'รูปภาพ': return 'image';
       default: return '';
     }
+  }
+
+  //Form
+  getPlanForm(plan: any){
+    this.planForm = plan
   }
 
   openEditForm(type: string, item: any) {
@@ -183,7 +198,6 @@ export class AdminComponent implements OnInit {
   }
 
   saveForm(type: string, formGroup: any) {
-    console.log(formGroup.value);
     return this.editDataService.update(this.getType(type), formGroup.value).subscribe(() => {
       this.closeForm();
       this.toastr.success('บันทึกข้อมูลสําเร็จ');
@@ -205,12 +219,12 @@ export class AdminComponent implements OnInit {
     })
   }
 
+  //AddData
   toggleAddForm(type: string,) {
     this.addFormName = this.addFormName === type ? null : type;
   }
 
   addData(type: string, formGroup: any) {
-    console.log(formGroup);
     this.addDataService.save(this.getType(type), formGroup).subscribe({
       next: () => {
         this.toastr.success('บันทึกข้อมูลสําเร็จ');

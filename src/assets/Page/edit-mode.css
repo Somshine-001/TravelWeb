@@ -72,6 +72,7 @@
 .edit-container .tables {
   display: flex;
   flex-direction: row;
+  justify-content: center;
   width: 1000px;
   min-height: 30px;
   font-size: 12px;
@@ -113,6 +114,11 @@
   .edit-container {
     width: 1000px;
     align-items: left;
+  }
+
+  .edit-container .tables {
+    justify-content: left;
+
   }
 }
 

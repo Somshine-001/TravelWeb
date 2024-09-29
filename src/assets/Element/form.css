@@ -33,6 +33,7 @@
     top: 10px;
     right: 10px;
     background: none;
+    border: none;
     font-size: 25px;
     color: red;
     cursor: pointer;
@@ -59,7 +60,7 @@ input, select, .content-editor {
     background-color: var(--primary);
     color: white;
     border: none;
-    padding: 10px 20px;
+    padding: 7px 15px;
     border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.3s;

@@ -12,6 +12,10 @@ export class EditDataService {
 
     constructor(private http: HttpClient) {}
 
+    fetchImage(): Observable<Blob> {
+        return this.http.get(`${this.editDataUrl}/image/fetch`, { responseType: 'blob' });
+      }
+
     getAll<T>(endpoint: string): Observable<T[]> {
         return this.http.get<T[]>(`${this.editDataUrl}/${endpoint}`);
     }
@@ -46,6 +50,13 @@ export interface Province {
     name: string;
 }
 
+export interface Image {
+    id: number;
+    imageData: string;
+    imageType: string;
+    date: string;
+  }
+
 export interface Community {
     id: number;
     name: string;
@@ -55,6 +66,7 @@ export interface Community {
     culture: string;
     tel: string;
     date: string;
+    upToDate: string;
     username: string;
     provinceName: string;
 }
@@ -63,8 +75,10 @@ export interface Place {
     id: number;
     name: string;
     detail: string;
-    gps: string;
+    latitude: string;
+    longitude: string;
     date: string;
+    upToDate: string;
     days: string;
     time: string;
     communityName: string;
@@ -98,8 +112,8 @@ export interface Trip {
 export interface Plan {
     id: number;
     name: string;
-    detail: PlanDetail[];
-    tripName: string;
+    planDetail: PlanDetail[];
+    tripId: number;
 }
 
 export interface PlanDetail {

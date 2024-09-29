@@ -1,0 +1,81 @@
+.upload-box {
+    width: 200px;
+
+    border: 2px dashed #b4b4b4;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    position: relative;
+    margin: 10px
+  }
+  
+  .upload-placeholder {
+    text-align: center;
+  }
+  
+  .upload-placeholder i {
+    font-size: 48px;
+    color: #999;
+  }
+  
+  .upload-placeholder p {
+    font-size: 16px;
+    color: #999;
+  }
+
+  .image-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(175px, 1fr)); /* ขนาดของคอลัมน์ในกริด */
+    gap: 10px; /* ระยะห่างระหว่างรูปภาพ */
+    width: 100%;
+  }
+  
+  .image-preview-container {
+    display: inline-block;
+    position: relative;
+  }
+
+  .image-container {
+    text-align: center;
+    border: 1px solid #ccc;
+    padding: 10px;
+    background-color: #f9f9f9;
+    overflow: hidden;
+  }
+  
+  .preview-image {
+    width: 200px;
+    object-fit: cover;
+    border: 1px solid #ccc;
+  }
+  .image {
+    width: 100%; /* รูปภาพเต็มพื้นที่ของคอนเทนเนอร์ */
+    height: 100px; /* ความสูงของรูปภาพ */
+    object-fit: cover;
+    transition: transform 0.3s ease-in-out, filter 0.3s ease-in-out;
+  }
+  
+  .image-container:hover .image {
+    transform: scale(1.05); /* ขยายภาพ 1.5 เท่า */
+    filter: brightness(1.2); /* เพิ่มความสว่างของภาพ */
+    z-index: 10;
+  }
+
+  .remove-button {
+    position: absolute;
+    top: 0;
+    right: 0;
+    background: rgba(0, 0, 0, 0.5);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 18px;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  

@@ -1,8 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { ThemeOptions } from '../../theme-options';
 import { PermissionService } from '../../Service/permission.service';
 import { AuthService } from '../../Service/auth.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { PublishService } from '../../Service/publish.service';
+import { EditDataService } from '../../Service/editData.service';
+import { Image } from '../../Service/editData.service';
 
 @Component({
   selector: 'app-detail',
@@ -14,15 +17,21 @@ export class DetailComponent implements OnInit {
   item: any;
   username: string | null = null;
 
+  images: Image[] = [];
+
   constructor(
     public global: ThemeOptions,
     private permissionService: PermissionService,
-    private authService: AuthService,
-    private router: Router,
-    private route: ActivatedRoute
+    private publishService: PublishService,
+    private route: ActivatedRoute,
+    private editDataService: EditDataService
     ) { }
 
   ngOnInit(): void {
+    this.editDataService.getAll<Image>('image').subscribe((images) => {
+      this.images = images;
+    })
+
     this.route.queryParams.subscribe(params => {
       this.header = params['header'];
       this.item = JSON.parse(params['item']);
@@ -46,6 +55,12 @@ export class DetailComponent implements OnInit {
       case 'ข่าวประชาสัมพันธ์':
         return item.newsName;
     }
+  }
+
+  chooseImage() {}
+
+  imagePublish(images: any): void {
+    this.publishService.imagePublish(this.getHeaderName(this.header, this.item), images)
   }
 
 }

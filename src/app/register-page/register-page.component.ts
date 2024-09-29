@@ -78,8 +78,6 @@ export class RegisterPageComponent implements OnInit{
       } else {
         alert('กรอกข้อมูลไม่ครบ หรือข้อมูลผิดประเภท');
       }
-  
-      console.log(this.registerForm.value);
       return;
     }
     const user = {username: this.registerForm.value.username, email: this.registerForm.value.email, password: this.registerForm.value.password};

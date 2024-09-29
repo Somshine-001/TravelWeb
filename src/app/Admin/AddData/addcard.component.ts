@@ -1,5 +1,8 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ImageService } from '../../Service/image.service';
+import { AddDataService } from '../../Service/addData.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-addcard',
@@ -11,11 +14,16 @@ export class AddcardComponent {
   communityForm!: FormGroup;
   placeForm!: FormGroup;
   fpForm!: FormGroup;
-  planForm!: FormGroup;
+  tripForm!: FormGroup;
   eventForm!: FormGroup;
   newsForm!: FormGroup;
   addTagForm!: FormGroup;
   addUserForm!: FormGroup;
+  imageForm!: FormGroup;
+
+  selectedFile: File | null = null;
+  imagePreview: string | null = null;
+  name: string | null = null;
 
   isHidden = false;
 
@@ -24,16 +32,21 @@ export class AddcardComponent {
   @Input() communities!: any[];
   @Input() tags!: any[];
   @Input() roles!: any[];
+  @Input() provinces!: any[];
 
   @Output() cancel = new EventEmitter<string>();
   @Output() save = new EventEmitter<any>();
 
-  constructor(private formBuilder: FormBuilder) {
+  constructor(private formBuilder: FormBuilder, private imageService: ImageService, private addDataService: AddDataService, private toastr: ToastrService) {
 
       this.communityForm = this.formBuilder.group({
       name: ['',[Validators.required, Validators.maxLength(50)]],
+      address: [''],
+      history: [''],
       detail: [''],
-      tel: ['',[Validators.maxLength(10), Validators.minLength(10), Validators.pattern('^[0-9]*$')]],   
+      culture: [''],
+      tel: ['',[Validators.maxLength(10), Validators.minLength(10), Validators.pattern('^[0-9]*$')]],
+      provinceName: [''],  
     });
 
     this.placeForm = this.formBuilder.group({
@@ -51,14 +64,18 @@ export class AddcardComponent {
     this.fpForm = this.formBuilder.group({
       name: ['', [Validators.required, Validators.maxLength(50)]],
       detail: [''],
+      ingredient: [''],
+      step: [''],
+      price: ['', [Validators.pattern('^[0-9]*$')]],
       communityName: ['', [Validators.required]],
       tagName: [''],
     });
 
-    this.planForm = this.formBuilder.group({
+    this.tripForm = this.formBuilder.group({
       name: ['', [Validators.required, Validators.maxLength(50)]],
       detail: [''],
       communityName: ['', [Validators.required]],
+      plans: this.formBuilder.array([])
     });
 
     this.eventForm = this.formBuilder.group({
@@ -82,8 +99,49 @@ export class AddcardComponent {
     });
 
     this.addTagForm = this.formBuilder.group({
-      tagName: ['', Validators.required],
+      name: ['', Validators.required],
     });
+
+    this.imageForm = this.formBuilder.group({
+      file: [null],
+    });
+
+  }
+
+  // Trips
+  get plans(): FormArray {
+    return this.tripForm.get('plans') as FormArray;
+  }
+
+  addPlan() {
+    const planIndex = this.plans.length;
+    const planGroup = this.formBuilder.group({
+      name: [`วันที่ ${planIndex + 1}`],
+      planDetail: this.formBuilder.array([])
+    });
+    this.plans.push(planGroup);
+    this.addPlanDetail(planIndex);
+  }
+
+  //Plans
+  removePlan(index: number) {
+    this.plans.removeAt(index);
+  }
+
+  getPlanDetailArray(index: number): FormArray {
+    return this.plans.at(index).get('planDetail') as FormArray;
+  }
+
+  addPlanDetail(planIndex: number) {
+    const planDetailGroup = this.formBuilder.group({
+      time: ['', Validators.required],
+      describe: ['', Validators.required]
+    });
+    this.getPlanDetailArray(planIndex).push(planDetailGroup);
+  }
+
+  removePlanDetail(planIndex: number, detailIndex: number) {
+    this.getPlanDetailArray(planIndex).removeAt(detailIndex);
   }
 
   getFormGroup(): FormGroup {
@@ -95,7 +153,7 @@ export class AddcardComponent {
       case 'อาหารและผลิตภัณฑ์':
         return this.formGroup = this.fpForm;
       case 'แผนการท่องเที่ยว':
-        return this.formGroup = this.planForm;
+        return this.formGroup = this.tripForm;
       case 'กิจกรรมสรรทนาการ':
         return this.formGroup = this.eventForm;
       case 'ข่าวประชาสัมพันธ์':
@@ -104,8 +162,10 @@ export class AddcardComponent {
         return this.formGroup = this.addUserForm;
       case 'หมวดหมู่':
         return this.formGroup = this.addTagForm;
+      case 'รูปภาพ':
+        return this.formGroup = this.imageForm;
       default:
-        return this.formGroup = this.communityForm;
+        return this.formGroup = this.imageForm;
     }
   }
   getHeaderForm(): any {
@@ -117,7 +177,7 @@ export class AddcardComponent {
       case 'อาหารและผลิตภัณฑ์':
         return 'fp';
       case 'แผนการท่องเที่ยว':
-        return 'plan';
+        return 'trip';
       case 'กิจกรรมสรรทนาการ':
         return 'event';
       case 'ข่าวประชาสัมพันธ์':
@@ -126,6 +186,8 @@ export class AddcardComponent {
         return 'user';
       case 'หมวดหมู่':
         return 'tag';
+      case 'รูปภาพ':
+        return 'image';
       default:
         return null;
     }
@@ -136,7 +198,24 @@ export class AddcardComponent {
   }
 
   onSave() {
-    if (this.formGroup.invalid) {
+    const formData = new FormData();
+    const fileInput = this.selectedFile;
+    if (fileInput) {
+      this.imageService.resizeAndOptimizeImage(fileInput, 1000, 1000).then((blob)=> {
+        formData.append('file', blob, fileInput.name); // เพิ่ม Blob ลงใน FormData
+        console.log(formData.get('file'));
+        this.addDataService.save('image', formData).subscribe(() => {
+          this.toastr.success('อัปโหลดรูปภาพเสร็จสิ้น');
+        })
+      }).catch(error => {
+        console.error('Resize and optimize image failed:', error);
+      });
+    } else {
+      // ไม่มีไฟล์ที่เลือก
+      console.error('No file selected');
+    }
+
+    if (this.formGroup.invalid && this.addFormType !== 'รูปภาพ') {
       this.formGroup.markAllAsTouched();
       let errorMessages = '';
   
@@ -158,7 +237,10 @@ export class AddcardComponent {
       }
       return;
     }
-    this.save.emit(this.formGroup.value);
+    if (this.addFormType !== 'รูปภาพ') {
+      console.log(this.formGroup.value);
+      this.save.emit(this.formGroup.value);
+    }
     this.formGroup.reset();
     this.onCancel();
   }
@@ -167,6 +249,42 @@ export class AddcardComponent {
     this.isHidden = !this.isHidden;
   }
 
-  
+  onFileChange(event: any) {
+    const file = event.target.files[0];
+    if (file) {
+      this.selectedFile = file;
+
+      this.imageService.resizeAndOptimizeImage(file, 800, 800, 0.8)
+        .then(blob => {
+          // Create a URL for the optimized image
+          const optimizedImageURL = URL.createObjectURL(blob);
+          
+          // Update image preview
+          this.imagePreview = optimizedImageURL;
+
+          // You can now use the blob to upload it or save it
+          console.log('Optimized image ready for upload:', blob);
+        })
+        .catch(error => {
+          console.error('Error optimizing image:', error);
+        });
+    }
+  }
+
+  removeImage() {
+    this.selectedFile = null;
+    this.imagePreview = null;
+  }
+
+  submitForm() {
+    if (this.selectedFile) {
+      const formData = new FormData();
+      formData.append('image', this.selectedFile, this.selectedFile.name);
+
+      // เรียกใช้งานการอัปโหลดผ่าน service
+      console.log('Image uploaded', formData.get('image'));
+    }
+  }
+
 
 }

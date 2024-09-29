@@ -17,6 +17,13 @@
     <div class="menu-item" (click)="toggleAddForm('สมาชิก')">
         <mat-icon style="font-size: 18px !important; color: white !important; padding: 10px 0 0 5px  !important;">person_add</mat-icon>
     </div>
+    <!-- <div *ngFor="let image of images">
+      <div>
+        <h3>ID: {{ image.id }}</h3>
+        <p>Date: {{ image.date }}</p>
+        <img [src]="'data:' + image.imageType + ';base64,' + image.imageData" alt="Image" />
+      </div>
+    </div> -->
   </div>
 </div>
     
@@ -25,17 +32,20 @@
     [header]="triggerMenu"
     [cardType]="triggerMenu"
     [plans]="plans"
-    (openEditForm)="openEditForm(triggerMenu, $event)">
+    [images]="images"
+    (getPlanForm)="getPlanForm($event)"
+    (openEditForm)="openEditForm(triggerMenu, $event)"
+    (deleteItem)="deleteItem(triggerMenu, $event)">
   </app-editcard>
   
   <app-editform
     *ngIf="formName !== null"
     [formGroup]="currentForm!"
+    [planForm]="planForm"
     [formType]="formName"
     [communities]="communities"
     [tags]="tags"
     [provinces]="provinces"
-    [plans]="plans"
     (cancel)="closeForm()"
     (save)="saveForm(formName, $event)">
   </app-editform>
@@ -47,6 +57,7 @@
     [communities]="communities"
     [tags]="tags"
     [roles]="roles"
+    [provinces]="provinces"
     (save)="addData(addFormName, $event)"
     (cancel)="toggleAddForm($event)">
   </app-addcard>

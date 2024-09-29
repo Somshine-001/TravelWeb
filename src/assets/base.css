@@ -7,6 +7,7 @@
 @import 'layout/footer.css';
 /* element */
 @import 'element/form.css';
+@import 'element/imageForm.css';
 /* page */
 @import 'Page/home-page.css';
 @import 'Page/edit-mode.css';

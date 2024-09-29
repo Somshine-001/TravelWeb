@@ -10,6 +10,8 @@ import { PublishService } from '../../Service/publish.service';
 export class EditcardComponent {
   
   editForm!: FormGroup;
+  planForm!: FormGroup;
+  fullImage: string | null = null;
 
   keyValue: string | null = null;
   
@@ -17,35 +19,72 @@ export class EditcardComponent {
   @Input() items!: any[];
   @Input() cardType!: string;
   @Input() plans!: any[];
+  @Input() images!: any[];
 
-  @Output() toggleCard = new EventEmitter<string>();
+  @Output() getPlanForm = new EventEmitter<any>();
   @Output() openEditForm = new EventEmitter<any>();
-  @Output() deleteItem = new EventEmitter<any>();
+  @Output() deleteItem = new EventEmitter<number>();
 
   constructor(private formBuilder: FormBuilder, private toastr: ToastrService, private publishService: PublishService) { }
-
-  onToggleCard() {
-    this.toggleCard.emit(this.cardType);
-  }
 
   onDeleteItem(item: any) {
     const confirmation = confirm('คุณต้องการลบ' + this.cardType + 'ใช่หรือไม่');
     if (!confirmation) {
       return;
     }
+    console.log(item.id);
     this.deleteItem.emit(item.id);
-    
   }
 
   toggleModalForm(items: any) {
-    this.editForm = this.formBuilder.group(
-      Object.keys(items).reduce((acc: any, key) => {
-        acc[key] = [items[key]];
-        return acc;
-      }, {})
-      
-    );
+      if (this.cardType === 'แผนการท่องเที่ยว') {
+        this.editForm = this.formBuilder.group({
+          ...Object.keys(items).reduce((acc: any, key) => {
+            acc[key] = [items[key]];
+            return acc;
+          }, {}),
+          plans: this.formBuilder.array([])
+        });
+        this.createPlanForm(this.plans, items.id);
+      }else{
+        this.editForm = this.formBuilder.group(
+          Object.keys(items).reduce((acc: any, key) => {
+            acc[key] = [items[key]];
+            return acc;
+          }, {})
+        );
+      }
     this.openEditForm.emit(this.editForm);
+  }
+
+  private createPlanForm(plans: any[], id: number) {
+    // สร้าง FormArray สำหรับ plans
+    const plansArray = this.formBuilder.array(
+      plans.filter(plan => plan.tripId === id).reverse().map(plan => {
+        return this.formBuilder.group({
+          name: [plan.name],
+          id: [plan.id],
+          tripId: [plan.tripId],
+          planDetail: this.formBuilder.array(
+            plan.planDetail.map((detail: any) => 
+              this.formBuilder.group({
+                time: [detail.time],
+                describe: [detail.describe]
+              })
+            )
+          )
+        });
+      })
+    );
+  
+    // สร้าง FormGroup ที่เก็บ FormArray
+
+    this.planForm = this.formBuilder.group({
+      plans: plansArray
+    });
+
+    this.editForm.setControl('plans', plansArray);
+    this.getPlanForm.emit(this.planForm);
   }
 
   get detailFormArray() {
@@ -59,6 +98,16 @@ export class EditcardComponent {
 
   checkIfPublished(item: any): boolean {
     return this.publishService.isPublished(this.cardType, item);
+  }
+
+  showFullImage(image: any): void {
+    // สร้าง URL ของภาพขนาดเต็ม
+    this.fullImage = 'data:' + image.imageType + ';base64,' + image.imageData;
+  }
+
+  closeFullImage(): void {
+    // ปิด modal โดยตั้งค่า fullImage เป็น null
+    this.fullImage = null;
   }
 }
 

@@ -1,41 +1,13 @@
 <div *ngIf="formGroup" class="modal">
     <div class="modal-content">
-      <span class="close-btn" (click)="onCancel()">x</span>
-      <div class="form">
-        <form [formGroup]="formGroup">
-          <div class="form-group">
+      <button class="close-btn" (click)="onCancel()">×</button>
+      <div>
+        <form [formGroup]="formGroup" *ngIf="formType !== 'หมวดหมู่' && formType !== 'สมาชิก' && formType !== 'รูปภาพ'">
+          <div>
             <label>ชื่อ {{ formType }}</label>
             <input matInput formControlName="name">
           </div>
-          <div class="form-group" *ngIf="formType === 'ชุมชน'">
-            <label for="provinceName">จังหวัด</label>
-            <select id="provinceName" formControlName="provinceName">
-              <option *ngFor="let province of provinces" [value]="province.name">
-                {{ province.name }}
-              </option>
-            </select>
-          </div>
-          <div class="form-group" *ngIf="formType !== 'หมวดหมู่' && formType !== 'แผนการท่องเที่ยว'">
-            <label>รายละเอียด {{ formType }}</label>
-            <quill-editor matInput formControlName="detail"
-                          [placeholder]="'รายละเอียด ' + formType"
-                          class="content-editor"
-                          [styles]="{'border': '1px solid black', 'min-height': '250px'}">
-            </quill-editor>
-            <div class="card-header" (click)="codeHidden()">html</div>
-            <pre *ngIf="isHidden">
-              <code>{{ formGroup.get('detail')?.value }}</code>
-            </pre>
-          </div>
-          <div class="form-group" *ngIf="formType === 'ชุมชน' || formType === 'แหล่งท่องเที่ยว'">
-            <label for="tel">เบอร์โทรศัพท์</label>
-            <input type="text" id="tel" name="tel" formControlName="tel" [placeholder]="'0-9'" maxlength="10" >
-          </div>
-          <div class="form-group" *ngIf="formType === 'แหล่งท่องเที่ยว'">
-            <label for="gps">ตำแหน่ง</label>
-            <input type="text" id="gps" name="gps" formControlName="gps" [placeholder]="'000.00000,999.99999'">
-          </div>
-          <div class="form-group" *ngIf="formType !== 'ชุมชน' && formType !== 'หมวดหมู่'">
+          <div *ngIf="formType !== 'ชุมชน'">
             <label for="communityName">ชุมชน</label>
             <select id="communityName" formControlName="communityName">
               <option *ngFor="let community of communities" [value]="community.name" style="color: black;">
@@ -43,7 +15,111 @@
               </option>
             </select>
           </div>
-          <div class="form-group" *ngIf="formType === 'แหล่งท่องเที่ยว' || formType === 'อาหารและผลิตภัณฑ์' || formType === 'กิจกรรม' ">
+          <div *ngIf="formType === 'ชุมชน'">
+            <label for="provinceName">จังหวัด</label>
+            <select id="provinceName" formControlName="provinceName" style="margin-right: 25px;">
+              <option *ngFor="let province of provinces" [value]="province.name">
+                {{ province.name }}
+              </option>
+            </select>
+            <label for="address">ที่อยู่</label>
+            <input id="address" type="text" formControlName="address" name="address">
+            <label for="culture">วัฒนธรรมประเพณี</label>
+            <input id="culture" type="text" formControlName="culture" name="culture">
+          </div>
+          <div *ngIf="formType === 'ชุมชน'">
+            <label for="history">ประวัติความเป็นมา</label>
+            <quill-editor
+              formControlName="history"
+              [placeholder]="'รายละเอียดประวัติ'"
+              class="content-editor"
+              [styles]="{'border': '1px solid black', 'min-height': '150px'}">
+            </quill-editor>
+          </div>
+          <div *ngIf="formType !== 'หมวดหมู่' && formType !== 'แผนการท่องเที่ยว'">
+            <label *ngIf="formType === 'ชุมชน'" for="detail">เอกลักษณ์ชุมชน</label>
+            <label *ngIf="formType === 'แหล่งท่องเที่ยว'" for="detail">เอกลักษณ์แหล่งท่องเที่ยว</label>
+            <label *ngIf="formType !== 'ชุมชน' && formType !== 'แหล่งท่องเที่ยว'" for="detail">รายละเอียด</label>
+            <quill-editor formControlName="detail"
+                          [placeholder]="'รายละเอียด ' + formType"
+                          class="content-editor"
+                          [styles]="{'border': '1px solid black', 'min-height': '150px'}">
+            </quill-editor>
+          </div>
+          <div *ngIf="formType === 'แผนการท่องเที่ยว'">
+            <div formArrayName="plans">
+              <div *ngFor="let plan of plansArray.controls; let i = index" [formGroupName]="i" style="margin-bottom: 10px;">
+                <div style="display: flex; flex-direction: row; justify-content: space-between;">
+                  <label for="planName-{{i}}" style="width: 50px;">วันที่ {{i+1}}</label>
+                  <button (click)="removePlan(i)" style="width: 30px; height: 30px; border: none; cursor: pointer;"><mat-icon style="color: rgb(187, 0, 0) !important;">delete</mat-icon></button>
+                </div>
+                <div formArrayName="planDetail" style="padding: 10px; border-radius: 10px; border: 1px solid var(--primary-dark);">
+                  <div *ngFor="let detail of getPlanDetailArray(i).controls; let j = index" [formGroupName]="j" style="display: flex; flex-direction: row;">
+                    <input type="time" formControlName="time"/>
+                    <input formControlName="describe" placeholder="Description" />
+                  </div>
+                  <button class="btn btn-primary" (click)="addPlanDetail(i)"><b>+</b></button>
+                </div>
+                
+              </div>
+            </div>
+            <button style="border: none; cursor: pointer; text-decoration: underline; margin-bottom: 10px;" (click)="addPlan()">Add Plan</button>
+          </div>
+          <div *ngIf="formType === 'ชุมชน' || formType === 'แหล่งท่องเที่ยว'">
+            <label for="tel">เบอร์โทรศัพท์</label>
+            <input type="text" id="tel" name="tel" formControlName="tel" [placeholder]="'0-9'" maxlength="10" >
+          </div>
+          <div *ngIf="formType === 'แหล่งท่องเที่ยว'">
+            <label for="days">เวลาทำการ</label>
+            <div style="display: flex; flex-direction: row; justify-content: space-between;">
+              <input formControlName="days" [placeholder]="'จ. - ศ.'">
+              <input formControlName="time" [placeholder]="'08.00 - 17.30'">
+            </div>
+            <label for="address">พิกัด</label>
+            <div style="display: flex; flex-direction: row; justify-content: space-between;">
+              <input
+                type="text"
+                id="latitude"
+                name="latitude"
+                formControlName="latitude"
+                [placeholder]="'ละติจูด (90.0000000 จนถึง -90.0000000)'"
+              >
+              <input
+                type="text"
+                id="longitude"
+                name="longitude"
+                formControlName="longitude"
+                [placeholder]="'ลองจิจูด (180.0000000 จนถึง -180.0000000)'"
+              >
+            </div>
+          </div>
+          <div *ngIf="formType === 'อาหารและผลิตภัณฑ์'">
+            <label for="ingredient">วัตถุดิบ</label>
+            <quill-editor
+              formControlName="ingredient"
+              [placeholder]="'รายละเอียดวัตถุดิบ'"
+              class="content-editor"
+              [styles]="{'border': '1px solid black', 'min-height': '150px'}">
+            </quill-editor>
+            <!-- <div style="cursor: pointer; color: var(--primary);" (click)="codeHidden()">ดู-html</div>
+            <pre *ngIf="isHidden">
+              <code>{{getFormGroup().get('ingredient')?.value}}</code>
+            </pre> -->
+            <label for="step">วิธีทำ</label>
+            <quill-editor
+              formControlName="step"
+              [placeholder]="'ขั้นตอนและวิธีทำ'"
+              class="content-editor"
+              [styles]="{'border': '1px solid black', 'min-height': '150px'}">
+            </quill-editor>
+            <!-- <div style="cursor: pointer; color: var(--primary);" (click)="codeHidden()">ดู-html</div>
+            <pre *ngIf="isHidden">
+              <code>{{getFormGroup().get('step')?.value}}</code>
+            </pre> -->
+            <label for="price">ราคา</label>
+            <input type="number" id="price" name="price" formControlName="price">
+          </div>
+          <div *ngIf="formType === 'แหล่งท่องเที่ยว' || formType === 'อาหารและผลิตภัณฑ์' || formType === 'กิจกรรม' ">
             <label for="tagName">หมวดหมู่</label>
             <select id="tagName" formControlName="tagName">
               <option *ngFor="let tag of tags" [value]="tag.name">
@@ -52,9 +128,7 @@
             </select>
           </div>
           <div class="space">
-            <div>
-            </div>
-            <button (click)="onSave()">บันทึก</button>
+            <button type="submit" class="btn btn-primary" (click)="onSave()">บันทึก</button>
           </div>
         </form>
       </div>

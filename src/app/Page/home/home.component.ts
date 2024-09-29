@@ -13,7 +13,7 @@ import { ThemeOptions } from '../../theme-options';
 })
 export class HomeComponent implements OnInit {
 
-  headers = ['ชุมชน', 'แหล่งท่องเที่ยว', 'อาหารและผลิตภัณฑ์', 'แผนการท่องเที่ยว', 'กิจกรรมสรรทนาการ', 'ข่าวประชาสัมพันธ์'];
+  headers = ['ชุมชน', 'แหล่งท่องเที่ยว', 'อาหารและผลิตภัณฑ์', 'ข่าวประชาสัมพันธ์'];
   publishedItems: { [key: string]: any[] } = {};
 
   @Input() cardTypes!: string;

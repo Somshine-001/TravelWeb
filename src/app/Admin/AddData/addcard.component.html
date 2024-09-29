@@ -2,12 +2,25 @@
   <div class="modal-content">
     <button class="close-btn" (click)="onCancel()">×</button>
     <div>
-      <div>{{ header }}</div>
+      <h3>{{ header }}</h3>
     </div>
 
     <!-- ฟอร์ม -->
     <div>
-      <form *ngIf="addFormType !== 'หมวดหมู่' && addFormType !== 'สมาชิก'" [formGroup]="getFormGroup()" (ngSubmit)="onSave()">
+      <form *ngIf="addFormType !== 'หมวดหมู่' && addFormType !== 'สมาชิก' && addFormType !== 'รูปภาพ'" [formGroup]="getFormGroup()">
+        <div *ngIf="addFormType !== 'ชุมชน'">
+          <label for="communityName">ชุมชน</label>
+          <select
+            id="communityName"
+            formControlName="communityName"
+            [ngClass]="{'error-border': getFormGroup().get('communityName')?.invalid && getFormGroup().get('communityName')?.touched}"
+          >
+            <option *ngFor="let community of communities" [value]="community.name">
+              {{ community.name }}
+            </option>
+          </select>
+        </div>
+        
         <div>
           <label for="name">ชื่อ {{addFormType}}</label>
           <input
@@ -20,34 +33,66 @@
             [ngClass]="{'error-border': getFormGroup().get('name')?.invalid && getFormGroup().get('name')?.touched}"
           >
         </div>
-        
-        <div>
+        <div *ngIf="addFormType === 'ชุมชน'">
+          <label for="provinceName">จังหวัด</label>
+          <select style="margin-right: 25px;"
+            id="provinceName"
+            formControlName="provinceName"
+            [ngClass]="{'error-border': getFormGroup().get('provinceName')?.invalid && getFormGroup().get('provinceName')?.touched}"
+          >
+            <option *ngFor="let province of provinces" [value]="province.name">
+              {{ province.name }}
+            </option>
+          </select>
+
+          <label for="address">ที่อยู่</label>
+          <input
+            id="address"
+            type="text"
+            formControlName="address"
+            name="address"
+          >
+          <label for="culture">วัฒนธรรมประเพณี</label>
+          <input
+            id="culture"
+            type="text"
+            formControlName="culture"
+            name="culture"
+          >
+        </div>
+
+        <div *ngIf="addFormType === 'ชุมชน'">
+          <label for="history">ประวัติความเป็นมา</label>
           <quill-editor
-            formControlName="detail"
-            [placeholder]="'รายละเอียด' + addFormType"
+            formControlName="history"
+            [placeholder]="'รายละเอียดประวัติ'"
             class="content-editor"
             [styles]="{'border': '1px solid black', 'min-height': '150px'}">
           </quill-editor>
-          <div style="cursor: pointer; color: var(--primary);" (click)="codeHidden()">ดู-html</div>
+        </div>
+        <div>
+          <label *ngIf="addFormType === 'ชุมชน'" for="detail">เอกลักษณ์ชุมชน</label>
+          <label *ngIf="addFormType === 'แหล่งท่องเที่ยว'" for="detail">เอกลักษณ์แหล่งท่องเที่ยว</label>
+          <label *ngIf="addFormType !== 'ชุมชน' && addFormType !== 'แหล่งท่องเที่ยว'" for="detail">รายละเอียด</label>
+          <quill-editor
+            formControlName="detail"
+            [placeholder]="'รายละเอียด'"
+            class="content-editor"
+            [styles]="{'border': '1px solid black', 'min-height': '150px'}">
+          </quill-editor>
+          <!-- <div style="cursor: pointer; color: var(--primary);" (click)="codeHidden()">ดู-html</div>
           <pre *ngIf="isHidden">
             <code>{{getFormGroup().get('detail')?.value}}</code>
-          </pre>
+          </pre> -->
         </div>
-
-        <div *ngIf="addFormType === 'ชุมชน' || addFormType === 'แหล่งท่องเที่ยว'">
-          <label for="tel">เบอร์โทรศัพท์</label>
-          <input
-            type="text"
-            id="tel"
-            name="tel"
-            formControlName="tel"
-            [placeholder]="'0-9'"
-            maxlength="10"
-            [ngClass]="{'error-border': getFormGroup().get('tel')?.invalid && getFormGroup().get('tel')?.touched}">
-        </div>
-
         <div *ngIf="addFormType === 'แหล่งท่องเที่ยว'">
+          <label for="days">เวลาทำการ</label>
+          <div style="display: flex; flex-direction: row; justify-content: space-between;">
+            <input formControlName="days" [placeholder]="'จ. - ศ.'">
+            <input formControlName="time" [placeholder]="'08.00 - 17.30'">
+          </div>
           <label for="address">พิกัด</label>
+          <div style="display: flex; flex-direction: row; justify-content: space-between;">
           <input
             type="text"
             id="latitude"
@@ -66,21 +111,65 @@
             required
             [ngClass]="{'error-border': getFormGroup().get('longitude')?.invalid && getFormGroup().get('longitude')?.touched}"
           >
+          </div>
+        </div>
+        <div *ngIf="addFormType === 'อาหารและผลิตภัณฑ์'">
+          <label for="ingredient">วัตถุดิบ</label>
+          <quill-editor
+            formControlName="ingredient"
+            [placeholder]="'รายละเอียดวัตถุดิบ'"
+            class="content-editor"
+            [styles]="{'border': '1px solid black', 'min-height': '150px'}">
+          </quill-editor>
+          <!-- <div style="cursor: pointer; color: var(--primary);" (click)="codeHidden()">ดู-html</div>
+          <pre *ngIf="isHidden">
+            <code>{{getFormGroup().get('ingredient')?.value}}</code>
+          </pre> -->
+          <label for="step">วิธีทำ</label>
+          <quill-editor
+            formControlName="step"
+            [placeholder]="'ขั้นตอนและวิธีทำ'"
+            class="content-editor"
+            [styles]="{'border': '1px solid black', 'min-height': '150px'}">
+          </quill-editor>
+          <!-- <div style="cursor: pointer; color: var(--primary);" (click)="codeHidden()">ดู-html</div>
+          <pre *ngIf="isHidden">
+            <code>{{getFormGroup().get('step')?.value}}</code>
+          </pre> -->
+          <label for="price">ราคา</label>
+          <input type="number" id="price" name="price" formControlName="price">
         </div>
 
-        <div *ngIf="addFormType !== 'ชุมชน'">
-          <label for="communityName">ชุมชน</label>
-          <select
-            id="communityName"
-            formControlName="communityName"
-            [ngClass]="{'error-border': getFormGroup().get('communityName')?.invalid && getFormGroup().get('communityName')?.touched}"
-          >
-            <option *ngFor="let community of communities" [value]="community.name">
-              {{ community.name }}
-            </option>
-          </select>
+        <div *ngIf="addFormType === 'ชุมชน' || addFormType === 'แหล่งท่องเที่ยว'">
+          <label for="tel">เบอร์โทรศัพท์</label>
+          <input
+            type="text"
+            id="tel"
+            name="tel"
+            formControlName="tel"
+            [placeholder]="'0-9'"
+            maxlength="10"
+            [ngClass]="{'error-border': getFormGroup().get('tel')?.invalid && getFormGroup().get('tel')?.touched}">
         </div>
 
+        <div formArrayName="plans" *ngIf="addFormType === 'แผนการท่องเที่ยว'">
+          <div *ngFor="let plan of plans.controls; let i = index;" [formGroupName]="i" style="margin-bottom: 10px;">
+            <div style="display: flex; flex-direction: row; justify-content: space-between;">
+              <label for="planName-{{i}}" style="width: 50px;">วันที่ {{i+1}}</label>
+              <button (click)="removePlan(i)" style="width: 30px; height: 30px; border: none; cursor: pointer;"><mat-icon style="color: rgb(187, 0, 0) !important;">delete</mat-icon></button>
+            </div>
+            <div formArrayName="planDetail" style="padding: 10px; border-radius: 10px; border: 1px solid var(--primary-dark);">
+              <div *ngFor="let detail of getPlanDetailArray(i).controls; let j = index;" [formGroupName]="j" style="display: flex; flex-direction: row; justify-content: space-between;">
+                <input type="time" id="time-{{i}}-{{j}}" formControlName="time">
+                <input id="describe-{{i}}-{{j}}" formControlName="describe" [placeholder]="'รายละเอียด'">
+      
+                <button (click)="removePlanDetail(i, j)"style="width: 30px; height: 30px; border: none; cursor: pointer; margin-top: 10px;"><mat-icon style="color: rgb(187, 0, 0) !important;">delete</mat-icon></button>
+              </div>
+              <button class="btn btn-primary" (click)="addPlanDetail(i)"><b>+</b></button>
+            </div>
+          </div>
+          <button style="border: none; cursor: pointer; text-decoration: underline; margin-bottom: 10px;" (click)="addPlan()">Add Plan</button>
+        </div>
         <div *ngIf="addFormType !== 'ข่าวประชาสัมพันธ์' && addFormType !== 'แผนการท่องเที่ยว' && addFormType !== 'ชุมชน'">
           <label for="tagName">หมวดหมู่</label>
           <select
@@ -93,11 +182,8 @@
             </option>
           </select>
         </div>
-        <div>
-          <button type="submit" class="btn btn-primary">บันทึก</button>
-        </div>
       </form>
-      <form *ngIf="addFormType === 'สมาชิก' || addFormType === 'หมวดหมู่'" [formGroup]="getFormGroup()" (ngSubmit)="onSave()">
+      <form *ngIf="addFormType === 'สมาชิก' || addFormType === 'หมวดหมู่'" [formGroup]="getFormGroup()">
         <div *ngIf="addFormType === 'สมาชิก'">
             <label>ชื่อผู้ใช้</label>
             <input formControlName="username" [ngClass]="{'error-border': getFormGroup().get('username')?.invalid && getFormGroup().get('username')?.touched}">
@@ -120,12 +206,26 @@
         </div>
         <div *ngIf="addFormType === 'หมวดหมู่'">
           <label>เพิ่มหมวดหมู่</label>
-          <input formControlName="tagName">
-      </div>
-        <div>
-            <button type="submit" class="btn btn-primary">บันทึก</button>
+          <input formControlName="name">
         </div>
       </form>
+      <form [formGroup]="imageForm" *ngIf="addFormType !== 'แผนการท่องเที่ยว' && addFormType !== 'หมวดหมู่' && addFormType !== 'สมาชิก'">
+        <!-- กล่องสำหรับอัปโหลดรูปภาพ -->
+        <div class="upload-box" (click)="fileInput.click()">
+          <input type="file" (change)="onFileChange($event)" #fileInput hidden />
+          <div *ngIf="!imagePreview" class="upload-placeholder">
+            <i class="fa fa-plus" aria-hidden="true"></i>
+            <p>Upload Image</p>
+          </div>
+          <div *ngIf="imagePreview" class="image-preview-container">
+            <img [src]="imagePreview" alt="Image Preview" class="preview-image">
+            <button type="button" (click)="removeImage()" class="remove-button">×</button>
+          </div>
+        </div>
+      </form>
+      <div>
+        <button type="submit" class="btn btn-primary" (click)="onSave()">บันทึก</button>
+      </div>
     </div>
   </div>
 </div>

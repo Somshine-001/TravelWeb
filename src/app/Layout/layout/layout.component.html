@@ -42,7 +42,7 @@
   </mat-toolbar>
   <div class="menu">
     <div class="item" 
-    *ngFor="let type of ['ชุมชน', 'แหล่งท่องเที่ยว', 'อาหารและผลิตภัณฑ์', 'แผนการท่องเที่ยว', 'กิจกรรม', 'ข่าวประชาสัมพันธ์']; let i = index" 
+    *ngFor="let type of ['ชุมชน', 'แหล่งท่องเที่ยว', 'อาหารและผลิตภัณฑ์', 'ข่าวประชาสัมพันธ์']; let i = index" 
     [ngClass]="{'active' : triggerMenu === type}"
     (click)="isActiveMenu(type)">
       <span>{{ type }}</span>

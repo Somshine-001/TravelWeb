@@ -22,7 +22,6 @@ import { AddcardComponent } from './Admin/AddData/addcard.component';
 import { AdminComponent } from './Admin/admin.component';
 import { EditcardComponent } from './Admin/EditData/editcard.component';
 import { EditformComponent } from './Admin/EditData/EditForm/editform.component';
-import { PageLayoutformComponent } from './Element/pageLayoutElement/page-layoutform/page-layoutform.component';
 import { DetailLayoutComponent } from './Layout/detail-layout/detail-layout.component';
 import { FooterComponent } from './Layout/footer/footer.component';
 import { LayoutComponent } from './Layout/layout/layout.component';
@@ -52,7 +51,6 @@ import { RegisterPageComponent } from './register-page/register-page.component';
     EditcardComponent,
     EditformComponent,
     AddcardComponent,
-    PageLayoutformComponent,
     DetailComponent,
     DatalistComponent,
 

@@ -23,17 +23,19 @@
   </div>
   <div class="detail-content">
     <div class="detail-header">
-      <p style="font-size: 22px;"><strong>{{item.placeName}}</strong></p>
+      <p style="font-size: 22px;">{{item.name}}</p>
     </div>
     <div class="detail-pic">
-      <div class="pic-large" style="border-radius: 20px 0 0 20px;"></div>
+      <div class="pic-large" style="border-radius: 20px 0 0 20px;">
+        <!-- <button (click)="imagePublish(images)">+</button> -->
+      </div>
       <div class="row-pic">
         <div class="pic-tiny" style="border-radius: 0 20px 0 0;"></div>
         <div class="pic-tiny" style="border-radius: 0 0 20px 0;"></div>
       </div>
     </div>
     <div style="display: flex; flex-direction: column; width: 80%; padding: 10px; background-color: var(--primary);">
-        <p [innerHTML]="item.placeDetail"></p>
+        <p [innerHTML]="item.detail"></p>
     </div>
   </div>
   <div style="width: 100%; display: flex; flex-direction: row; justify-content: center;">

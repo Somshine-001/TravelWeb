@@ -1,6 +1,6 @@
 <div class="edit-container">
-  <div class="tables" style="margin-top: 45px;">
-    <div class="header" style="min-width: 45px; background-color: var(--content);">
+  <div class="tables" style="margin-top: 45px;" *ngIf="cardType !== 'รูปภาพ'">
+    <div class="header" style="min-width: 45px; background-color: var(--content);" *ngIf="cardType !== 'สมาชิก'">
       <span>ID</span>
     </div>
     <div class="header" style="min-width: 265px;">
@@ -8,15 +8,17 @@
     </div>
     <div class="header" style="min-width: 175px; background-color: var(--content);">
       <span *ngIf="cardType === 'ชุมชน'">จังหวัด</span>
-      <span *ngIf="cardType !== 'ชุมชน'">ชุมชน</span>
+      <span *ngIf="cardType !== 'ชุมชน' && cardType !== 'สมาชิก'">ชุมชน</span>
+      <span *ngIf="cardType === 'สมาชิก'">Email</span>
     </div>
     <div class="header" style="min-width: 100px;padding: 2px;">
-      <span>อัปเดตล่าสุด</span>
+      <span *ngIf="cardType !== 'สมาชิก'">อัปเดตล่าสุด</span>
+      <span *ngIf="cardType === 'สมาชิก'">สิทธิ์</span>
     </div>
-    <div class="header" style="min-width: 120px; background-color: var(--content);">
+    <div class="header" style="min-width: 120px; background-color: var(--content);" *ngIf="cardType !== 'สมาชิก'">
       <span>เผยแพร่</span>
     </div>
-    <div class="header" style="min-width: 150px;padding: 2px;">
+    <div class="header" style="min-width: 150px;padding: 2px;" *ngIf="cardType !== 'สมาชิก'">
       <span>หมวดหมู่</span>
     </div>
     <div class="header" style="width: 250px; background-color: var(--content);">
@@ -24,33 +26,56 @@
     </div>
   </div>
   <div class="tables" *ngFor="let item of items">
-    <div class="element" style="min-width: 45px; background-color: var(--content);">
+    <div class="element" style="min-width: 45px; background-color: var(--content);" *ngIf="cardType !== 'สมาชิก'">
       <span>{{item.id}}</span>
     </div>
     <div class="element" style="min-width: 265px;">
-      <span>{{item.name}}</span>
+      <span *ngIf="cardType !== 'สมาชิก'">{{item.name}}</span>
+      <span *ngIf="cardType === 'สมาชิก'">{{item.username}}</span>
     </div>
     <div class="element" style="min-width: 175px; background-color: var(--content);">
-      <span>{{item.provinceName}}</span>
-      <span *ngIf="cardType !== 'ชุมชน'">{{item.communityName}}</span>
+      <span *ngIf="cardType !== 'สมาชิก' && cardType === 'ชุมชน'">{{item.provinceName}}</span>
+      <span *ngIf="cardType !== 'ชุมชน' && cardType !== 'สมาชิก'">{{item.communityName}}</span>
+      <span *ngIf="cardType === 'สมาชิก'">{{item.email}}</span>
     </div>
     <div class="element" style="min-width: 100px; border: solid 1px var(--content); padding: 2px;">
-      <span>{{item.date}}</span>
+      <span *ngIf="cardType !== 'สมาชิก'">{{item.date}}</span>
+      <span *ngIf="cardType === 'สมาชิก'">{{item.roleName}}</span>
     </div>
-    <div class="element" style="min-width: 120px; background-color: var(--content);">
+    <div class="element" style="min-width: 120px; background-color: var(--content);" *ngIf="cardType !== 'สมาชิก'">
       <div class="text-button" style="margin: 0;" (click)="onTogglePublish(item)">
         <div *ngIf="cardType !== 'หมวดหมู่'" style="padding: 1px;" [ngClass]="{ 'published': checkIfPublished(item)}">
           {{ checkIfPublished(item) ? 'เผยแพร่แล้ว' : 'ยังไม่เผยแพร่' }} 
         </div>
       </div>
     </div>
-    <div class="element" style="min-width: 150px; max-height: 20px;">
+    <div class="element" style="min-width: 150px; max-height: 20px;" *ngIf="cardType !== 'สมาชิก'">
       <span>{{item.tagName}}</span>
       <span *ngIf="cardType === 'ชุมชน' || cardType === 'ข่าวประชาสัมพันธ์' || cardType === 'แผนการท่องเที่ยว'">-</span>
     </div>
     <div class="element" style="width: 250px; background-color: var(--content);">
         <button (click)="toggleModalForm(item)" style="border: solid 1px var(--primary);"><mat-icon style="color: var(--primary) !important;">edit</mat-icon></button>
         <button (click)="onDeleteItem(item)" style="border: solid 1px rgb(187, 0, 0);"><mat-icon style="color: rgb(187, 0, 0) !important;">delete</mat-icon></button>
+    </div>
+  </div>
+  <div *ngIf="cardType === 'รูปภาพ'" style="align-items: center; margin-top: 45px; width: 1000px;">
+    <div class="image-grid">
+      <div *ngFor="let image of images" class="image-container">
+        <img 
+          [src]="'data:' + image.imageType + ';base64,' + image.imageData" 
+          alt="Image Preview" 
+          class="image"
+          (click)="showFullImage(image)"
+        >
+        <button (click)="onDeleteItem(image)" style="border: solid 1px rgb(187, 0, 0);"><mat-icon style="color: rgb(187, 0, 0) !important;">delete</mat-icon></button>
+      </div>
+    </div>
+    <div *ngIf="fullImage" class="modal">
+      
+      <div class="modal-content" style="justify-content: center;">
+        <span class="close-btn" (click)="closeFullImage()">×</span>
+        <img [src]="fullImage" alt="Full Image" class="full-image">
+      </div>
     </div>
   </div>
   <div *ngIf="items.length === 0">

@@ -60,10 +60,6 @@ export class LayoutComponent{
           return '/place';
         case 'อาหารและผลิตภัณฑ์':
           return '/fp';
-        case 'แผนการท่องเที่ยว':
-          return '/plan';
-        case 'กิจกรรม':
-          return '/event';
         case 'ข่าวประชาสัมพันธ์':
           return '/news';
         default:
