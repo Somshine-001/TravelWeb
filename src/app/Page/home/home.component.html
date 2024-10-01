@@ -16,9 +16,11 @@
     <div class="content" >
       <div *ngFor="let item of getFilteredItems(header)" style="display: flex; align-items: center; flex-direction: column;">
         <div class="item" (click)="goToDetail(header, item)" target="_blank">
-          <div class="item-pic"></div>
+          <div class="item-pic" *ngIf="image">
+            <img [src]="this.image.url" alt="image" style="width: 100%; height: 100%; object-fit: cover; border-radius: 15px 15px 0 0">
+          </div>
           <div class="item-title">
-            <span style="padding-bottom: 10px; font-size: 15px;">{{ getHeaderName(header, item) }}</span>
+            <span style="padding-bottom: 10px; font-size: 15px;">{{ getHeaderName(item) }}</span>
             <div class="item-title">
               <span>{{ item.date }}</span>
             </div>

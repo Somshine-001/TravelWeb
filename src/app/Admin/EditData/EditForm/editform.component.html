@@ -36,7 +36,7 @@
               [styles]="{'border': '1px solid black', 'min-height': '150px'}">
             </quill-editor>
           </div>
-          <div *ngIf="formType !== 'หมวดหมู่' && formType !== 'แผนการท่องเที่ยว'">
+          <div>
             <label *ngIf="formType === 'ชุมชน'" for="detail">เอกลักษณ์ชุมชน</label>
             <label *ngIf="formType === 'แหล่งท่องเที่ยว'" for="detail">เอกลักษณ์แหล่งท่องเที่ยว</label>
             <label *ngIf="formType !== 'ชุมชน' && formType !== 'แหล่งท่องเที่ยว'" for="detail">รายละเอียด</label>

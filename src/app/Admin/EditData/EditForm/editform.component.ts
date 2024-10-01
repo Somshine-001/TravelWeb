@@ -28,8 +28,7 @@ export class EditformComponent {
   ) {}
 
   onSave() {
-    console.log(this.formGroup.value)
-    // this.save.emit(this.formGroup);
+    this.save.emit(this.formGroup);
   }
 
   onCancel() {
@@ -51,6 +50,7 @@ export class EditformComponent {
       planDetail: this.formBuild.array([]) // สร้าง FormArray สำหรับ PlanDetail
     });
     this.plansArray.push(newPlan);
+    this.addPlanDetail(planIndex);
   }
   
   removePlan(planIndex: number): void {

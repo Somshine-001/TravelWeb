@@ -15,6 +15,7 @@ export class DetailComponent implements OnInit {
 
   header!: string;
   item: any;
+  image: any;
   username: string | null = null;
 
   images: Image[] = [];
@@ -38,29 +39,20 @@ export class DetailComponent implements OnInit {
     });
 
     this.username = this.permissionService.getName();
+    this.loadImages();
   }
 
-  getHeaderName(header: string, item: any): any {
-    switch (header) {
-      case 'ชุมชน':
-        return item.communityName;
-      case 'แหล่งท่องเที่ยว':
-        return item.placeName;
-      case 'อาหารและผลิตภัณฑ์':
-        return item.fpName;
-      case 'แผนการท่องเที่ยว':
-        return item.planName;
-      case 'กิจกรรมสรรทนาการ':
-        return item.activityName;
-      case 'ข่าวประชาสัมพันธ์':
-        return item.newsName;
-    }
+  loadImages(): void {
+    console.log(this.header + '_' + this.item.name);
+    this.image = this.publishService.getPublishedImages(this.header + '_' + this.item.name);
+    console.log(this.image); // ตรวจสอบว่ามีข้อมูลหรือไม่
   }
+
 
   chooseImage() {}
 
   imagePublish(images: any): void {
-    this.publishService.imagePublish(this.getHeaderName(this.header, this.item), images)
+    this.publishService.imagePublish(this.item.name, images)
   }
 
 }

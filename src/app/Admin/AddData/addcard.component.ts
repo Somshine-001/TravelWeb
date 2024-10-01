@@ -3,6 +3,7 @@ import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ImageService } from '../../Service/image.service';
 import { AddDataService } from '../../Service/addData.service';
 import { ToastrService } from 'ngx-toastr';
+import { PublishService } from '../../Service/publish.service';
 
 @Component({
   selector: 'app-addcard',
@@ -37,7 +38,13 @@ export class AddcardComponent {
   @Output() cancel = new EventEmitter<string>();
   @Output() save = new EventEmitter<any>();
 
-  constructor(private formBuilder: FormBuilder, private imageService: ImageService, private addDataService: AddDataService, private toastr: ToastrService) {
+  constructor(
+    private formBuilder: FormBuilder,
+    private imageService: ImageService,
+    private addDataService: AddDataService,
+    private toastr: ToastrService,
+    private publishService: PublishService
+  ) {
 
       this.communityForm = this.formBuilder.group({
       name: ['',[Validators.required, Validators.maxLength(50)]],
@@ -46,7 +53,7 @@ export class AddcardComponent {
       detail: [''],
       culture: [''],
       tel: ['',[Validators.maxLength(10), Validators.minLength(10), Validators.pattern('^[0-9]*$')]],
-      provinceName: [''],  
+      provinceName: ['', [Validators.required]],  
     });
 
     this.placeForm = this.formBuilder.group({
@@ -58,7 +65,7 @@ export class AddcardComponent {
       days: [''],
       time: [''],
       communityName: ['', [Validators.required]],
-      tagName: [''],
+      tagName: ['', [Validators.required]],
     });
 
     this.fpForm = this.formBuilder.group({
@@ -68,7 +75,7 @@ export class AddcardComponent {
       step: [''],
       price: ['', [Validators.pattern('^[0-9]*$')]],
       communityName: ['', [Validators.required]],
-      tagName: [''],
+      tagName: ['', [Validators.required]],
     });
 
     this.tripForm = this.formBuilder.group({
@@ -82,7 +89,7 @@ export class AddcardComponent {
       name: ['', [Validators.required, Validators.maxLength(50)]],
       detail: [''],
       communityName: ['', [Validators.required]],
-      tagName: [''],
+      tagName: ['', [Validators.required]],
     });
 
     this.newsForm = this.formBuilder.group({
@@ -108,11 +115,10 @@ export class AddcardComponent {
 
   }
 
-  // Trips
+
   get plans(): FormArray {
     return this.tripForm.get('plans') as FormArray;
   }
-
   addPlan() {
     const planIndex = this.plans.length;
     const planGroup = this.formBuilder.group({
@@ -122,8 +128,6 @@ export class AddcardComponent {
     this.plans.push(planGroup);
     this.addPlanDetail(planIndex);
   }
-
-  //Plans
   removePlan(index: number) {
     this.plans.removeAt(index);
   }
@@ -131,7 +135,6 @@ export class AddcardComponent {
   getPlanDetailArray(index: number): FormArray {
     return this.plans.at(index).get('planDetail') as FormArray;
   }
-
   addPlanDetail(planIndex: number) {
     const planDetailGroup = this.formBuilder.group({
       time: ['', Validators.required],
@@ -139,7 +142,6 @@ export class AddcardComponent {
     });
     this.getPlanDetailArray(planIndex).push(planDetailGroup);
   }
-
   removePlanDetail(planIndex: number, detailIndex: number) {
     this.getPlanDetailArray(planIndex).removeAt(detailIndex);
   }
@@ -198,28 +200,10 @@ export class AddcardComponent {
   }
 
   onSave() {
-    const formData = new FormData();
-    const fileInput = this.selectedFile;
-    if (fileInput) {
-      this.imageService.resizeAndOptimizeImage(fileInput, 1000, 1000).then((blob)=> {
-        formData.append('file', blob, fileInput.name); // เพิ่ม Blob ลงใน FormData
-        console.log(formData.get('file'));
-        this.addDataService.save('image', formData).subscribe(() => {
-          this.toastr.success('อัปโหลดรูปภาพเสร็จสิ้น');
-        })
-      }).catch(error => {
-        console.error('Resize and optimize image failed:', error);
-      });
-    } else {
-      // ไม่มีไฟล์ที่เลือก
-      console.error('No file selected');
-    }
-
     if (this.formGroup.invalid && this.addFormType !== 'รูปภาพ') {
       this.formGroup.markAllAsTouched();
       let errorMessages = '';
   
-      // ตรวจสอบข้อผิดพลาดสำหรับแต่ละฟิลด์
       for (const controlName in this.formGroup.controls) {
         if (this.formGroup.controls.hasOwnProperty(controlName)) {
           const control = this.formGroup.get(controlName);
@@ -228,8 +212,6 @@ export class AddcardComponent {
           }
         }
       }
-  
-      // แสดงข้อความข้อผิดพลาด
       if (errorMessages) {
         alert('กรอกข้อมูลไม่ครบ หรือข้อมูลผิดประเภท\n' + errorMessages);
       } else {
@@ -237,12 +219,33 @@ export class AddcardComponent {
       }
       return;
     }
+
     if (this.addFormType !== 'รูปภาพ') {
-      console.log(this.formGroup.value);
       this.save.emit(this.formGroup.value);
     }
-    this.formGroup.reset();
-    this.onCancel();
+    const formData = new FormData();
+    const fileInput = this.selectedFile;
+    if (fileInput) {
+      this.imageService.resizeAndOptimizeImage(fileInput, 1000, 1000).then((blob)=> {
+        formData.append('file', blob, fileInput.name);
+        if (this.addFormType !== 'รูปภาพ') {
+          this.publishService.imagePublish(this.addFormType + '_' + this.formGroup.value.name, formData.get('file'));
+        }
+        this.addDataService.save('image', formData).subscribe(() => {
+          this.toastr.success('อัปโหลดรูปภาพเสร็จสิ้น');
+          this.formGroup.reset();
+          this.onCancel();
+        })
+      }).catch(error => {
+        console.error('Resize and optimize image failed:', error);
+        this.formGroup.reset();
+        this.onCancel();
+      });
+    } else {
+      console.error('No file selected');
+      this.formGroup.reset();
+      this.onCancel();
+    }
   }
 
   codeHidden(){
@@ -253,17 +256,10 @@ export class AddcardComponent {
     const file = event.target.files[0];
     if (file) {
       this.selectedFile = file;
-
       this.imageService.resizeAndOptimizeImage(file, 800, 800, 0.8)
         .then(blob => {
-          // Create a URL for the optimized image
           const optimizedImageURL = URL.createObjectURL(blob);
-          
-          // Update image preview
           this.imagePreview = optimizedImageURL;
-
-          // You can now use the blob to upload it or save it
-          console.log('Optimized image ready for upload:', blob);
         })
         .catch(error => {
           console.error('Error optimizing image:', error);
@@ -275,16 +271,5 @@ export class AddcardComponent {
     this.selectedFile = null;
     this.imagePreview = null;
   }
-
-  submitForm() {
-    if (this.selectedFile) {
-      const formData = new FormData();
-      formData.append('image', this.selectedFile, this.selectedFile.name);
-
-      // เรียกใช้งานการอัปโหลดผ่าน service
-      console.log('Image uploaded', formData.get('image'));
-    }
-  }
-
 
 }

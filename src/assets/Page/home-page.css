@@ -69,7 +69,7 @@
     height: auto;
     border-radius: 15px;
     margin: 10px;
-    border-bottom: solid 1px var(--primary);
+    background-color: var(--primary);
     transition: transform 0.3s ease;
 }
 
@@ -82,7 +82,6 @@
     height: 150px;
     border-radius: 15px 15px 0 0;
     margin-bottom: 10px;
-    background-color: var(--primary-dark);
 }
 
 .item .item-title {
@@ -91,7 +90,7 @@
     align-items: center;
     width: 235px;
     padding-bottom: 10px;
-    color: var(--primary-text);
+    color: white;
     padding: 5px;
     font-size: 10px;
 }

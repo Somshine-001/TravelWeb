@@ -36,7 +36,7 @@
 }
 
 .guide-item .text-button:hover {
-    color: var(--teal);
+    color: var(--primary);
     cursor: pointer;
 }
   
@@ -66,37 +66,24 @@
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    width: 80%;
+    width: 700px;
     height: 400px;
     padding: 10px;
     margin: 10px;
-    background-color: var(--primary);
 }
 
-.detail-pic .pic-large {
-    height: 370px;
-    width: 600px;
+.detail-pic .pic {
+    height: 400px;
+    width: 700px;
     margin: 4px;
     background-color: black;
-}
-
-.detail-pic .row-pic {
-    display: flex;
-    flex-direction: column;
-    height: 375px;
-    width: 230px;
-}
-
-.row-pic .pic-tiny {
-    height: 185px;
-    margin: 2px;
-    background-color: black; 
 }
 
 @media screen and (max-width: 800px) {
 
     .guide {
         width: 800px;
+        margin-left: 10px;
     }
 
     .guide-item .text-button {
@@ -105,6 +92,10 @@
 
     .guide-item .text-button mat-icon {
         font-size: 15px !important;
+    }
+
+    .detail-content {
+        width: 800px;
     }
     
 }

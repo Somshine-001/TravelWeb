@@ -16,9 +16,17 @@ export class HomeComponent implements OnInit {
   headers = ['ชุมชน', 'แหล่งท่องเที่ยว', 'อาหารและผลิตภัณฑ์', 'ข่าวประชาสัมพันธ์'];
   publishedItems: { [key: string]: any[] } = {};
 
+  image: any;
+
   @Input() cardTypes!: string;
 
-  constructor( public global: ThemeOptions, private router: Router, private authService: AuthService, private publishService: PublishService, private permissionService: PermissionService) { }
+  constructor( 
+    public global: ThemeOptions,
+    private router: Router,
+    private authService: AuthService,
+    private publishService: PublishService,
+    private permissionService: PermissionService
+  ) { }
 
   ngOnInit() {
     if(this.permissionService.isAdmin()) {
@@ -26,7 +34,13 @@ export class HomeComponent implements OnInit {
     }
     this.loadPublishedItems();
 
+    this.headers.forEach(header => {
+      const items = this.getFilteredItems(header);
+      items.forEach((item: any) => this.loadImages(header,item)); // เรียก loadImages สำหรับทุก item
+    });
+
   }
+
 
   goToDetail(headers: string, item: any): void {
     const queryParams = {
@@ -35,15 +49,19 @@ export class HomeComponent implements OnInit {
     };
     const url = this.router.createUrlTree(['/detail'], { queryParams }).toString();
     window.open(url, '_blank');
-}
+  }
 
   loadPublishedItems(): void {
     this.headers.forEach(type => {
       this.publishedItems[type] = this.publishService.getPublishedItems(type);
     });
   }
+  loadImages(headers: string, item: any): void {
+    this.image = this.publishService.getPublishedImages(headers + '_' + item.name);
+    console.log(this.publishService.getPublishedImages(headers + '_' + item.name));
+  }
 
-  getHeaderName(header: string, item: any): any {
+  getHeaderName(item: any): any {
     const maxLength = 20;
     if (item && item.name && item.name.length > maxLength) {
       return item.name.substring(0, maxLength) + '...';
@@ -52,7 +70,7 @@ export class HomeComponent implements OnInit {
     }
   }
 
-  getFilteredItems(header: string): any[] {
+  getFilteredItems(header: string): any {
     const items = this.publishedItems[header] || [];
   
     // ถ้าจำนวนรายการน้อยกว่าหรือเท่ากับ 4 รายการ ให้แสดงทั้งหมด

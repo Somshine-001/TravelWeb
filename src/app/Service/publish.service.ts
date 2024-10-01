@@ -14,7 +14,9 @@ export class PublishService {
         return `${this.PUBLISHED_KEY_PREFIX}${cardType}`;
     }
     private getImageKey(header: string): string {
-        return `${this.PUBLISH_KEY_IMAGE}${header}`;
+        const sanitizedHeader = header.replace(/\s+/g, '');
+        console.log(`${this.PUBLISH_KEY_IMAGE}${sanitizedHeader}`)
+        return 'image_อาหารและผลิตภัณฑ์_แผนการท่องเที่ยวสำหรับ2วัน1คืน';
     }
 
     togglePublish(cardType: string, item: any): void {
@@ -23,6 +25,7 @@ export class PublishService {
 
         const headerName = item.name;
         const itemIndex = publishedItems.findIndex(i => i.name === headerName);
+        
 
         if (itemIndex !== -1) {
             // Item is already published; remove it from the array
@@ -39,24 +42,28 @@ export class PublishService {
 
     imagePublish(header: string, image: any): void {
         const key = this.getImageKey(header);
-        console.log(key);
-        const publishedImages = this.getPublishedImages(header);
-        console.log(publishedImages);
+        localStorage.removeItem(key);
 
-        const headerName = image.id
-        const itemIndex = publishedImages.findIndex(i => i.id === headerName);
-
-        if (itemIndex !== -1) {
-            // Item is already published; remove it from the array
-            publishedImages.splice(itemIndex, 1);
-            this.toastr.warning('นำรูปภาพออกแล้ว');
-        } else {
-            // Item is not published; add it to the array
-            publishedImages.push(image);
-            this.toastr.success('เพิ่มรูปภาพสำเร็จ');
+        const headerName = image.id || image.name || null;
+        if (!headerName) {
+            this.toastr.error('ไม่สามารถระบุรูปภาพได้');
+            return;
         }
 
-        this.setPublishedImages(header, publishedImages);
+        const reader = new FileReader();
+        reader.onloadend = () => {
+            const imageUrl = reader.result as string; // จะได้เป็น URL
+            const updatedImage = {
+                name: headerName,
+                url: imageUrl // เก็บ URL ในรูปแบบที่คุณต้องการ
+            };
+            // console.log(updatedImage)
+            console.log(header)
+            this.setPublishedImages(header, updatedImage); // เก็บกลับไปที่ localStorage
+            console.log(this.getPublishedImages(header))
+            this.toastr.success('เพิ่มรูปภาพสำเร็จ');
+        };
+        reader.readAsDataURL(image); // อ่านไฟล์เป็น URL
     }
 
     isPublished(cardType: string, item: any): boolean {
@@ -70,9 +77,9 @@ export class PublishService {
         const key = this.getKey(cardType);
         return JSON.parse(localStorage.getItem(key) || '[]');
     }
-    getPublishedImages(header: string): any[] {
+    getPublishedImages(header: string): any {
         const key = this.getImageKey(header);
-        return JSON.parse(localStorage.getItem(key) || '[]')
+        return JSON.parse(localStorage.getItem(key) || '[]');
     }
 
     private setPublishedItems(cardType: string, items: any[]): void {
@@ -83,12 +90,9 @@ export class PublishService {
             localStorage.setItem(key, JSON.stringify(items));
         }
     }
-    private setPublishedImages(header: string, images: any[]): void {
+    private setPublishedImages(header: string, images: any): void {
         const key = this.getImageKey(header);
-        if (images.length === 0) {
-            localStorage.removeItem(key);
-        } else {
-            localStorage.setItem(key, JSON.stringify(images));
-        }
+        localStorage.setItem(key, JSON.stringify(images));
     }
+
 }
