@@ -11,11 +11,13 @@
   border-radius: 10px;
   background-color: var(--primary-dark);
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.8);
+  border: 2px solid var(--primary);
 }
 
 .admin-button:hover {
   cursor: pointer;
   background-color: var(--primary);
+  border: 2px solid var(--primary-dark);
 }
 
 .admin-button .icon {

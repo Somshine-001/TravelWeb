@@ -1,7 +1,7 @@
 .main-footer {
     min-width: 100%;
-    background-color: none;
-    color: var(--primary-text);
+    background-color: var(--primary-dark);
+    color: white;
     box-shadow: 0 -2px 5px 0 rgba(0, 0, 0, 0.5);
     padding: 20px 0;
   }
@@ -23,7 +23,7 @@
   }
   
   .social-icons a {
-    color: var(--primary-text);
+    color: white;
     font-size: 20px;
   }
   

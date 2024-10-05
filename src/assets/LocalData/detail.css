@@ -62,6 +62,7 @@
 }
 
 .detail-content .detail-pic {
+    position: relative;
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -77,6 +78,22 @@
     width: 700px;
     margin: 4px;
     background-color: black;
+}
+
+.detail-pic .choose-image-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px; /* ปุ่มจะอยู่มุมบนขวา */
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+  
+.detail-pic .choose-image-btn:hover {
+    background-color: #0056b3; /* เปลี่ยนสีเมื่อ hover */
 }
 
 @media screen and (max-width: 800px) {

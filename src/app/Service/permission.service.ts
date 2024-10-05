@@ -14,9 +14,11 @@ export class PermissionService {
 
     loadRolesFromToken() {
         const token = localStorage.getItem('authToken');
-        if (token) {
-          const tokenPayload = this.decodeToken(token);
-          this.role = tokenPayload.role;
+        if (!token) {
+          return;
+        }else{
+            const tokenPayload = this.decodeToken(token);
+            this.role = tokenPayload.role;
         }
     }
     loadNameFromToken() {

@@ -32,6 +32,8 @@ import { LoginPageComponent } from './login-page/login-page.component';
 import { CommunityComponent } from './Page/community/community.component';
 import { HomeComponent } from './Page/home/home.component';
 import { RegisterPageComponent } from './register-page/register-page.component';
+import { ImageSelectionDialogComponent } from './Dialog/image-selection-dialog/image-selection-dialog.component';
+import { MatDialogModule } from '@angular/material/dialog';
 
 @NgModule({
   declarations: [
@@ -54,10 +56,14 @@ import { RegisterPageComponent } from './register-page/register-page.component';
     DetailComponent,
     DatalistComponent,
 
+    // DIALOG
+    ImageSelectionDialogComponent,
+
   ],
   imports: [
     CommonModule,
     BrowserModule,
+    MatDialogModule,
     MatIconModule,
     MatMenu,
     MatButtonModule,

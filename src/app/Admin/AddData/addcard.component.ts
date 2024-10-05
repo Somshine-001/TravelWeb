@@ -200,6 +200,7 @@ export class AddcardComponent {
   }
 
   onSave() {
+    this.formGroup = this.getFormGroup();
     if (this.formGroup.invalid && this.addFormType !== 'รูปภาพ') {
       this.formGroup.markAllAsTouched();
       let errorMessages = '';
@@ -225,16 +226,29 @@ export class AddcardComponent {
     }
     const formData = new FormData();
     const fileInput = this.selectedFile;
+    console.log(fileInput)
     if (fileInput) {
       this.imageService.resizeAndOptimizeImage(fileInput, 1000, 1000).then((blob)=> {
         formData.append('file', blob, fileInput.name);
         if (this.addFormType !== 'รูปภาพ') {
           this.publishService.imagePublish(this.addFormType + '_' + this.formGroup.value.name, formData.get('file'));
         }
-        this.addDataService.save('image', formData).subscribe(() => {
-          this.toastr.success('อัปโหลดรูปภาพเสร็จสิ้น');
-          this.formGroup.reset();
-          this.onCancel();
+        this.addDataService.save('image', formData).subscribe({
+          next: (response: any) => {
+            
+            const imageId = response.imageId;
+            this.toastr.success(`บันทึกข้อมูลสำเร็จ, Image ID: ${imageId}`);
+            if (this.addFormType !== 'รูปภาพ') {
+              this.publishService.imagePublish(this.addFormType + '_' + this.formGroup.value.name, imageId);
+            }
+            this.formGroup.reset();
+            this.onCancel();
+          },
+          error: (error) => {
+            console.error('Upload image failed:', error);
+            this.formGroup.reset();
+            this.onCancel();
+          }
         })
       }).catch(error => {
         console.error('Resize and optimize image failed:', error);
@@ -259,6 +273,7 @@ export class AddcardComponent {
       this.imageService.resizeAndOptimizeImage(file, 800, 800, 0.8)
         .then(blob => {
           const optimizedImageURL = URL.createObjectURL(blob);
+          console.log(optimizedImageURL);
           this.imagePreview = optimizedImageURL;
         })
         .catch(error => {

@@ -1,6 +1,6 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { Observable } from "rxjs";
+import { catchError, map, Observable, throwError } from "rxjs";
 
 
 @Injectable({
@@ -9,14 +9,19 @@ import { Observable } from "rxjs";
 export class EditDataService {
 
     private editDataUrl = 'http://localhost:8081/admin';
+    private getDataUrl = 'http://localhost:8081/unAuth';
+    
 
     constructor(private http: HttpClient) {}
 
-    fetchImage(): Observable<Blob> {
-        return this.http.get(`${this.editDataUrl}/image/fetch`, { responseType: 'blob' });
-      }
-
+    getOne<T>(endpoint: string, id: number): Observable<T> {
+        return this.http.get<T>(`${this.getDataUrl}/${endpoint}/${id}`);
+    }
     getAll<T>(endpoint: string): Observable<T[]> {
+        return this.http.get<T[]>(`${this.getDataUrl}/${endpoint}`);
+    }
+
+    getData<T>(endpoint: string): Observable<T[]> {
         return this.http.get<T[]>(`${this.editDataUrl}/${endpoint}`);
     }
 
@@ -69,6 +74,7 @@ export interface Community {
     upToDate: string;
     username: string;
     provinceName: string;
+    publish: boolean;
 }
 
 export interface Place {
@@ -84,6 +90,7 @@ export interface Place {
     communityName: string;
     tagName: string;
     username: string;
+    publish: boolean;
 }
 
 export interface FoodsProducts {
@@ -97,6 +104,7 @@ export interface FoodsProducts {
     communityName: string;
     tagName: string;
     username: string;
+    publish: boolean;
 }
 
 export interface Trip {
@@ -107,6 +115,7 @@ export interface Trip {
     upToDate: string;
     communityName: string;
     username: string;
+    publish: boolean;
 }
 
 export interface Plan {
@@ -129,6 +138,7 @@ export interface Event {
     communityName: string;
     tagName: string;
     username: string;
+    publish: boolean;
 }
 
 export interface News {
@@ -138,4 +148,5 @@ export interface News {
     date: string;
     communityName: string;
     username: string;
+    publish: boolean;
 }

@@ -93,21 +93,30 @@ export class EditcardComponent {
   
 
   onTogglePublish(item: any): void {
-    this.publishService.togglePublish(this.cardType, item);
-  }
-
-  checkIfPublished(item: any): boolean {
-    return this.publishService.isPublished(this.cardType, item);
+    this.publishService.togglePublish(this.getCardType(), item);
   }
 
   showFullImage(image: any): void {
-    // สร้าง URL ของภาพขนาดเต็ม
     this.fullImage = 'data:' + image.imageType + ';base64,' + image.imageData;
   }
 
   closeFullImage(): void {
-    // ปิด modal โดยตั้งค่า fullImage เป็น null
     this.fullImage = null;
+  }
+
+  getCardType(): string {
+    switch(this.cardType) {
+      case 'ชุมชน': return 'community';
+      case 'แหล่งท่องเที่ยว': return 'place';
+      case 'อาหารและผลิตภัณฑ์': return 'fp';
+      case 'แผนการท่องเที่ยว': return 'trip';
+      case 'กิจกรรมสรรทนาการ': return 'event';
+      case 'ข่าวประชาสัมพันธ์': return 'news';
+      case 'สมาชิก': return 'user';
+      case 'หมวดหมู่': return 'tag';
+      case 'รูปภาพ': return 'image';
+      default: return '';
+    }
   }
 }
 

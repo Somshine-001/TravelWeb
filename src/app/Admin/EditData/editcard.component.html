@@ -44,8 +44,8 @@
     </div>
     <div class="element" style="min-width: 120px; background-color: var(--content);" *ngIf="cardType !== 'สมาชิก'">
       <div class="text-button" style="margin: 0;" (click)="onTogglePublish(item)">
-        <div *ngIf="cardType !== 'หมวดหมู่'" style="padding: 1px;" [ngClass]="{ 'published': checkIfPublished(item)}">
-          {{ checkIfPublished(item) ? 'เผยแพร่แล้ว' : 'ยังไม่เผยแพร่' }} 
+        <div *ngIf="cardType !== 'หมวดหมู่'" style="padding: 1px;" [ngClass]="{ 'published': item.publish }">
+          {{ item.publish ? 'เผยแพร่แล้ว' : 'ยังไม่เผยแพร่' }} 
         </div>
       </div>
     </div>

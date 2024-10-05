@@ -10,7 +10,7 @@
       </div>
     <!-- ปุ่มขวา -->
       <div style="flex-direction: row; display: flex;">
-        <div *ngFor="let mainType of ['เกี่ยวกับเรา', 'ติดต่อเรา']">
+        <div *ngFor="let mainType of ['Great Trip', 'เกี่ยวกับเรา', 'ติดต่อเรา']">
           <a class="text-button"
           [ngClass]="{'active' : triggerMain === mainType}"
           (click)="isActiveMain(mainType)">

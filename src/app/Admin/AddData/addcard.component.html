@@ -38,6 +38,7 @@
           <select style="margin-right: 25px;"
             id="provinceName"
             formControlName="provinceName"
+            required
             [ngClass]="{'error-border': getFormGroup().get('provinceName')?.invalid && getFormGroup().get('provinceName')?.touched}"
           >
             <option *ngFor="let province of provinces" [value]="province.name">
@@ -133,7 +134,12 @@
             <code>{{getFormGroup().get('step')?.value}}</code>
           </pre> -->
           <label for="price">ราคา</label>
-          <input type="number" id="price" name="price" formControlName="price">
+          <input
+            type="number"
+            id="price"
+            name="price"
+            formControlName="price"
+          >
         </div>
 
         <div *ngIf="addFormType === 'ชุมชน' || addFormType === 'แหล่งท่องเที่ยว'">

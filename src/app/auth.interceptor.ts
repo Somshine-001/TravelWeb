@@ -10,13 +10,16 @@ export class AuthInterceptor implements HttpInterceptor {
   constructor(private authService: AuthService, private router: Router) { }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+
+    if (req.url.includes('/unAuth/community')) {
+      return next.handle(req);
+    }
     
     const token = localStorage.getItem('authToken');
     if (token) {
       const cloned = req.clone({
         headers: req.headers.set('Authorization', `Bearer ${token}`)
       });
-      // console.log('Cloned Request:', cloned);
       return next.handle(cloned);
     }
     return next.handle(req).pipe(

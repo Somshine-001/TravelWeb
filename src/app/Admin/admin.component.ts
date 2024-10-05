@@ -66,7 +66,7 @@ export class AdminComponent implements OnInit {
       this.global.isAdmin = true;
     }
     //ดึงข้อมูล
-    this.editDataService.getAll<Tag>('tag').subscribe({
+    this.editDataService.getData<Tag>('tag').subscribe({
       next: (tags) => {
         this.tags = tags;
       },
@@ -82,20 +82,21 @@ export class AdminComponent implements OnInit {
       }
     });
 
-    this.editDataService.getAll<User>('user').subscribe((users) => {
+    this.editDataService.getData<User>('user').subscribe((users) => {
       this.users = users;
     })
 
-    this.editDataService.getAll<Province>('province').subscribe((provinces) => {
+    this.editDataService.getData<Province>('province').subscribe((provinces) => {
       this.provinces = provinces;
     })
 
-    this.editDataService.getAll<Role>('role').subscribe((roles) => {
+    this.editDataService.getData<Role>('role').subscribe((roles) => {
       this.roles = roles;
     })
 
     this.editDataService.getAll<Image>('image').subscribe((images) => {
       this.images = images;
+      console.log(this.images);
     })
 
     this.editDataService.getAll<Community>('community').subscribe((communities) => {

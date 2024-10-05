@@ -1,4 +1,4 @@
-  <div style="width: 100%; display: flex; flex-direction: row; justify-content: center;">
+  <div style="width: 100%; display: flex; flex-direction: row; justify-content: center;" *ngIf="item">
     <div class="guide">
       <div class="guide-item">
         <div class="text-button">
@@ -21,20 +21,24 @@
       </div>
     </div>
   </div>
-  <div class="detail-content">
+  <div class="detail-content" *ngIf="item">
     <div class="detail-header">
       <p style="font-size: 22px;">{{item.name}}</p>
     </div>
-    <div class="detail-pic" *ngIf="image">
+    <div class="detail-pic" *ngIf="item.imageData || global.isAdmin">
       <div class="pic" style="border-radius: 20px;">
-        <img [src]="image.url" alt="image" style="width: 100%; height: 100%; object-fit: cover; border-radius: 20px">
+        <img *ngIf="item.imageData" [src]="item.imageData" alt="image" style="width: 100%; height: 100%; object-fit: cover; border-radius: 20px">
       </div>
+      <div *ngIf="!item.imageData" class="watermark" (click)="chooseImage()">
+        <span>Click to choose image</span>
+      </div>
+      <button *ngIf="global.isAdmin" class="choose-image-btn" (click)="chooseImage()">Choose Image</button>
     </div>
     <div style="display: flex; flex-direction: column; width: 80%; padding: 10px; background-color: var(--primary);">
         <p [innerHTML]="item.detail"></p>
     </div>
   </div>
-  <div style="width: 100%; display: flex; flex-direction: row; justify-content: center;">
+  <div style="width: 100%; display: flex; flex-direction: row; justify-content: center;" *ngIf="item">
     <div class="guide">
       <div class="guide-item">
         <div class="text-button">
@@ -56,4 +60,7 @@
         </div>
       </div>
     </div>
+  </div>
+  <div style="width: 100%; display: flex; flex-direction: row; justify-content: center;" *ngIf="!item">
+    <h1>Not Found!</h1>
   </div>
