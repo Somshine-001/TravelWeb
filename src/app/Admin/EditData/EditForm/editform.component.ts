@@ -18,6 +18,7 @@ export class EditformComponent {
   @Input() tags!: any[];
   @Input() provinces!: any[];
   @Input() users!: any[];
+  @Input() roles!: any[];
   
   @Output() save = new EventEmitter<any>();
   @Output() cancel = new EventEmitter<void>();
@@ -28,6 +29,7 @@ export class EditformComponent {
   ) {}
 
   onSave() {
+    console.log(this.formGroup.value)
     this.save.emit(this.formGroup);
   }
 

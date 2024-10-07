@@ -95,10 +95,10 @@
     width: 230px;
     height: auto;
     border-radius: 15px 15px 5px 5px;
-    border: 1px solid var(--primary-dark);
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.8);
+    border: 1px solid var(--primary);
+    /* box-shadow: 0 0 10px rgba(0, 0, 0, 0.8); */
     margin: 10px;
-    background-color: var(--primary);
+    backdrop-filter: blur(15px);
     transition: transform 0.3s ease;
 }
 
@@ -119,7 +119,7 @@
     align-items: center;
     width: 235px;
     padding-bottom: 10px;
-    color: white;
+    color: var(--primary-text);
     padding: 5px;
     font-size: 10px;
 }

@@ -169,6 +169,7 @@ export class AdminComponent implements OnInit {
       case 'กิจกรรมสรรทนาการ': return this.events;
       case 'ข่าวประชาสัมพันธ์': return this.news;
       case 'สมาชิก': return this.users;
+      case 'หมวดหมู่': return this.tags;
       default: return [];
     }
   }
@@ -202,7 +203,7 @@ export class AdminComponent implements OnInit {
     return this.editDataService.update(this.getType(type), formGroup.value).subscribe(() => {
       this.closeForm();
       this.toastr.success('บันทึกข้อมูลสําเร็จ');
-      // window.location.reload();
+      window.location.reload();
     })
   }
 
@@ -217,6 +218,7 @@ export class AdminComponent implements OnInit {
     }
     this.editDataService.delete(this.getType(type), id).subscribe(() => {
       this.toastr.success('ลบข้อมูลสําเร็จ');
+      window.location.reload();
     })
   }
 
@@ -238,7 +240,7 @@ export class AdminComponent implements OnInit {
         }
       }
     })
-
+    
   }
 
 }

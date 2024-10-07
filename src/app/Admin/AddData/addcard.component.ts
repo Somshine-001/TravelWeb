@@ -46,7 +46,7 @@ export class AddcardComponent {
     private publishService: PublishService
   ) {
 
-      this.communityForm = this.formBuilder.group({
+    this.communityForm = this.formBuilder.group({
       name: ['',[Validators.required, Validators.maxLength(50)]],
       address: [''],
       history: [''],
@@ -100,6 +100,7 @@ export class AddcardComponent {
 
     this.addUserForm = this.formBuilder.group({
       username: ['', Validators.required],
+      email: ['', Validators.required],
       password: ['', Validators.required],
       confirmPassword: ['', Validators.required],
       role: ['', Validators.required],
@@ -200,6 +201,12 @@ export class AddcardComponent {
   }
 
   onSave() {
+    if(this.addFormType === 'สมาชิก'){
+      if(this.formGroup.value.password !== this.formGroup.value.confirmPassword){
+        this.toastr.error('รหัสผ่านไม่ตรงกัน');
+        return;
+      }
+    }
     this.formGroup = this.getFormGroup();
     if (this.formGroup.invalid && this.addFormType !== 'รูปภาพ') {
       this.formGroup.markAllAsTouched();
@@ -228,21 +235,22 @@ export class AddcardComponent {
     const fileInput = this.selectedFile;
     console.log(fileInput)
     if (fileInput) {
-      this.imageService.resizeAndOptimizeImage(fileInput, 1000, 1000).then((blob)=> {
+      this.imageService.resizeAndOptimizeImage(fileInput, 800, 800, 0.8).then((blob)=> {
         formData.append('file', blob, fileInput.name);
         if (this.addFormType !== 'รูปภาพ') {
           this.publishService.imagePublish(this.addFormType + '_' + this.formGroup.value.name, formData.get('file'));
         }
         this.addDataService.save('image', formData).subscribe({
           next: (response: any) => {
-            
             const imageId = response.imageId;
-            this.toastr.success(`บันทึกข้อมูลสำเร็จ, Image ID: ${imageId}`);
+            console.log(imageId);
             if (this.addFormType !== 'รูปภาพ') {
               this.publishService.imagePublish(this.addFormType + '_' + this.formGroup.value.name, imageId);
+              window.location.reload();
             }
             this.formGroup.reset();
             this.onCancel();
+            window.location.reload();
           },
           error: (error) => {
             console.error('Upload image failed:', error);

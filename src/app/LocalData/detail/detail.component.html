@@ -1,4 +1,5 @@
-  <div style="width: 100%; display: flex; flex-direction: row; justify-content: center;" *ngIf="item">
+<!-- หัว -->
+<div style="width: 100%; display: flex; flex-direction: row; justify-content: center; box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.5);" *ngIf="item">
     <div class="guide">
       <div class="guide-item">
         <div class="text-button">
@@ -21,24 +22,68 @@
       </div>
     </div>
   </div>
+
+ <!--เนื้อหา  -->
   <div class="detail-content" *ngIf="item">
     <div class="detail-header">
-      <p style="font-size: 22px;">{{item.name}}</p>
+      <h1>{{item.name}}</h1>
+      <p>{{item.address}}</p>
+    </div>
+    <div>
+      
     </div>
     <div class="detail-pic" *ngIf="item.imageData || global.isAdmin">
+      <img *ngIf="item.imageData" [src]="item.imageData" alt="image" style="filter: blur(25px);">
       <div class="pic" style="border-radius: 20px;">
-        <img *ngIf="item.imageData" [src]="item.imageData" alt="image" style="width: 100%; height: 100%; object-fit: cover; border-radius: 20px">
+        <img *ngIf="item.imageData" [src]="item.imageData" alt="image" style="border-radius: 10px; box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.5);">
       </div>
       <div *ngIf="!item.imageData" class="watermark" (click)="chooseImage()">
         <span>Click to choose image</span>
       </div>
       <button *ngIf="global.isAdmin" class="choose-image-btn" (click)="chooseImage()">Choose Image</button>
     </div>
-    <div style="display: flex; flex-direction: column; width: 80%; padding: 10px; background-color: var(--primary);">
+    <div style="display: flex; flex-direction: column; width: 80%; padding: 10px; margin-bottom: 10px; margin-top: -40px; border-radius: 5px; box-shadow: -1px -1px 10px rgba(0, 0, 0, 0.5); border: 1px solid rgba(177, 177, 177, 0.815); background-color: white; word-wrap: break-word; overflow-wrap: break-word; z-index: 4;">
         <p [innerHTML]="item.detail"></p>
     </div>
+    <div *ngIf="header === 'ชุมชน'">
+      <div style="display: flex; flex-direction: column; width: 80%; padding: 10px; margin-bottom: 10px; border-radius: 5px; background-color: white; word-wrap: break-word; overflow-wrap: break-word; z-index: 4;">
+        <h2>ประวัติความเป็นมา</h2>
+        <p style="padding-left: 10px;" [innerHTML]="item.history"></p>
+      </div>
+      <div *ngIf="item.culture" style="display: flex; flex-direction: column; width: 80%; padding: 10px; margin-bottom: 10px; border-radius: 5px; background-color: white; word-wrap: break-word; overflow-wrap: break-word; z-index: 4;">
+        <h2>วัฒนธรรมและประเพณี</h2>
+        <p style="padding-left: 10px;" [innerHTML]="item.culture"></p>
+      </div>
+      <div
+        *ngIf="events.length > 0"
+        style="display: flex; flex-direction: column; width: 80%; padding: 10px; margin-bottom: 10px; border-radius: 5px; background-color: white; word-wrap: break-word; overflow-wrap: break-word; z-index: 4;">
+        <h2>กิจกรรมที่น่าสนใจ</h2>
+        <div *ngFor="let event of events" style="display: flex; flex-direction: column;">
+          <div style="display: flex; flex-direction: row; padding-left: 30px;">
+            <div style="position: relative; width: 150px; height: 150px; border-radius: 10px; background-color: var(--primary-dark); padding: 20px;">
+              <img style="position: absolute; width: 85%; height: 85%; object-fit: cover;">
+            </div>
+            
+            <div style="display: flex; flex-direction: column;">
+              <p style="padding-left: 10px; text-decoration: underline;">{{event.name}}</p>
+              <p style="padding-left: 10px;">{{event.detail}}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div 
+      *ngIf="trips.length > 0"
+      style="display: flex; flex-direction: column; width: 80%; padding: 10px; margin-bottom: 10px; border-radius: 5px; background-color: white; word-wrap: break-word; overflow-wrap: break-word; z-index: 4;">
+      <h2>แนะนำ</h2>
+      <div *ngFor="let trip of trips">
+        <a style="padding-left: 10px; text-decoration: underline;">{{trip.name}}</a>
+      </div>
+    </div>
   </div>
-  <div style="width: 100%; display: flex; flex-direction: row; justify-content: center;" *ngIf="item">
+
+  <!-- ท้าย -->
+  <div style="width: 100%; display: flex; flex-direction: row; justify-content: center; box-shadow: -1px -1px 10px rgba(0, 0, 0, 0.5);" *ngIf="item">
     <div class="guide">
       <div class="guide-item">
         <div class="text-button">
@@ -61,6 +106,8 @@
       </div>
     </div>
   </div>
+
+  <!-- error -->
   <div style="width: 100%; display: flex; flex-direction: row; justify-content: center;" *ngIf="!item">
     <h1>Not Found!</h1>
   </div>

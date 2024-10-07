@@ -16,7 +16,7 @@
 <div class="main-content" *ngFor="let header of headers">
     <div class="header">{{header}}</div>
     <div class="content" *ngIf="getItems(header).length > 0">
-      <div *ngFor="let item of getItems(header)" style="display: flex; align-items: center; flex-direction: column;">
+      <div *ngFor="let item of getItems(header) | slice:0:4" style="display: flex; align-items: center; flex-direction: column;">
         <div *ngIf="item.publish === true" class="item" (click)="goToDetail(header, item)" target="_blank">
           <div class="item-pic">
             <img [src]="item.imageData" alt="image" style="width: 100%; height: 100%; object-fit: cover; border-radius: 15px 15px 0 0">
@@ -24,12 +24,15 @@
           <div class="item-title">
             <span style="padding-bottom: 10px; font-size: 15px;">{{ getHeaderName(item) }}</span>
             <div class="item-title">
+              <span>{{ item.provinceName }}</span>
+              <span *ngIf="header !== 'ชุมชน'">{{ item.communityName }}</span>
               <span>{{ item.date }}</span>
             </div>
           </div>
         </div>
         <span *ngIf="global.isAdmin && item.publish" class="text-button" style="margin-right: 0; background-color: rgb(172, 0, 0); z-index: 2; color: white;" (click)="unPublish(header, item)">หยุดเผยแพร่</span>
       </div>
+      <a *ngIf="getItems(header).length > 4" style="text-decoration: underline; margin: 0 15px;">More >></a>
     </div>
 </div>
 

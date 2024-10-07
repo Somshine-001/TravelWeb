@@ -24,7 +24,7 @@
     /* Theme Colors */
     --primary: #006849;
     --primary-dark: rgb(0, 39, 35);
-    --primary-light: #008b62;
+    --primary-light: rgb(0, 119, 79);
     --primary-bg: #ffffff;
     --primary-text: rgb(0, 39, 35);
     --sidenav: #1d2d36;
@@ -51,11 +51,13 @@
 
   /*text*/
   h1 {
-    padding: 0 1rem;
+    padding: 0 0 0 0.5rem;
+    margin-bottom: 0;
   }
   
   h2 {
-    padding: 0.5rem;
+    font-size: large;
+    padding: 0;
   }
 
   .mid-text {

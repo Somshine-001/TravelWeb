@@ -18,22 +18,22 @@ import { AppComponent } from './app.component';
 import { routes } from './app.routes';
 import { AuthInterceptor } from './auth.interceptor';
 
+import { MatDialogModule } from '@angular/material/dialog';
 import { AddcardComponent } from './Admin/AddData/addcard.component';
 import { AdminComponent } from './Admin/admin.component';
 import { EditcardComponent } from './Admin/EditData/editcard.component';
 import { EditformComponent } from './Admin/EditData/EditForm/editform.component';
+import { ImageSelectionDialogComponent } from './Dialog/image-selection-dialog/image-selection-dialog.component';
 import { DetailLayoutComponent } from './Layout/detail-layout/detail-layout.component';
 import { FooterComponent } from './Layout/footer/footer.component';
 import { LayoutComponent } from './Layout/layout/layout.component';
 import { PageLayoutComponent } from './Layout/page-layout/page-layout.component';
 import { DatalistComponent } from './LocalData/datalist/datalist.component';
 import { DetailComponent } from './LocalData/detail/detail.component';
-import { LoginPageComponent } from './login-page/login-page.component';
+import { LoginPageComponent } from './Page/Auth/login-page/login-page.component';
+import { RegisterPageComponent } from './Page/Auth/register-page/register-page.component';
 import { CommunityComponent } from './Page/community/community.component';
 import { HomeComponent } from './Page/home/home.component';
-import { RegisterPageComponent } from './register-page/register-page.component';
-import { ImageSelectionDialogComponent } from './Dialog/image-selection-dialog/image-selection-dialog.component';
-import { MatDialogModule } from '@angular/material/dialog';
 
 @NgModule({
   declarations: [

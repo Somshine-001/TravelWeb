@@ -55,8 +55,8 @@
                 </div>
                 <div formArrayName="planDetail" style="padding: 10px; border-radius: 10px; border: 1px solid var(--primary-dark);">
                   <div *ngFor="let detail of getPlanDetailArray(i).controls; let j = index" [formGroupName]="j" style="display: flex; flex-direction: row;">
-                    <input type="time" formControlName="time"/>
-                    <input formControlName="describe" placeholder="Description" />
+                    <input type="time" formControlName="time">
+                    <input formControlName="describe" placeholder="Description">
                   </div>
                   <button class="btn btn-primary" (click)="addPlanDetail(i)"><b>+</b></button>
                 </div>
@@ -125,6 +125,23 @@
               <option *ngFor="let tag of tags" [value]="tag.name">
                 {{ tag.name }}
               </option>
+            </select>
+          </div>
+          <div class="space">
+            <button type="submit" class="btn btn-primary" (click)="onSave()">บันทึก</button>
+          </div>
+        </form>
+        <form [formGroup]="formGroup" *ngIf="formType === 'หมวดหมู่' || formType === 'สมาชิก'">
+          <div *ngIf="formType === 'หมวดหมู่'">
+            <label>ชื่อ {{ formType }}</label>
+            <input matInput formControlName="name">
+          </div>
+          <div *ngIf="formType === 'สมาชิก'" style="display: flex; flex-direction: column;">
+            <label for="roleName">สิทธิ์</label>
+            <select id="roleName" formControlName="roleName">
+                <option *ngFor="let role of roles" [value]="role.name">
+                    {{ role.name }}
+                </option>
             </select>
           </div>
           <div class="space">

@@ -1,13 +1,13 @@
 import { Routes } from '@angular/router';
-import { PageLayoutComponent } from './Layout/page-layout/page-layout.component';
-import { LoginPageComponent } from './login-page/login-page.component';
-import { HomeComponent } from './Page/home/home.component';
-import { CommunityComponent } from './Page/community/community.component';
-import { RegisterPageComponent } from './register-page/register-page.component';
+import { AdminComponent } from './Admin/admin.component';
 import { DetailLayoutComponent } from './Layout/detail-layout/detail-layout.component';
 import { LayoutComponent } from './Layout/layout/layout.component';
+import { PageLayoutComponent } from './Layout/page-layout/page-layout.component';
 import { DetailComponent } from './LocalData/detail/detail.component';
-import { AdminComponent } from './Admin/admin.component';
+import { LoginPageComponent } from './Page/Auth/login-page/login-page.component';
+import { RegisterPageComponent } from './Page/Auth/register-page/register-page.component';
+import { CommunityComponent } from './Page/community/community.component';
+import { HomeComponent } from './Page/home/home.component';
 
 export const routes: Routes = [
     {

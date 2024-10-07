@@ -5,7 +5,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { AuthService } from '../../Service/auth.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { PublishService } from '../../Service/publish.service';
-import { EditDataService } from '../../Service/editData.service';
+import { EditDataService, Plan, Trip, Event } from '../../Service/editData.service';
 import { Image } from '../../Service/editData.service';
 import { ImageSelectionDialogComponent } from '../../Dialog/image-selection-dialog/image-selection-dialog.component';
 import { DetailService } from '../../Service/detail.service';
@@ -22,6 +22,9 @@ export class DetailComponent implements OnInit {
 
   images: Image[] = [];
   image: any | null = null;
+  trips: Trip[] = [];
+  plans: Plan[] = [];
+  events: Event[] = [];
 
   constructor(
     public global: ThemeOptions,
@@ -62,6 +65,18 @@ export class DetailComponent implements OnInit {
     this.editDataService.getAll<Image>('image').subscribe((images) => {
       this.images = images;
     })
+
+    if (this.header === 'ชุมชน') {
+      this.editDataService.getAll<Trip>('trip').subscribe((trips) => {
+        this.trips = trips.filter(trip => trip.communityName === this.item.name && trip.publish === true);
+        this.loadPlan();
+      })
+
+      this.editDataService.getAll<Event>('event').subscribe((events) => {
+        this.events = events.filter(event => event.communityName === this.item.name && event.publish === true);
+      })
+      
+    }
   }
 
   imageDataUrl(image: Image): string {
@@ -92,9 +107,37 @@ export class DetailComponent implements OnInit {
     });
   }
 
+  loadPlan() {
+    if(this.trips){
+      console.log(this.trips)
+      this.trips.forEach((trip: any) => {
+        this.editDataService.getAll<Plan>('plan').subscribe((plans) => {
+          this.plans = this.groupPlans(plans.filter(plan => plan.tripId === trip.id));
+        })
+      })
+    }
+  }
+
+  private groupPlans(plans: Plan[]): Plan[] {
+    const groupedPlans = new Map<number, Plan>();
+
+    plans.forEach(plan => {
+        if (!groupedPlans.has(plan.id)) {
+            groupedPlans.set(plan.id, {
+                ...plan,
+                planDetail: []
+            });
+        }
+
+        const existingPlan = groupedPlans.get(plan.id);
+        if (existingPlan) {
+            if (Array.isArray(plan.planDetail) && Array.isArray(plan.planDetail)) {
+                existingPlan.planDetail.push(...plan.planDetail);
+            }
+        }
+    });
+
+    return Array.from(groupedPlans.values());
+}
 }
 
-interface CustomState {
-  header: string;
-  item: any;
-}

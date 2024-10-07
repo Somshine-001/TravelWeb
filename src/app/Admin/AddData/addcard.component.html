@@ -162,8 +162,8 @@
             </div>
             <div formArrayName="planDetail" style="padding: 10px; border-radius: 10px; border: 1px solid var(--primary-dark);">
               <div *ngFor="let detail of getPlanDetailArray(i).controls; let j = index;" [formGroupName]="j" style="display: flex; flex-direction: row; justify-content: space-between;">
-                <input type="time" id="time-{{i}}-{{j}}" formControlName="time">
-                <input id="describe-{{i}}-{{j}}" formControlName="describe" [placeholder]="'รายละเอียด'">
+                <input type="time" id="time-{{i}}-{{j}}" formControlName="time" [ngClass]="{'error-border': getFormGroup().get('provinceName')?.invalid && getFormGroup().get('provinceName')?.touched}">
+                <input id="describe-{{i}}-{{j}}" formControlName="describe" [placeholder]="'รายละเอียด'" [ngClass]="{'error-border': getFormGroup().get('provinceName')?.invalid && getFormGroup().get('provinceName')?.touched}">
       
                 <button (click)="removePlanDetail(i, j)"style="width: 30px; height: 30px; border: none; cursor: pointer; margin-top: 10px;"><mat-icon style="color: rgb(187, 0, 0) !important;">delete</mat-icon></button>
               </div>
@@ -191,12 +191,16 @@
             <input formControlName="username" [ngClass]="{'error-border': getFormGroup().get('username')?.invalid && getFormGroup().get('username')?.touched}">
         </div>
         <div *ngIf="addFormType === 'สมาชิก'">
+            <label>อีเมล</label>
+            <input formControlName="email" [ngClass]="{'error-border': getFormGroup().get('email')?.invalid && getFormGroup().get('email')?.touched}">
+        </div>
+        <div *ngIf="addFormType === 'สมาชิก'">
             <label>รหัสผ่าน</label>
-            <input formControlName="password" [ngClass]="{'error-border': getFormGroup().get('password')?.invalid && getFormGroup().get('password')?.touched}">
+            <input type="password" formControlName="password" [ngClass]="{'error-border': getFormGroup().get('password')?.invalid && getFormGroup().get('password')?.touched}">
         </div>
         <div *ngIf="addFormType === 'สมาชิก'">
             <label>ยืนยันรหัสผ่าน</label>
-            <input formControlName="confirmPassword" [ngClass]="{'error-border': getFormGroup().get('confirmPassword')?.invalid && getFormGroup().get('confirmPassword')?.touched}">
+            <input type="password" formControlName="confirmPassword" [ngClass]="{'error-border': getFormGroup().get('confirmPassword')?.invalid && getFormGroup().get('confirmPassword')?.touched}">
         </div>
         <div *ngIf="addFormType === 'สมาชิก'" style="display: flex; flex-direction: column;">
             <label>สิทธิ์</label>
