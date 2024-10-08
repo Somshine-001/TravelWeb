@@ -4,12 +4,17 @@ import { ImageService } from '../../Service/image.service';
 import { AddDataService } from '../../Service/addData.service';
 import { ToastrService } from 'ngx-toastr';
 import { PublishService } from '../../Service/publish.service';
+import { EditDataService } from '../../Service/editData.service';
+import { MatDialog } from '@angular/material/dialog';
+import { Image } from '../../Service/editData.service';
+import { ImageSelectionDialogComponent } from '../../Dialog/image-selection-dialog/image-selection-dialog.component';
 
 @Component({
   selector: 'app-addcard',
   templateUrl: './addcard.component.html',
 })
 export class AddcardComponent {
+  formData!: FormData;
 
   formGroup!: FormGroup;
   communityForm!: FormGroup;
@@ -22,13 +27,16 @@ export class AddcardComponent {
   addUserForm!: FormGroup;
   imageForm!: FormGroup;
 
+  images: Image[] = [];
+
   selectedFile: File | null = null;
   imagePreview: string | null = null;
+  image: any | null = null;
   name: string | null = null;
 
   isHidden = false;
 
-  @Input () header!: string;
+
   @Input() addFormType!: string;
   @Input() communities!: any[];
   @Input() tags!: any[];
@@ -42,8 +50,10 @@ export class AddcardComponent {
     private formBuilder: FormBuilder,
     private imageService: ImageService,
     private addDataService: AddDataService,
+    private editDataService: EditDataService,
     private toastr: ToastrService,
-    private publishService: PublishService
+    private publishService: PublishService,
+    private dialog: MatDialog
   ) {
 
     this.communityForm = this.formBuilder.group({
@@ -113,6 +123,8 @@ export class AddcardComponent {
     this.imageForm = this.formBuilder.group({
       file: [null],
     });
+
+    
 
   }
 
@@ -201,94 +213,137 @@ export class AddcardComponent {
   }
 
   onSave() {
-    if(this.addFormType === 'สมาชิก'){
-      if(this.formGroup.value.password !== this.formGroup.value.confirmPassword){
-        this.toastr.error('รหัสผ่านไม่ตรงกัน');
-        return;
-      }
-    }
-    this.formGroup = this.getFormGroup();
-    if (this.formGroup.invalid && this.addFormType !== 'รูปภาพ') {
-      this.formGroup.markAllAsTouched();
-      let errorMessages = '';
-  
-      for (const controlName in this.formGroup.controls) {
-        if (this.formGroup.controls.hasOwnProperty(controlName)) {
-          const control = this.formGroup.get(controlName);
-          if (control?.invalid && (control.dirty || control.touched)) {
-            errorMessages += `กรุณาตรวจสอบฟิลด์: ${controlName}\n`;
-          }
-        }
-      }
-      if (errorMessages) {
-        alert('กรอกข้อมูลไม่ครบ หรือข้อมูลผิดประเภท\n' + errorMessages);
-      } else {
-        alert('กรอกข้อมูลไม่ครบ หรือข้อมูลผิดประเภท');
-      }
+    if (this.isPasswordMismatch()) {
+      this.toastr.error('รหัสผ่านไม่ตรงกัน');
       return;
     }
-
+  
+    this.formGroup = this.getFormGroup();
+    if (this.isFormInvalid()) {
+      this.showFormErrors();
+      return;
+    }
+  
     if (this.addFormType !== 'รูปภาพ') {
       this.save.emit(this.formGroup.value);
     }
-    const formData = new FormData();
-    const fileInput = this.selectedFile;
-    console.log(fileInput)
-    if (fileInput) {
-      this.imageService.resizeAndOptimizeImage(fileInput, 800, 800, 0.8).then((blob)=> {
-        formData.append('file', blob, fileInput.name);
-        if (this.addFormType !== 'รูปภาพ') {
-          this.publishService.imagePublish(this.addFormType + '_' + this.formGroup.value.name, formData.get('file'));
-        }
-        this.addDataService.save('image', formData).subscribe({
-          next: (response: any) => {
-            const imageId = response.imageId;
-            console.log(imageId);
-            if (this.addFormType !== 'รูปภาพ') {
-              this.publishService.imagePublish(this.addFormType + '_' + this.formGroup.value.name, imageId);
-              window.location.reload();
-            }
-            this.formGroup.reset();
-            this.onCancel();
-            window.location.reload();
-          },
-          error: (error) => {
-            console.error('Upload image failed:', error);
-            this.formGroup.reset();
-            this.onCancel();
-          }
-        })
-      }).catch(error => {
-        console.error('Resize and optimize image failed:', error);
-        this.formGroup.reset();
-        this.onCancel();
-      });
+  
+    this.handleImageSave();
+  }
+  
+  isPasswordMismatch(): boolean {
+    return this.addFormType === 'สมาชิก' && 
+           this.formGroup.value.password !== this.formGroup.value.confirmPassword;
+  }
+  
+  isFormInvalid(): boolean {
+    return this.formGroup.invalid && this.addFormType !== 'รูปภาพ';
+  }
+  
+  showFormErrors() {
+    this.formGroup.markAllAsTouched();
+    let errorMessages = '';
+  
+    for (const controlName in this.formGroup.controls) {
+      const control = this.formGroup.get(controlName);
+      if (control?.invalid && (control.dirty || control.touched)) {
+        errorMessages += `กรุณาตรวจสอบฟิลด์: ${controlName}\n`;
+      }
+    }
+  
+    alert('กรอกข้อมูลไม่ครบ หรือข้อมูลผิดประเภท\n' + (errorMessages || ''));
+  }
+  
+  handleImageSave() {
+    if (this.image && this.image.id) {
+      this.publishImage(this.image.id);
+    } else if (!this.image || this.image.id === null) {
+      this.uploadImage();
     } else {
-      console.error('No file selected');
-      this.formGroup.reset();
-      this.onCancel();
+      this.toastr.error('No file selected');
     }
   }
-
-  codeHidden(){
-    this.isHidden = !this.isHidden;
+  
+  publishImage(imageId: string) {
+    if (this.addFormType !== 'รูปภาพ') {
+      this.publishService.imagePublish(this.addFormType + '_' + this.formGroup.value.name, imageId);
+      window.location.reload();
+    } else {
+      this.toastr.error('กรุณาเลือกรูปภาพจากภายนอก');
+      return;
+    }
+  }
+  
+  uploadImage() {
+    this.formData = this.imageService.getFormData();
+    const file = this.formData.get('file');
+    
+    if (file !== null) {
+      console.log(file);
+    }
+  
+    this.addDataService.save('image', this.formData).subscribe({
+      next: (response: any) => {
+        const imageId = response.imageId;
+        this.publishImage(imageId);
+        this.resetForm();
+      },
+      error: (error) => {
+        console.error('Upload image failed:', error);
+      }
+    });
+  }
+  
+  resetForm() {
+    this.formGroup.reset();
+    this.onCancel();
+    window.location.reload();
   }
 
-  onFileChange(event: any) {
-    const file = event.target.files[0];
-    if (file) {
-      this.selectedFile = file;
-      this.imageService.resizeAndOptimizeImage(file, 800, 800, 0.8)
-        .then(blob => {
-          const optimizedImageURL = URL.createObjectURL(blob);
-          console.log(optimizedImageURL);
-          this.imagePreview = optimizedImageURL;
-        })
-        .catch(error => {
-          console.error('Error optimizing image:', error);
+  imageDataUrl(image: Image): string {
+    return `data:${image.imageType};base64,${image.imageData}`;
+  }
+  
+  chooseImage() {
+    if(this.addFormType !== 'รูปภาพ') {
+      this.editDataService.getAll<Image>('image').subscribe(images => {
+        const dialogRef = this.dialog.open(ImageSelectionDialogComponent, {
+          width: '600px',
+          data: images,
         });
+    
+        dialogRef.afterClosed().subscribe(selectedImage => {
+          if (selectedImage.id) {
+            this.imagePreview = this.imageDataUrl(selectedImage);
+            this.image = selectedImage;
+          } else {
+            this.handleNoImageSelected(selectedImage);
+          }
+        });
+      });
+    }else {
+      const dialogRef = this.dialog.open(ImageSelectionDialogComponent, {
+        width: '600px',
+        data: [],
+      });
+
+      dialogRef.afterClosed().subscribe(selectedImage => {
+        this.handleNoImageSelected(selectedImage);
+      });
     }
   }
+  
+  handleNoImageSelected(imageUrl: string) {
+    this.formData = this.imageService.getFormData();
+    const file = this.formData.get('file');
+    
+    if (file !== null) {
+      console.log(file);
+    }
+  
+    this.imagePreview = imageUrl;
+  }
+  
 
   removeImage() {
     this.selectedFile = null;

@@ -9,12 +9,16 @@ import { EditDataService, Plan, Trip, Event } from '../../Service/editData.servi
 import { Image } from '../../Service/editData.service';
 import { ImageSelectionDialogComponent } from '../../Dialog/image-selection-dialog/image-selection-dialog.component';
 import { DetailService } from '../../Service/detail.service';
+import { AddDataService } from '../../Service/addData.service';
+import { ImageService } from '../../Service/image.service';
 
 @Component({
   selector: 'app-detail',
   templateUrl: './detail.component.html',
 })
 export class DetailComponent implements OnInit {
+
+  formData!: FormData;
 
   header!: string;
   item: any;
@@ -32,6 +36,8 @@ export class DetailComponent implements OnInit {
     private publishService: PublishService,
     private detailService: DetailService,
     private editDataService: EditDataService,
+    private addDataService: AddDataService,
+    private imageService: ImageService,
     private router: Router,
     private dialog: MatDialog,
     ) { }
@@ -46,7 +52,6 @@ export class DetailComponent implements OnInit {
     if (data) {
       this.header = data.header;
       this.item = data.item;
-      
       if(this.item.imageId){
         this.editDataService.getOne<Image>('image', data.item.imageId).subscribe({
           next: (image: Image) => {
@@ -87,11 +92,11 @@ export class DetailComponent implements OnInit {
     this.editDataService.getAll<Image>('image').subscribe(images => {
       const dialogRef = this.dialog.open(ImageSelectionDialogComponent, {
         width: '600px',
-        data: images, // ส่งข้อมูลภาพไปยัง dialog
+        data: images,// ส่งข้อมูลภาพไปยัง dialog
       });
 
       dialogRef.afterClosed().subscribe(selectedImage => {
-        if (selectedImage) {
+        if (selectedImage.id) {
           this.publishService.imagePublish(this.header + '_' + this.item.name, selectedImage.id);
           this.editDataService.getOne<Image>('image', selectedImage.id).subscribe({
             next: (image: Image) => {
@@ -101,6 +106,27 @@ export class DetailComponent implements OnInit {
               console.error('Error fetching image:', error);
             }
           });
+        }else {
+          this.formData = this.imageService.getFormData();
+          this.addDataService.save('image', this.formData).subscribe({
+            next: (response: any) => {
+              const imageId = response.imageId;
+              if (this.header !== 'รูปภาพ') {
+                this.publishService.imagePublish(this.header + '_' + this.item.name, imageId);
+                this.editDataService.getOne<Image>('image', imageId).subscribe({
+                  next: (image: Image) => {
+                    this.item.imageData = this.imageDataUrl(image);
+                  },
+                  error: (error) => {
+                    console.error('Error fetching image:', error);
+                  }
+                })
+              }
+            },
+            error: (error) => {
+              console.error('Error saving image:', error);
+            }
+          })
         }
       });
       
@@ -109,7 +135,6 @@ export class DetailComponent implements OnInit {
 
   loadPlan() {
     if(this.trips){
-      console.log(this.trips)
       this.trips.forEach((trip: any) => {
         this.editDataService.getAll<Plan>('plan').subscribe((plans) => {
           this.plans = this.groupPlans(plans.filter(plan => plan.tripId === trip.id));

@@ -96,7 +96,6 @@ export class AdminComponent implements OnInit {
 
     this.editDataService.getAll<Image>('image').subscribe((images) => {
       this.images = images;
-      console.log(this.images);
     })
 
     this.editDataService.getAll<Community>('community').subscribe((communities) => {

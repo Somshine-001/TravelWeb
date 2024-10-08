@@ -6,6 +6,16 @@ import { Observable } from "rxjs";
     providedIn: "root",
 })
 export class ImageService {
+
+  private formData: FormData = new FormData();
+
+  setFile(blob: Blob, fileName: string) {
+    this.formData.append('file', blob, fileName);
+  }
+
+  getFormData(): FormData {
+    return this.formData;
+  }
   
     resizeAndOptimizeImage(imageFile: File, maxWidth: number, maxHeight: number, quality: number = 1): Promise<Blob> {
         return new Promise((resolve, reject) => {

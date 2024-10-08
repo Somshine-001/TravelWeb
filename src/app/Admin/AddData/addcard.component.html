@@ -2,7 +2,7 @@
   <div class="modal-content">
     <button class="close-btn" (click)="onCancel()">×</button>
     <div>
-      <h3>{{ header }}</h3>
+      <h3>{{ addFormType }}</h3>
     </div>
 
     <!-- ฟอร์ม -->
@@ -217,8 +217,7 @@
       </form>
       <form [formGroup]="imageForm" *ngIf="addFormType !== 'แผนการท่องเที่ยว' && addFormType !== 'หมวดหมู่' && addFormType !== 'สมาชิก'">
         <!-- กล่องสำหรับอัปโหลดรูปภาพ -->
-        <div class="upload-box" (click)="fileInput.click()">
-          <input type="file" (change)="onFileChange($event)" #fileInput hidden />
+        <div class="upload-box" (click)="chooseImage()">
           <div *ngIf="!imagePreview" class="upload-placeholder">
             <i class="fa fa-plus" aria-hidden="true"></i>
             <p>Upload Image</p>
