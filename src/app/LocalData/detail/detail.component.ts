@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { ImageSelectionDialogComponent } from '../../Dialog/image-selection-dialog/image-selection-dialog.component';
 import { AddDataService } from '../../Service/addData.service';
 import { DetailService } from '../../Service/detail.service';
-import { EditDataService, Event, FoodsProducts, Image, Plan, Trip } from '../../Service/editData.service';
+import { EditDataService, Event, FoodsProducts, Image, Trip } from '../../Service/editData.service';
 import { ImageService } from '../../Service/image.service';
 import { PermissionService } from '../../Service/permission.service';
 import { PublishService } from '../../Service/publish.service';
@@ -16,6 +16,7 @@ import { ThemeOptions } from '../../theme-options';
   templateUrl: './detail.component.html',
 })
 export class DetailComponent implements OnInit {
+  triggerMain: string | null = null;
 
   formData!: FormData;
 
@@ -27,7 +28,6 @@ export class DetailComponent implements OnInit {
   image: any | null = null;
   trips: Trip[] = [];
   tripData: any | null = null;
-  plans: Plan[] = [];
   events: Event[] = [];
   foodsProducts: FoodsProducts[] = [];
 
@@ -75,7 +75,6 @@ export class DetailComponent implements OnInit {
     if (this.header === 'ชุมชน') {
       this.editDataService.getAll<Trip>('trip').subscribe((trips) => {
         this.trips = trips.filter(trip => trip.communityName === this.item.name && trip.publish === true);
-        this.loadPlan();
       })
 
       this.editDataService.getAll<Event>('event').subscribe((events) => {
@@ -94,6 +93,27 @@ export class DetailComponent implements OnInit {
     setTimeout(() => {
       this.loadMap();
     });
+}
+
+
+onTriggerMain(mainType: string) {
+  switch (mainType) {
+    case 'เกี่ยวกับเรา':
+      return '/about';
+    case 'ติดต่อเรา':
+      return '/contact';
+    default:
+      return '';
+  }
+}
+
+isActiveMain(mainType: string) {
+  if (this.triggerMain === mainType) {
+    return;
+  }
+
+  const triggeredMain = mainType;
+  this.router.navigate([triggeredMain]);
 }
 
   loadMap() {
@@ -221,39 +241,6 @@ export class DetailComponent implements OnInit {
       });
     });
   }
-
-  loadPlan() {
-    if(this.trips){
-      this.trips.forEach((trip: any) => {
-        this.editDataService.getAll<Plan>('plan').subscribe((plans) => {
-          this.plans = this.groupPlans(plans.filter(plan => plan.tripId === trip.id));
-        })
-      })
-    }
-  }
-
-  private groupPlans(plans: Plan[]): Plan[] {
-    const groupedPlans = new Map<number, Plan>();
-
-    plans.forEach(plan => {
-        if (!groupedPlans.has(plan.id)) {
-            groupedPlans.set(plan.id, {
-                ...plan,
-                planDetail: []
-            });
-        }
-
-        const existingPlan = groupedPlans.get(plan.id);
-        if (existingPlan) {
-            if (Array.isArray(plan.planDetail) && Array.isArray(plan.planDetail)) {
-                existingPlan.planDetail.push(...plan.planDetail);
-            }
-        }
-    });
-
-    return Array.from(groupedPlans.values());
-  }
-
   getTrip(trip: any) {
     this.tripData = trip;
   }

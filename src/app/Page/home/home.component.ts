@@ -166,7 +166,7 @@ export class HomeComponent implements OnInit {
   }
 
   getHeaderName(item: any): any {
-    const maxLength = 20;
+    const maxLength = 30;
     if (item && item.name && item.name.length > maxLength) {
       return item.name.substring(0, maxLength) + '...';
     } else {

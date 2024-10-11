@@ -1,5 +1,19 @@
-<div class="modal">
-    <div class="modal-content">
+<div class="trip-modal">
+    <div class="tmodal-content">
       <button class="close-btn" (click)="onClose()">×</button>
+      <h2 class="trip-title">{{ tripData.name }}</h2> <!-- ชื่อทริป -->
+      <p class="trip-detail">{{ tripData.detail }}</p> <!-- รายละเอียดทริป -->
+  
+      <div class="plan-container">
+        <div *ngFor="let plan of plans" class="plan-card">
+          <h3 class="plan-title">{{ plan.name }}</h3> <!-- ชื่อแผน -->
+          <div class="plan-detail">
+            <div *ngFor="let detail of plan.planDetail" class="detail-row">
+              <span class="time">{{ detail.time }}</span>
+              <span class="description">{{ detail.describe }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>

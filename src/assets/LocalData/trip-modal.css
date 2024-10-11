@@ -1,0 +1,125 @@
+.trip-modal {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5); /* แสดงพื้นหลังมืด */
+    z-index: 1000;
+  }
+  
+  .trip-modal .tmodal-content {
+    position: relative;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    max-width: 500px;
+    width: 90%;
+  }
+  
+  .tmodal-content .close-btn {
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    position: absolute;
+    right: 15px;
+    top: 15px;
+  }
+  
+  .trip-title {
+    font-size: 1.5em;
+    margin: 0;
+    color: var(--primary-dark);
+  }
+  
+  .trip-detail {
+    margin-bottom: 15px;
+    color: #555; /* สีรายละเอียดทริป */
+  }
+  
+  .plan-container {
+    margin-top: 10px;
+  }
+  
+  .plan-card {
+    border: 1px solid var(--primary-dark);
+    border-radius: 10px;
+    margin: 10px 0;
+    padding: 10px;
+    background-color: #f9f9f9; /* สีพื้นหลังสำหรับแผน */
+    transition: box-shadow 0.3s;
+  }
+  
+  .plan-card:hover {
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15); /* เงาเมื่อวางเมาส์ */
+  }
+  
+  .plan-title {
+    font-size: 1.2em;
+    margin: 0;
+    color: var(--primary);
+  }
+  
+  .plan-detail {
+    margin-top: 5px;
+  }
+  
+  .detail-row {
+    display: flex;
+    justify-content: space-between; /* จัดแนวข้อมูลให้กระจาย */
+    padding: 5px 0;
+    border-bottom: 1px solid var(--primary); /* ขีดกั้นระหว่างรายละเอียด */
+  }
+  
+  .detail-row:last-child {
+    border-bottom: none; /* ลบขีดกั้นในแถวสุดท้าย */
+  }
+  
+  .time {
+    width: 70px; /* กำหนดความกว้างให้เวลา */
+    font-weight: bold; /* ตัวหนา */
+  }
+  
+  .description {
+    padding-left: 5px;
+    border-left: 1px solid var(--primary);
+    flex: 1; /* ยืดให้เต็มพื้นที่ */
+  }
+
+  @media (max-width: 500px) {
+    .trip-modal .tmodal-content {
+        padding: 15px; /* ลดการ padding */
+        width: 95%; /* กำหนดความกว้าง */
+    }
+
+    .trip-title {
+        font-size: 1.3em; /* ลดขนาดฟอนต์ */
+    }
+
+    .trip-detail {
+        font-size: 0.9em; /* ลดขนาดฟอนต์ */
+    }
+
+    .plan-title {
+        font-size: 1.1em; /* ลดขนาดฟอนต์ */
+    }
+
+    .detail-row {
+        flex-direction: column; /* จัดให้เป็นแนวตั้ง */
+        align-items: flex-start; /* จัดให้ชิดซ้าย */
+    }
+
+    .time {
+        width: auto; /* ปรับความกว้างให้ยืดหยุ่น */
+        font-size: 0.9em; /* ลดขนาดฟอนต์ */
+    }
+
+    .description {
+        font-size: 0.9em; /* ลดขนาดฟอนต์ */
+    }
+}

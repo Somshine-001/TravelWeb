@@ -42,14 +42,14 @@
     <div class="detail-title">
         <span [innerHTML]="item.detail"></span>
     </div>
-    <div *ngIf="header === 'แหล่งท่องเที่ยว' && item" style="display: flex; flex-direction: column; width: 80%; align-items: center;">
+    <div *ngIf="header === 'แหล่งท่องเที่ยว' && item" style="display: flex; flex-direction: column; width: 80%; align-items: center; border-radius: 10px; background-color: rgb(167, 255, 226); padding: 15px;">
       <iframe *ngIf="header === 'แหล่งท่องเที่ยว' && item.map" id="mapFrame" width="600" height="300" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
       <div class="detail-describe">
         <h2>เวลาทำการ</h2>
         <span>{{item.time}}, {{item.days}}</span>
       </div>
     </div>
-    <div *ngIf="header === 'อาหารและผลิตภัณฑ์' && item" style="display: flex; flex-direction: column; width: 80%; align-items: center;">
+    <div *ngIf="header === 'อาหารและผลิตภัณฑ์' && item" style="display: flex; flex-direction: column; width: 80%; align-items: center; border-radius: 10px; background-color: rgb(167, 255, 226); padding: 15px;">
       <div class="detail-describe">
         <h2>สิ่งที่ต้องเตรียม</h2>
         <div style="padding-left: 10px;" [innerHTML]="item.ingredient"></div>
@@ -59,21 +59,20 @@
         <div style="padding-left: 10px;" [innerHTML]="item.step"></div>
       </div>
       <div class="detail-describe">
-        <h2>ราคา</h2>
-        <span>{{item.price}} บาท</span>
+        <span>ราคา {{item.price}} บาท</span>
       </div>
       <div *ngIf="foodsProducts.length > 0"style="display: flex; flex-direction: row; width: 80%; align-items: center;">
         <div *ngFor="let fp of getItems() | slice:0:4" style="position: relative; display: flex; flex-direction: column; margin-right: 20px;">
           <div style="width: 200px; height: 150px; border-radius: 10px; background-color: var(--primary-dark); margin-bottom: 45px;">
-            <img [src]="fp.imageData" style="width: 100%; height: 100%; object-fit: cover;"/>
+            <img [src]="fp.imageData" style="width: 100%; height: 100%; object-fit: cover; border-radius: 5px;"/>
             <span>{{fp.name}}</span>
           </div>
-          <button *ngIf="global.isAdmin" (click)="chooseImage2('อาหารและผลิตภัณฑ์', fp)" style="position: absolute; top: 10px; left: 10px;">+</button>
+          <button *ngIf="global.isAdmin" (click)="chooseImage2('อาหารและผลิตภัณฑ์', fp)" class="add-btn"><b>+</b></button>
         </div>
       </div>
     </div>
     
-    <div style="display: flex; flex-direction: column; width: 80%; align-items: center;" *ngIf="header === 'ชุมชน'"> 
+    <div style="display: flex; flex-direction: column; width: 80%; align-items: center; border-radius: 10px; background-color: rgb(167, 255, 226); padding: 15px;" *ngIf="header === 'ชุมชน'"> 
       <div class="detail-describe">
         <h2>ประวัติความเป็นมา</h2>
         <div style="padding-left: 10px;" [innerHTML]="item.history"></div>
@@ -87,9 +86,9 @@
         <div *ngFor="let event of getItems()" style="display: flex; flex-direction: column;">
           <div style="position: relative; display: flex; flex-direction: row; padding-left: 30px;">
             <div style="width: 200px; height: auto; border-radius: 10px; background-color: var(--primary-dark); margin-right: 20px;" >
-              <img [src]="event.imageData" style="width: 100%; height: 100%; object-fit: cover;"/>
+              <img [src]="event.imageData" style="width: 100%; height: 100%; object-fit: cover; border-radius: 5px;"/>
             </div>
-            <button *ngIf="global.isAdmin" (click)="chooseImage2('กิจกรรมสรรทนาการ', event)" style="position: absolute; top: 10px; left: 5px;">+</button>
+            <button *ngIf="global.isAdmin" (click)="chooseImage2('กิจกรรมสรรทนาการ', event)"  class="add-btn"><b>+</b></button>
             <div style="display: flex; flex-direction: column;">
               <p style="padding-left: 10px; text-decoration: underline;">{{event.name}}</p>
               <p style="padding-left: 10px;">{{event.detail}}</p>

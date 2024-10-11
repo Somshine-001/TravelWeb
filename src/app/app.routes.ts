@@ -4,6 +4,7 @@ import { DetailLayoutComponent } from './Layout/detail-layout/detail-layout.comp
 import { LayoutComponent } from './Layout/layout/layout.component';
 import { PageLayoutComponent } from './Layout/page-layout/page-layout.component';
 import { DetailComponent } from './LocalData/detail/detail.component';
+import { DatalistComponent } from './LocalData/datalist/datalist.component';
 import { LoginPageComponent } from './Page/Auth/login-page/login-page.component';
 import { RegisterPageComponent } from './Page/Auth/register-page/register-page.component';
 import { CommunityComponent } from './Page/community/community.component';
@@ -34,6 +35,7 @@ export const routes: Routes = [
         component: DetailLayoutComponent,
         children:[
             { path: 'detail', component: DetailComponent },
+            { path: 'deta-list', component: DatalistComponent },
         ]
     },
     {path: '**', redirectTo: ''}   
