@@ -25,14 +25,17 @@ export class EditcardComponent {
   @Output() openEditForm = new EventEmitter<any>();
   @Output() deleteItem = new EventEmitter<number>();
 
-  constructor(private formBuilder: FormBuilder, private toastr: ToastrService, private publishService: PublishService) { }
+  constructor(
+    private formBuilder: FormBuilder,
+    private toastr: ToastrService,
+    private publishService: PublishService,
+  ) { }
 
   onDeleteItem(item: any) {
     const confirmation = confirm('คุณต้องการลบ' + this.cardType + 'ใช่หรือไม่');
     if (!confirmation) {
       return;
     }
-    console.log(item.id);
     this.deleteItem.emit(item.id);
   }
 

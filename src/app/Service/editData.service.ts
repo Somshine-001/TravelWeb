@@ -81,8 +81,7 @@ export interface Place {
     id: number;
     name: string;
     detail: string;
-    latitude: string;
-    longitude: string;
+    map: string;
     date: string;
     upToDate: string;
     days: string;

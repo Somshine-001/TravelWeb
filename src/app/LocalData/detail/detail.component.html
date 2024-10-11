@@ -1,5 +1,5 @@
 <!-- หัว -->
-<div style="width: 100%; display: flex; flex-direction: row; justify-content: center; box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.5);" *ngIf="item">
+<div *ngIf="item">
     <div class="guide">
       <div class="guide-item">
         <div class="text-button">
@@ -21,7 +21,7 @@
         </div>
       </div>
     </div>
-  </div>
+</div>
 
  <!--เนื้อหา  -->
   <div class="detail-content" *ngIf="item">
@@ -29,11 +29,8 @@
       <h1>{{item.name}}</h1>
       <p>{{item.address}}</p>
     </div>
-    <div>
-      
-    </div>
     <div class="detail-pic" *ngIf="item.imageData || global.isAdmin">
-      <img *ngIf="item.imageData" [src]="item.imageData" alt="image" style="filter: blur(25px);">
+      <img *ngIf="item.imageData" [src]="item.imageData" alt="image" style="filter: blur(15px);">
       <div class="pic" style="border-radius: 20px;">
         <img *ngIf="item.imageData" [src]="item.imageData" alt="image" style="border-radius: 10px; box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.5);">
       </div>
@@ -42,28 +39,57 @@
       </div>
       <button *ngIf="global.isAdmin" class="choose-image-btn" (click)="chooseImage()">Choose Image</button>
     </div>
-    <div style="display: flex; flex-direction: column; width: 80%; padding: 10px; margin-bottom: 10px; margin-top: -40px; border-radius: 5px; box-shadow: -1px -1px 10px rgba(0, 0, 0, 0.5); border: 1px solid rgba(177, 177, 177, 0.815); background-color: white; word-wrap: break-word; overflow-wrap: break-word; z-index: 4;">
-        <p [innerHTML]="item.detail"></p>
+    <div class="detail-title">
+        <span [innerHTML]="item.detail"></span>
     </div>
-    <div *ngIf="header === 'ชุมชน'">
-      <div style="display: flex; flex-direction: column; width: 80%; padding: 10px; margin-bottom: 10px; border-radius: 5px; background-color: white; word-wrap: break-word; overflow-wrap: break-word; z-index: 4;">
+    <div *ngIf="header === 'แหล่งท่องเที่ยว' && item" style="display: flex; flex-direction: column; width: 80%; align-items: center;">
+      <iframe *ngIf="header === 'แหล่งท่องเที่ยว' && item.map" id="mapFrame" width="600" height="300" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <div class="detail-describe">
+        <h2>เวลาทำการ</h2>
+        <span>{{item.time}}, {{item.days}}</span>
+      </div>
+    </div>
+    <div *ngIf="header === 'อาหารและผลิตภัณฑ์' && item" style="display: flex; flex-direction: column; width: 80%; align-items: center;">
+      <div class="detail-describe">
+        <h2>สิ่งที่ต้องเตรียม</h2>
+        <div style="padding-left: 10px;" [innerHTML]="item.ingredient"></div>
+      </div>
+      <div class="detail-describe">
+        <h2>ขั้นตอนและวิธีทำ</h2>
+        <div style="padding-left: 10px;" [innerHTML]="item.step"></div>
+      </div>
+      <div class="detail-describe">
+        <h2>ราคา</h2>
+        <span>{{item.price}} บาท</span>
+      </div>
+      <div *ngIf="foodsProducts.length > 0"style="display: flex; flex-direction: row; width: 80%; align-items: center;">
+        <div *ngFor="let fp of getItems() | slice:0:4" style="position: relative; display: flex; flex-direction: column; margin-right: 20px;">
+          <div style="width: 200px; height: 150px; border-radius: 10px; background-color: var(--primary-dark); margin-bottom: 45px;">
+            <img [src]="fp.imageData" style="width: 100%; height: 100%; object-fit: cover;"/>
+            <span>{{fp.name}}</span>
+          </div>
+          <button *ngIf="global.isAdmin" (click)="chooseImage2('อาหารและผลิตภัณฑ์', fp)" style="position: absolute; top: 10px; left: 10px;">+</button>
+        </div>
+      </div>
+    </div>
+    
+    <div style="display: flex; flex-direction: column; width: 80%; align-items: center;" *ngIf="header === 'ชุมชน'"> 
+      <div class="detail-describe">
         <h2>ประวัติความเป็นมา</h2>
-        <p style="padding-left: 10px;" [innerHTML]="item.history"></p>
+        <div style="padding-left: 10px;" [innerHTML]="item.history"></div>
       </div>
-      <div *ngIf="item.culture" style="display: flex; flex-direction: column; width: 80%; padding: 10px; margin-bottom: 10px; border-radius: 5px; background-color: white; word-wrap: break-word; overflow-wrap: break-word; z-index: 4;">
+      <div *ngIf="item.culture" class="detail-describe">
         <h2>วัฒนธรรมและประเพณี</h2>
-        <p style="padding-left: 10px;" [innerHTML]="item.culture"></p>
+        <div style="padding-left: 10px;" [innerHTML]="item.culture"></div>
       </div>
-      <div
-        *ngIf="events.length > 0"
-        style="display: flex; flex-direction: column; width: 80%; padding: 10px; margin-bottom: 10px; border-radius: 5px; background-color: white; word-wrap: break-word; overflow-wrap: break-word; z-index: 4;">
+      <div *ngIf="events.length > 0" class="detail-describe">
         <h2>กิจกรรมที่น่าสนใจ</h2>
-        <div *ngFor="let event of events" style="display: flex; flex-direction: column;">
-          <div style="display: flex; flex-direction: row; padding-left: 30px;">
-            <div style="position: relative; width: 150px; height: 150px; border-radius: 10px; background-color: var(--primary-dark); padding: 20px;">
-              <img style="position: absolute; width: 85%; height: 85%; object-fit: cover;">
+        <div *ngFor="let event of getItems()" style="display: flex; flex-direction: column;">
+          <div style="position: relative; display: flex; flex-direction: row; padding-left: 30px;">
+            <div style="width: 200px; height: auto; border-radius: 10px; background-color: var(--primary-dark); margin-right: 20px;" >
+              <img [src]="event.imageData" style="width: 100%; height: 100%; object-fit: cover;"/>
             </div>
-            
+            <button *ngIf="global.isAdmin" (click)="chooseImage2('กิจกรรมสรรทนาการ', event)" style="position: absolute; top: 10px; left: 5px;">+</button>
             <div style="display: flex; flex-direction: column;">
               <p style="padding-left: 10px; text-decoration: underline;">{{event.name}}</p>
               <p style="padding-left: 10px;">{{event.detail}}</p>
@@ -77,13 +103,13 @@
       style="display: flex; flex-direction: column; width: 80%; padding: 10px; margin-bottom: 10px; border-radius: 5px; background-color: white; word-wrap: break-word; overflow-wrap: break-word; z-index: 4;">
       <h2>แนะนำ</h2>
       <div *ngFor="let trip of trips">
-        <a style="padding-left: 10px; text-decoration: underline;">{{trip.name}}</a>
+        <button style="padding-left: 10px; border: none; text-decoration: underline; cursor: pointer;" (click)="getTrip(trip)">{{trip.name}}</button>
       </div>
     </div>
   </div>
 
   <!-- ท้าย -->
-  <div style="width: 100%; display: flex; flex-direction: row; justify-content: center; box-shadow: -1px -1px 10px rgba(0, 0, 0, 0.5);" *ngIf="item">
+  <div *ngIf="item">
     <div class="guide">
       <div class="guide-item">
         <div class="text-button">
@@ -111,3 +137,9 @@
   <div style="width: 100%; display: flex; flex-direction: row; justify-content: center;" *ngIf="!item">
     <h1>Not Found!</h1>
   </div>
+
+  <app-trip-modal
+  *ngIf="tripData"
+  [tripData]="tripData"
+  (close)="closeTrip()">
+  </app-trip-modal>

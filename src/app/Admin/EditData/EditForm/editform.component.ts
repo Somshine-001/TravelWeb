@@ -25,11 +25,14 @@ export class EditformComponent {
 
   constructor(
     private formBuild: FormBuilder,
-    private editDataService: EditDataService
+    private editDataService: EditDataService,
   ) {}
 
   onSave() {
-    console.log(this.formGroup.value)
+    if(this.formType === 'แหล่งท่องเที่ยว') {
+      this.formGroup.value.map = this.formGroup.value.map.replace(/.*src="([^"]+)".*/, '$1');
+      console.log(this.formGroup.value.map);
+    }
     this.save.emit(this.formGroup);
   }
 
@@ -57,7 +60,6 @@ export class EditformComponent {
   
   removePlan(planIndex: number): void {
     const planId = this.plansArray.at(planIndex).get('id')?.value; // ดึง ID ของ Plan ที่จะลบ
-    console.log(planId)
     if (planId) {
       this.editDataService.delete('plan', planId).subscribe(() => {
         this.plansArray.removeAt(planIndex); // ลบจาก FormArray

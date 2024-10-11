@@ -16,7 +16,6 @@ export class ImageSelectionDialogComponent {
     public dialogRef: MatDialogRef<ImageSelectionDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public images: any[],
     private imageService: ImageService,
-    private addDataService: AddDataService,
   ) {}
 
   selectImage(image: any) {
@@ -34,7 +33,6 @@ export class ImageSelectionDialogComponent {
         .then(blob => {
           this.imageService.setFile(blob, file.name);
           const optimizedImageURL = URL.createObjectURL(blob);
-          console.log(optimizedImageURL);
           this.selectImage(optimizedImageURL);
         })
         .catch(error => {

@@ -30,6 +30,7 @@ import { LayoutComponent } from './Layout/layout/layout.component';
 import { PageLayoutComponent } from './Layout/page-layout/page-layout.component';
 import { DatalistComponent } from './LocalData/datalist/datalist.component';
 import { DetailComponent } from './LocalData/detail/detail.component';
+import { TripModalComponent } from './LocalData/trip-modal/trip-modal.component';
 import { LoginPageComponent } from './Page/Auth/login-page/login-page.component';
 import { RegisterPageComponent } from './Page/Auth/register-page/register-page.component';
 import { CommunityComponent } from './Page/community/community.component';
@@ -55,6 +56,7 @@ import { HomeComponent } from './Page/home/home.component';
     AddcardComponent,
     DetailComponent,
     DatalistComponent,
+    TripModalComponent,
 
     // DIALOG
     ImageSelectionDialogComponent,

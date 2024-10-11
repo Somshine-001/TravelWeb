@@ -4,14 +4,16 @@
     <div *ngFor="let image of images" style="margin: 10px; cursor: pointer;" (click)="selectImage(image)">
       <img [src]="'data:' + image.imageType + ';base64,' + image.imageData" alt="image" style="width: 100px; height: 100px; object-fit: cover; border-radius: 5px;">
     </div>
-    <div class="upload-box" (click)="fileInput.click()">
-      <input type="file" (change)="onFileChange($event)" #fileInput hidden />
-      <div *ngIf="!imagePreview" style="padding: 10px; border: 1px solid var(--primary-dark); border-radius: 5px;">
-        <p>อุปกรณ์นี้</p>
-      </div>
-    </div>
   </div>
 </mat-dialog-content>
 <mat-dialog-actions>
-  <button mat-button (click)="onNoClick()">ยกเลิก</button>
+  <div style="display: flex; flex-direction: row; justify-content: space-between; width: 100%;">
+    <div (click)="fileInput.click()">
+      <input type="file" (change)="onFileChange($event)" #fileInput hidden />
+      <div style="padding: 5px; border: 1px solid var(--primary-dark); border-radius: 5px;">
+        <p>อุปกรณ์นี้</p>
+      </div>
+    </div>
+    <button mat-button (click)="onNoClick()">ยกเลิก</button>
+  </div>
 </mat-dialog-actions>

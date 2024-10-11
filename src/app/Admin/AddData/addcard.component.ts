@@ -70,8 +70,7 @@ export class AddcardComponent {
       name: ['', [Validators.required, Validators.maxLength(50)]],
       detail: [''],
       tel: [''],
-      latitude: [''],
-      longitude: [''],
+      map: [''],
       days: [''],
       time: [''],
       communityName: ['', [Validators.required]],
@@ -123,11 +122,7 @@ export class AddcardComponent {
     this.imageForm = this.formBuilder.group({
       file: [null],
     });
-
-    
-
   }
-
 
   get plans(): FormArray {
     return this.tripForm.get('plans') as FormArray;
@@ -223,6 +218,11 @@ export class AddcardComponent {
       this.showFormErrors();
       return;
     }
+
+    if(this.addFormType === 'แหล่งท่องเที่ยว') {
+      this.formGroup.value.map = this.formGroup.value.map.replace(/.*src="([^"]+)".*/, '$1');
+      console.log(this.formGroup.value.map);
+    }
   
     if (this.addFormType !== 'รูปภาพ') {
       this.save.emit(this.formGroup.value);
@@ -277,11 +277,7 @@ export class AddcardComponent {
   uploadImage() {
     this.formData = this.imageService.getFormData();
     const file = this.formData.get('file');
-    
-    if (file !== null) {
-      console.log(file);
-    }
-  
+
     this.addDataService.save('image', this.formData).subscribe({
       next: (response: any) => {
         const imageId = response.imageId;
@@ -336,10 +332,6 @@ export class AddcardComponent {
   handleNoImageSelected(imageUrl: string) {
     this.formData = this.imageService.getFormData();
     const file = this.formData.get('file');
-    
-    if (file !== null) {
-      console.log(file);
-    }
   
     this.imagePreview = imageUrl;
   }

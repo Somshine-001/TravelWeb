@@ -75,21 +75,14 @@
               <input formControlName="days" [placeholder]="'จ. - ศ.'">
               <input formControlName="time" [placeholder]="'08.00 - 17.30'">
             </div>
-            <label for="address">พิกัด</label>
+            <label for="map">ฝังแผนที่</label>
             <div style="display: flex; flex-direction: row; justify-content: space-between;">
               <input
                 type="text"
-                id="latitude"
-                name="latitude"
-                formControlName="latitude"
-                [placeholder]="'ละติจูด (90.0000000 จนถึง -90.0000000)'"
-              >
-              <input
-                type="text"
-                id="longitude"
-                name="longitude"
-                formControlName="longitude"
-                [placeholder]="'ลองจิจูด (180.0000000 จนถึง -180.0000000)'"
+                id="map"
+                name="map"
+                formControlName="map"
+                [placeholder]="'ฝังแผนที่จาก google map'"
               >
             </div>
           </div>

@@ -37,11 +37,11 @@
 
   @media screen and (max-width: 1000px) {
     .main-footer {
-        width: 1000px;
+        width: 990px;
     }
 
     .footer-bottom {
-        width: 1000px;
+        width: 990px;
         text-align: left;
     }
   }

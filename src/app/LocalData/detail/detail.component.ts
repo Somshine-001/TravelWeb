@@ -1,16 +1,15 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { ThemeOptions } from '../../theme-options';
-import { PermissionService } from '../../Service/permission.service';
+import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { AuthService } from '../../Service/auth.service';
-import { ActivatedRoute, Router } from '@angular/router';
-import { PublishService } from '../../Service/publish.service';
-import { EditDataService, Plan, Trip, Event } from '../../Service/editData.service';
-import { Image } from '../../Service/editData.service';
+import { Router } from '@angular/router';
 import { ImageSelectionDialogComponent } from '../../Dialog/image-selection-dialog/image-selection-dialog.component';
-import { DetailService } from '../../Service/detail.service';
 import { AddDataService } from '../../Service/addData.service';
+import { DetailService } from '../../Service/detail.service';
+import { EditDataService, Event, FoodsProducts, Image, Plan, Trip } from '../../Service/editData.service';
 import { ImageService } from '../../Service/image.service';
+import { PermissionService } from '../../Service/permission.service';
+import { PublishService } from '../../Service/publish.service';
+import { ThemeOptions } from '../../theme-options';
+
 
 @Component({
   selector: 'app-detail',
@@ -27,8 +26,10 @@ export class DetailComponent implements OnInit {
   images: Image[] = [];
   image: any | null = null;
   trips: Trip[] = [];
+  tripData: any | null = null;
   plans: Plan[] = [];
   events: Event[] = [];
+  foodsProducts: FoodsProducts[] = [];
 
   constructor(
     public global: ThemeOptions,
@@ -79,8 +80,26 @@ export class DetailComponent implements OnInit {
 
       this.editDataService.getAll<Event>('event').subscribe((events) => {
         this.events = events.filter(event => event.communityName === this.item.name && event.publish === true);
+        this.loadPublishedImages('กิจกรรมสรรทนาการ', this.events);
       })
-      
+    }else if (this.header === 'อาหารและผลิตภัณฑ์') {
+      this.editDataService.getAll<FoodsProducts>('fp').subscribe((foodsProducts) => {
+        this.foodsProducts = foodsProducts.filter(fp => fp.publish === true);
+        this.loadPublishedImages('อาหารและผลิตภัณฑ์', this.foodsProducts);
+      });
+    }
+  }
+
+  ngAfterViewInit() {
+    setTimeout(() => {
+      this.loadMap();
+    });
+}
+
+  loadMap() {
+    const mapFrame = document.getElementById('mapFrame')
+    if (mapFrame instanceof HTMLIFrameElement) { // ตรวจสอบว่าเป็น HTMLIFrameElement
+      mapFrame.src = this.item.map;
     }
   }
 
@@ -111,11 +130,53 @@ export class DetailComponent implements OnInit {
           this.addDataService.save('image', this.formData).subscribe({
             next: (response: any) => {
               const imageId = response.imageId;
+              this.publishService.imagePublish(this.header + '_' + this.item.name, imageId);
+              this.editDataService.getOne<Image>('image', imageId).subscribe({
+                next: (image: Image) => {
+                  this.item.imageData = this.imageDataUrl(image);
+                },
+                error: (error) => {
+                  console.error('Error fetching image:', error);
+                }
+              }) 
+            },
+            error: (error) => {
+              console.error('Error saving image:', error);
+            }
+          })
+        }
+      });
+      
+    });
+  }
+
+  chooseImage2(type: string, item: any) {
+    this.editDataService.getAll<Image>('image').subscribe(images => {
+      const dialogRef = this.dialog.open(ImageSelectionDialogComponent, {
+        width: '600px',
+        data: images,// ส่งข้อมูลภาพไปยัง dialog
+      });
+      dialogRef.afterClosed().subscribe(selectedImage => {
+        if (selectedImage.id) {
+          this.publishService.imagePublish(type + '_' + item.name, selectedImage.id);
+          this.editDataService.getOne<Image>('image', selectedImage.id).subscribe({
+            next: (image: Image) => {
+              item.imageData = this.imageDataUrl(image);
+            },
+            error: (error) => {
+              console.error('Error fetching image:', error);
+            }
+          });
+        }else {
+          this.formData = this.imageService.getFormData();
+          this.addDataService.save('image', this.formData).subscribe({
+            next: (response: any) => {
+              const imageId = response.imageId;
               if (this.header !== 'รูปภาพ') {
-                this.publishService.imagePublish(this.header + '_' + this.item.name, imageId);
+                this.publishService.imagePublish(type + '_' + item.name, imageId);
                 this.editDataService.getOne<Image>('image', imageId).subscribe({
                   next: (image: Image) => {
-                    this.item.imageData = this.imageDataUrl(image);
+                    item.imageData = this.imageDataUrl(image);
                   },
                   error: (error) => {
                     console.error('Error fetching image:', error);
@@ -130,6 +191,34 @@ export class DetailComponent implements OnInit {
         }
       });
       
+    });
+  }
+
+  getItems(): any[] {
+    if (this.header === 'ชุมชน') {
+      return this.events;
+    }else if (this.item.tagName === 'อาหาร' || this.item.tagName === 'ผลิตภัณฑ์') {
+      return this.foodsProducts;
+    }else {
+      return [];
+    }
+  }
+
+  loadPublishedImages(header: string, items: any[]) {
+    items.forEach(item => {
+      const imageId = this.publishService.getPublishedImages(header + '_' + item.name);
+      if (!imageId) {
+        return;
+      }
+      this.editDataService.getOne<Image>('image', imageId).subscribe({
+        next: (image: Image) => {
+          item.imageData = this.imageDataUrl(image);
+          item.imageId = image.id;
+        },
+        error: (error) => {
+          console.error('Error fetching image:', error);
+        }
+      });
     });
   }
 
@@ -163,6 +252,14 @@ export class DetailComponent implements OnInit {
     });
 
     return Array.from(groupedPlans.values());
-}
+  }
+
+  getTrip(trip: any) {
+    this.tripData = trip;
+  }
+
+  closeTrip() {
+    this.tripData = null;
+  }
 }
 

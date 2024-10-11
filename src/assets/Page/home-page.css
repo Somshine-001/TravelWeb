@@ -127,25 +127,25 @@
 @media screen and (max-width: 1000px) {
 
     .main-banner {
-        width: 1000px;
+        width: 990px;
     }
 
     .main-content {
-        width: 1000px;
+        width: 990px;
     }
 
     .main-content .header {
-        width: 1000px;
+        width: 990px;
         padding-left: 40px;
     }
 
     .main-content .content {
-        width: 1000px;
+        width: 990px;
         padding-left: 20px;
     }
 
     .main-banner .banner {
-        width: 1000px;
+        width: 990px;
     }
 
     .banner .banner-content {
